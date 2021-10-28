@@ -1,14 +1,16 @@
---Disclaimer: this is a heavily modified version of a random lua found out on the internet years ago. 
+--Disclaimer: this is a heavily modified version of a random lua found out on the internet years ago.  
 -------------------------------------------------------------------------------------------------------------------
 -- Initialization function that defines sets and variables to be used.
 -------------------------------------------------------------------------------------------------------------------
+send_command('input //send @all lua l superwarp') 
+send_command('input //lua l porterpacker') 
 include('organizer-lib')
 
 organizer_items = {
     Consumables={"Echo Drops","Holy Water", "Remedy"},
     NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda"},
-	  Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
-	  Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
+	Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
+	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
 			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
 }
 
