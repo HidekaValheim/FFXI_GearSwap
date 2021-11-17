@@ -2,6 +2,8 @@
 -------------------------------------------------------------------------------------------------------------------
 -- Initialization function that defines sets and variables to be used.
 -------------------------------------------------------------------------------------------------------------------
+
+--[[Disable Below Code for Organizer and Porter packer if you dont have these addons]]
 send_command('input //send @all lua l superwarp') 
 send_command('input //lua l porterpacker') 
 include('organizer-lib')
@@ -41,7 +43,7 @@ function select_default_macro_book()
 	end
 end
 function get_gear()
---'//gs c getgear' to retrieve/pack gear manually. Only works in PortTowns list
+	--[[Disable code in this sub if you dont have organizer or porter packer]]
     if PortTowns:contains(world.area) then
 		send_command('wait 3;input //gs org') 
 		send_command('wait 6;input //po repack') 
