@@ -170,8 +170,8 @@ function get_sets()
 	REL = {}		--Leave This Empty
 		REL.HED	= "Viti. Chapeau +3"
 		REL.BOD	= "Viti. Tabard +3"
-		REL.HND	= "Viti. Gloves +2"
-		REL.LEG	= "Vitiation Tights"
+		REL.HND	= "Viti. Gloves +3"
+		REL.LEG	= "Viti. Tights +3"
 		REL.FEE	= "Vitiation Boots +3"
 		REL.NEK = "Duelist's Torque +2"
 
@@ -1248,7 +1248,23 @@ function get_sets()
     }
     sets.midcast.Enfeebling.Paralyze = set_combine(sets.midcast.Enfeebling.Addle,{})
     sets.midcast.Enfeebling.Slow = set_combine(sets.midcast.Enfeebling.Addle,{})
-    sets.midcast.Enfeebling.Blind = set_combine(sets.midcast.Enfeebling.Slow,{back={ name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10',}}})	
+    sets.midcast.Enfeebling.Blind = {
+		main={ name="Contemplator +1", augments={'Path: A',}},
+		sub="Enki Strap",
+		ammo="Regal Gem",
+		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+		body="Lethargy Sayon +1",
+		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
+		neck={ name="Dls. Torque +2", augments={'Path: A',}},
+		waist="Channeler's Stone",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		right_ring="Freke Ring",
+		back={ name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10',}},	
+	}
 ------------------------------------------
 -------------[MND + POTENCY]--------------	
     sets.midcast.Enfeebling.FrazzleIII = {
@@ -1286,17 +1302,17 @@ function get_sets()
 		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},
     }	
 -------------------------------------------
--------------[INT + DURATION]--------------	
+---------[INT + Skill + DURATION]----------
     sets.midcast.Enfeebling.Poison = {
 		main={ name="Contemplator +1", augments={'Path: A',}},
 		sub="Mephitis Grip",
 		ammo="Regal Gem",
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
-		body="Atrophy Tabard +3",
+		body="Lethargy Sayon +1",
 		hands="Leth. Gantherots +1",
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
-		neck="Incanter's Torque",
+		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist="Rumination Sash",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
@@ -1355,7 +1371,7 @@ function get_sets()
 		sub			= "Secespita",
 		head		= "Befouled Crown",
 		body		= REL.BOD,
-		hands		= REL.HND,
+		hands		= "Viti. Gloves +3",
 		legs		= ART.LEG,
 		feet		= EMP.FEE,
 		neck		= "Incanter's Torque",

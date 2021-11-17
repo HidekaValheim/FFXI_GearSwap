@@ -15,7 +15,7 @@ organizer_items = {
 	Food={"Sublime Sushi", "Om. Sandwich", "Grape Daifuku"},
 	Storage={"Storage Slip 16","Storage Slip 17","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
 			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"},
-	Bullets={"Eminent Bullet", "Eminent Bullet Pouch"}
+	Bullets={"Eminent Bullet", "Eminent Bullet Pouch"},
 	Other={"Trump Card", "Trump Card Case"}
 }
 
@@ -66,7 +66,7 @@ function get_sets()
 
 	sets.Weapons['SWORD'] = {
 		main="Naegling",
-		sub="Blurred Knife +1",
+		sub="Demersal Degen +1",
 		range="Anarchy +2",
 	}
 	sets.Weapons['DAGGER'] = {
@@ -161,7 +161,20 @@ function get_sets()
 	}
 
 	--This set is used when OffenseMode is ACC and Enaged (Augments the TP base set)
-	sets.OffenseMode.ACC = {}
+	sets.OffenseMode.ACC = {
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck="Sanctity Necklace",
+		waist="Reiki Yotai",
+		left_ear="Eabani Earring",
+		right_ear="Telos Earring",
+		left_ring="Chirich Ring +1",
+		right_ring="Chirich Ring +1",
+		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},	
+	}
 
 	sets.Precast = {}
 	-- 70 snapshot is Cap.  Need 60 due to 10 from gifts
