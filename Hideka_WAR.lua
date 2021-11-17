@@ -18,9 +18,6 @@ organizer_items = {
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
---[[Set AutoHasso to Disabled to disable automatic usage of hasso when it expires. Set it to Enabled to automatically Hasso whenever you are engaged in combat, but dont have Hasso Active]]
-AutoHasso='Enabled'
-
 function get_sets()
 	mote_include_version = 2
 	include('Mote-Include.lua')
@@ -56,6 +53,8 @@ end
 function job_setup()
 	--[[Enable Locks, enables locking of Retalliation gear during retalliation, and overrides all Set modifiers while retalliation is active for those items]]
 	EnableLocks="ON"
+	--[[Set AutoHasso to Disabled to disable automatic usage of hasso when it expires. Set it to Enabled to automatically Hasso whenever you are engaged in combat, but dont have Hasso Active]]
+	AutoHasso='Enabled'
 	state.Buff.Doomed = buffactive.doomed or false
 
 	include('Mote-TreasureHunter')
