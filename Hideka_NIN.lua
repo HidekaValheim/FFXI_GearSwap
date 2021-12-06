@@ -86,7 +86,7 @@ function user_setup()
 	mainweapon={}
 	subWeapon={}
 	state.mainWeapon = M('Heishi Shorinken','Gokotai','Tauret','Naegling','Hachimonji','Karambit')
-	state.subWeapon = M('Kunimitsu','Tsuru','Ternion Dagger +1','Gokotai','Tauret','Bloodrain Strap','')	
+	state.subWeapon = M('Kunimitsu','Tsuru',"Gleti's Knife",'Bloodrain Strap','')	
 	
 	-- Defensive Sets
 	state.PhysicalDefenseMode:options('PDT')
@@ -102,6 +102,9 @@ function user_setup()
 	send_command('bind numpad* gs c cycle subWeapon')
 	send_command('bind numpad- gs c cycle HasteMode')
 	send_command('bind numpad+ gs c cycle MarchMode')
+	send_command('bind numpad1 gs c KatanaMode')
+	send_command('bind numpad2 gs c GktMode')
+	send_command('bind numpad3 gs c SwordMode')
 	send_command('unbind ^r')
 	
 	
@@ -134,6 +137,9 @@ function file_unload()
 	send_command('unbind numpad5')
 	send_command('unbind numpad8')
 	send_command('unbind numpad4')
+	send_command('unbind numpad1')
+	send_command('unbind numpad2')
+	send_command('unbind numpad3')
 	send_command('unbind numpad/')
 	send_command('unbind numpad*')
 	send_command('unbind numpad-')
@@ -328,7 +334,7 @@ function init_gear_sets()
 		sets.midcast.ElementalNinjutsu = {
 		ammo="Pemphredo Tathlum",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
-		body="Gyve Doublet",
+		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
@@ -757,26 +763,31 @@ function init_gear_sets()
 		body="Mpaca's Doublet",
 		hands="Mpaca's Gloves",
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Mpaca's Boots",
+		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
 		right_ear="Mache Earring +1",
 		left_ring="Gere Ring",
-		right_ring="Regal Ring",
+		right_ring="Begrudging Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	})
 	sets.precast.WS['Blade: Hi'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Hi'], {
 		head="Hachiya Hatsu. +3",
+		body="Nyame Mail",
+		hands="Malignance Gloves",
+		right_ring="Epaminondas's Ring",
+		legs="Mpaca's Hose",
+
 	})
 	
 	sets.precast.WS['Blade: Ten'] 		={
-		ammo="C. Palug Stone",
-		head="Hachiya Hatsu. +3",
+		ammo="Seething Bomblet +1",
+		head="Mpaca's Cap",
+		hands="Nyame Gauntlets",
 		body="Nyame Mail",
-		hands={ name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}},
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
+		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
@@ -787,7 +798,6 @@ function init_gear_sets()
 	}
 	sets.precast.WS['Blade: Ten'].MAXBUFF = set_combine(sets.precast.WS['Blade: Ten'], {
 		hands="Malignance Gloves",
-		feet="Nyame Sollerets",
 		left_ring="Epaminondas's Ring",
 	})
 	
@@ -809,32 +819,35 @@ function init_gear_sets()
 	sets.precast.WS['Blade: Jin'].MAXBUFF = set_combine(sets.precast.WS['Blade: Jin'],{})
 	
 	sets.precast.WS['Blade: Kamu'] 		= {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Hachiya Hatsu. +3",
+		ammo="Seething Bomblet +1",
+		head="Mpaca's Cap",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
-		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
+		legs="Mpaca's Hose",	
 		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		right_ear="Brutal Earring",
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
 		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},	
 	}
-	sets.precast.WS['Blade: Kamu'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Kamu'], {})
+	sets.precast.WS['Blade: Kamu'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Kamu'], {
+		head="Hachiya Hatsu. +3",
+		hands="Malignance Gloves",
+	})
 	
 	sets.precast.WS['Blade: Metsu'] 	= set_combine(sets.precast.WS['Blade: Ten'], {})
 	sets.precast.WS['Blade: Metsu'].MAXBUFF = set_combine(sets.precast.WS['Blade: Metsu'], {})
 
 	sets.precast.WS['Blade: Shun'] = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Mpaca's Cap",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
+	    head="Mpaca's Cap",
+		body="Adhemar Jacket +1",
+		hands="Mochizuki Tekko +3",
+		legs="Mpaca's Hose",
+		feet="Mochi. Kyahan +3",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
@@ -844,18 +857,18 @@ function init_gear_sets()
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.precast.WS['Blade: Shun'].MAXBUFF = set_combine(sets.precast.WS['Blade: Shun'], {
-		body="Nyame Mail",
 		hands="Malignance Gloves",
 		legs="Jokushu Haidate",
 		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		right_ear="Mache Earring +1",
+		body="Malignance Tabard",
 	})
 	
 	sets.precast.WS['Blade: Ku'] = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		ammo="Seething Bomblet +1",
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body={ name="Mochi. Chainmail +3", augments={'Enhances "Sange" effect',}},
+		body="Adhemar Jacket +1",
 		hands={ name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}},
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
@@ -871,15 +884,14 @@ function init_gear_sets()
 		head={ name="Blistering Sallet +1", augments={'Path: A',}},
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
-		legs="Nyame Flanchard",
+		legs="Mpaca's Hose",
 		feet={ name="Ryuo Sune-Ate +1", augments={'STR+12','DEX+12','Accuracy+20',}},
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		right_ear="Brutal Earring",
 	
 	})	
 
 	sets.precast.WS['Blade: Yu'] = {
-		ammo="Pemphredo Tathlum",
+		ammo="Seething Bomblet +1",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -895,24 +907,24 @@ function init_gear_sets()
 	}
 
     sets.precast.WS['Blade: Chi'] = set_combine(sets.precast.WS, {
-		ammo="Pemphredo Tathlum",
+		ammo="Seething Bomblet +1",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Ninja Nodowa +2",
+		neck="Fotia Gorget",
 		waist="Orpheus's Sash",
 		left_ear="Friomisi Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Gere Ring",
-		right_ring="Regal Ring",
+		right_ring="Epaminondas's Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	})
 	sets.precast.WS['Blade: To'] = sets.precast.WS['Blade: Chi']
 	sets.precast.WS['Blade: Teki'] = sets.precast.WS['Blade: Chi']
 	sets.precast.WS['Blade: Ei'] = {
-		ammo="Pemphredo Tathlum",
+		ammo="Seething Bomblet +1",
 		head="Pixie Hairpin +1",
 		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
 		hands={ name="Herculean Gloves", augments={'Mag. Acc.+13 "Mag.Atk.Bns."+13','Magic burst dmg.+7%','"Mag.Atk.Bns."+15',}},
@@ -979,10 +991,10 @@ function init_gear_sets()
 		back=Andartia.DEXWS
 	}
  	sets.precast.WS['Savage Blade'] = {
-		ammo = "Coiste Bodhar",
-		head="Hachiya Hatsu. +3",
+		ammo = "Seething Bomblet +1",
+		head="Mpaca's Cap",
 		body="Nyame Mail",
-		hands={ name="Herculean Gloves", augments={'Accuracy+10','Weapon skill damage +4%','STR+5',}},
+		hands="Nyame Gauntlets",
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
 		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
@@ -990,11 +1002,17 @@ function init_gear_sets()
 		left_ear="Lugra Earring +1",
 		right_ear="Moonshade Earring",
 		left_ring="Regal Ring",
-		right_ring="Epaminondas's Ring",
+		right_ring="Gere Ring",
 		back=Andartia.DEXWS
 	}	
+ 	sets.precast.WS['Savage Blade'].MAXBUFF = set_combine(sets.precast.WS['Savage Blade'],{
+		head="Hachiya Hatsu. +3",
+		hands="Malignance Gloves",
+		right_ring="Epaminondas's Ring",
+		legs="Nyame Flanchard",
+	})
  	sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS['Blade: Ei'], {})
-
+	sets.WSDayBonus = {head="Gavialis Helm"}
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -1049,6 +1067,31 @@ function job_post_precast(spell, action, spellMap, eventArgs)
 		eventArgs.cancel = true
 	end
 
+    if spell.type == 'WeaponSkill' then
+        if spell.english == 'Blade: Shun' then
+            if world.day_element == 'Fire' or world.day_element == 'Thunder' or world.day_element == 'Wind' or world.day_element == 'Light' then
+                equip(sets.WSDayBonus)
+           end
+		elseif spell.english == 'Blade: Ku' then
+            if world.day_element == 'Earth' or world.day_element == 'Light' or world.day_element == 'Dark' then
+                equip(sets.WSDayBonus)
+           end
+		elseif spell.english == 'Blade: Jin' then
+            if world.day_element == 'Thunder' or world.day_element == 'Wind' then
+                equip(sets.WSDayBonus)
+           end
+		elseif spell.english == 'Exenterator' then
+            if world.day_element == 'Earth' or world.day_element == 'Thunder' or world.day_element == 'Wind' then
+                equip(sets.WSDayBonus)
+           end
+		elseif spell.english == 'Evisceration' then
+            if world.day_element == 'Earth' or world.day_element == 'Light' or world.day_element == 'Dark' then
+                equip(sets.WSDayBonus)
+           end
+		end
+    end
+
+
 end
 
 -- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
@@ -1089,16 +1132,16 @@ function job_handle_equipping_gear(playerStatus, eventArgs)
 	local lockables = T{'Mamool Ja Earring', 'Aptitude Mantle', 'Nexus Cape', 'Aptitude Mantle +1', 'Warp Ring', 'Vocation Ring', 'Reraise Earring', 'Capacity Ring', 'Trizek Ring', 'Echad Ring', 'Facility Ring', 'Dim. Ring (Holla)', 'Dim. Ring (Dem)', 'Dim. Ring (Mea)'}
 	local watch_slots = T{'lear','rear','ring1','ring2','back','head'}
 
-	for _,v in pairs(watch_slots) do
-		if lockables:contains(player.equipment[v]) then
-			disable(v)
-			if has_charges(player.equipment[v]) and (not is_enchant_ready(player.equipment[v])) then
-				enable(v)
-			end
-		else
-			enable(v)
-		end
-	end
+	-- for _,v in pairs(watch_slots) do
+		-- if lockables:contains(player.equipment[v]) then
+			-- disable(v)
+			-- if has_charges(player.equipment[v]) and (not is_enchant_ready(player.equipment[v])) then
+				-- enable(v)
+			-- end
+		-- else
+			-- enable(v)
+		-- end
+	-- end
 ninbuff_status()
 stance_status()
 tool_counter()
@@ -1483,6 +1526,31 @@ function update_combat_form()
 	else
 		state.CombatWeapon:reset()
 	end
+end
+function job_self_command(cmdParams, eventArgs)
+    if cmdParams[1] == 'GktMode' then
+		state.mainWeapon:set('Hachimonji')
+		state.subWeapon:set('Bloodrain strap')
+		state.CombatWeapon:set('GKT')	
+		select_weapons()
+		setupTextWindow()
+		update_combat_form()
+	elseif cmdParams[1] == 'KatanaMode' then
+		state.mainWeapon:set('Heishi Shorinken')
+		state.subWeapon:set('Kunimitsu')
+		state.CombatWeapon:reset()
+		select_weapons()
+		setupTextWindow()
+		update_combat_form()
+	elseif cmdParams[1] == 'SwordMode' then
+		state.mainWeapon:set('Naegling')
+		state.subWeapon:set("Gleti's Knife")
+		state.CombatWeapon:reset()
+		select_weapons()
+		setupTextWindow()
+		update_combat_form()
+	end
+
 end
 
 -- Select default macro book on initial load or subjob change.

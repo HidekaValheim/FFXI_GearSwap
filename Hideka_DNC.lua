@@ -251,7 +251,7 @@ function init_gear_sets()
 		body="Emet Harness",			--+9
 		hands="Kurys Gloves",			--+9
 		legs="Zoar Subligar",			--+5	
-		feet="Rager Ledl. +1",			--+7	
+		feet="Ahosi Leggings",			--+7	
 		neck="Warder's Charm",			--+8
 		waist="Trance Belt",			--+4
 		left_ear="Friomisi Earring",	--+2
@@ -267,23 +267,23 @@ function init_gear_sets()
 
     sets.precast.Waltz = {
 		ammo="Yamarang",
-		head={ name="Anwig Salade", augments={'CHR+4','"Waltz" ability delay -2','CHR+2','"Fast Cast"+2',}},
+		head="Anwig Salade", 
 		body="Maxixi Casaque +3",
 		hands="Maxixi Bangles +3",
 		legs="Dashing Subligar",
-		feet="Maxixi Toeshoes +3",
+		feet="Maxixi Toe Shoes +3",
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Aristo Belt",
+		waist="Chaac Belt",
 		left_ear="Handler's Earring +1",
 		right_ear="Odnowa Earring +1",
-		left_ring="Carb. Ring",
-		right_ring="Carb. Ring",
+		left_ring="Metamorph Ring +1",
+		right_ring="Meridian Ring",
 		back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}},
 	} -- Waltz Potency/CHR
     sets.precast.WaltzEnmity = set_combine(sets.precast.Waltz, {
 		head="Halitus Helm",
 		hands={ name="Horos Bangles +3", augments={'Enhances "Fan Dance" effect',}},
-		feet="Rager Ledel. +1",
+		feet="Ahosi Leggings",
 		waist="Trance Belt",
 		left_ear="Cryptic Earring",
 		left_ring="Provocare Ring",
@@ -294,15 +294,15 @@ function init_gear_sets()
     sets.precast.WaltzSelfEnmity = set_combine(sets.precast.WaltzSelf, {
         head="Mummu Bonnet +2", --(8)
 		hands={ name="Horos Bangles +3", augments={'Enhances "Fan Dance" effect',}},
-		feet="Rager Ledel. +1",
+		feet="Ahosi Leggings",
 		waist="Trance Belt",
 		left_ear="Cryptic Earring",
 		left_ring="Provocare Ring",
     })
 	
     sets.precast.Waltz['Healing Waltz'] = {}
-    sets.precast.Samba = {head="Maxixi Tiara +1", back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}}}
-    sets.precast.Jig = {legs="Horos Tights +3", feet="Maxixi Shoes +1"}
+    sets.precast.Samba = {head="Maxixi Tiara +2", back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}}}
+    sets.precast.Jig = {legs="Horos Tights +3", feet="Maxixi Toe Shoes +3"}
 	
     sets.precast.Step = {
 		ammo="Yamarang",
@@ -320,7 +320,7 @@ function init_gear_sets()
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
     }
 
-    sets.precast.Step['Feather Step'] = set_combine(sets.precast.Step, {feet="Macu. Toeshoes +1"})
+    sets.precast.Step['Feather Step'] = set_combine(sets.precast.Step, {feet="Macu. Toe Shoes +1"})
     sets.precast.Flourish1 = {}
     sets.precast.Flourish1['Animated Flourish'] = sets.Enmity
 
@@ -335,8 +335,8 @@ function init_gear_sets()
 		waist="Salire Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},
 		back="Moonbeam Cape"
     } -- Magic Accuracy
 	
@@ -407,7 +407,7 @@ function init_gear_sets()
 		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
 		hands="Maxixi Bangles +3",
 		legs="Meg. Chausses +2",
-		feet={ name="Herculean Boots", augments={'Attack+18','"Triple Atk."+4','STR+4',}},
+		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Brutal Earring",
@@ -496,7 +496,7 @@ function init_gear_sets()
 		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
 		hands="Maxixi Bangles +3",
 		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Attack+18','"Triple Atk."+4','STR+4',}},
+		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
 		neck="Fotia Gorget",
 		waist="Orpheus's Sash",
 		left_ear="Hecate's Earring",
@@ -517,7 +517,7 @@ function init_gear_sets()
 		left_ear="Mache Earring +1",
 		right_ear="Mache Earring +1",
 		left_ring="Shukuyu Ring",
-		right_ring="Rufescent Ring",
+		right_ring="Regal Ring",
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
 	}
     sets.precast.WS['Raging Fists'] = {
@@ -532,7 +532,7 @@ function init_gear_sets()
 		left_ear="Mache Earring +1",
 		right_ear="Mache Earring +1",
 		left_ring="Shukuyu Ring",
-		right_ring="Rufescent Ring",
+		right_ring="Regal Ring",
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
 	}
     sets.precast.WS['Rudra\'s Storm'].Acc = set_combine(sets.precast.WS['Rudra\'s Storm'],{neck="Etoile Gorget +1", ammo="Yamarang"})
@@ -640,7 +640,7 @@ function init_gear_sets()
 		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Windbuffet Belt",
+		waist="Windbuffet Belt +1",
 		left_ear="Brutal Earring",
 		right_ear="Sherida Earring",
 		left_ring="Epona's Ring",
@@ -666,7 +666,7 @@ function init_gear_sets()
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Reiki Yotai", 		--7%
-		left_ear="Ebani Earring", 	--4%
+		left_ear="Eabani Earring", 	--4%
 		right_ear="Suppanomimi", 	--5%
 		left_ring="Epona's Ring",
 		right_ring="Gere Ring",
@@ -688,7 +688,7 @@ function init_gear_sets()
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Reiki Yotai", 		--7%
-		left_ear="Ebani Earring", 	--4%
+		left_ear="Eabani Earring", 	--4%
 		right_ear="Suppanomimi", 	--5%
 		left_ring="Epona's Ring",
 		right_ring="Gere Ring",
@@ -710,7 +710,7 @@ function init_gear_sets()
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Reiki Yotai", 		--7%
-		left_ear="Ebani Earring", 	--4%
+		left_ear="Eabani Earring", 	--4%
 		right_ear="Suppanomimi", 	--5%
 		left_ring="Epona's Ring",
 		right_ring="Gere Ring",
@@ -732,7 +732,7 @@ function init_gear_sets()
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Reiki Yotai", --7%
-		left_ear="Ebani Earring", --4%
+		left_ear="Eabani Earring", --4%
 		right_ear="Sherida Earring",
 		left_ring="Epona's Ring",
 		right_ring="Gere Ring",
@@ -753,7 +753,7 @@ function init_gear_sets()
 		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Windbuffet Belt",
+		waist="Windbuffet Belt +1",
 		left_ear="Brutal Earring",
 		right_ear="Sherida Earring",
 		left_ring="Epona's Ring",
