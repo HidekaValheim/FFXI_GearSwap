@@ -9,11 +9,9 @@ send_command('input //lua l porterpacker')
 include('organizer-lib')
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy"},
-    NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda"},
-	Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    NinjaTools={"Shihei"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
@@ -28,25 +26,26 @@ end
 function select_default_macro_book()
 	-- Default macro set/book
 	if player.sub_job == 'DNC' then
-		set_macro_page(1, 9)
+		set_macro_page(4, 9)
 	elseif player.sub_job == 'NIN' then
-		set_macro_page(1, 9)
+		set_macro_page(3, 9)
 	elseif player.sub_job == 'SAM' then
 		set_macro_page(1, 9)
 	elseif player.sub_job == 'DRG' then
-		set_macro_page(1, 9)
+		set_macro_page(2, 9)
 	else
 		set_macro_page(1, 9)
 	end
 end
 function get_gear()
 	--[[Disable code in this sub if you dont have organizer or porter packer]]
-    if PortTowns:contains(world.area) then
-		send_command('wait 3;input //gs org') 
-		send_command('wait 6;input //po repack') 
-    else
-		add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    end
+    send_command('wait 3;input //gs org')
+	-- if PortTowns:contains(world.area) then
+		-- send_command('wait 3;input //gs org') 
+		-- send_command('wait 6;input //po repack') 
+    -- else
+		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+    -- end
 end
 
 -- Setup vars that are user-independent.
@@ -117,7 +116,7 @@ function user_setup()
 	state.SingleWield = M('Naegling', 'Dolichenus', 'Ternion')
 	
 	--[[Pre Loaded: Karambit, Custom]]
-	state.HandtoHand = M('Karambit','Custom')
+	state.HandtoHand = M('Karambit')
 
 	-- Defensive Sets
 	state.PhysicalDefenseMode:options('PDT')
@@ -315,6 +314,7 @@ function init_gear_sets()
 		or the set is left blank if you dont want to enable that lock]]
 	sets.locked={}
 	sets.locked.Retaliation={feet="Boii Calligae +1", hands="Pumm. Mufflers +3"}
+	
 	--------------------------------------
 	-- Utility Sets for rules below
 	--------------------------------------

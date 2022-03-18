@@ -99,39 +99,27 @@ spell_maps = {
 --RDM Gain Spells
 	['Gain-AGI']='Gain',['Gain-CHR']='Gain',['Gain-DEX']='Gain',['Gain-INT']='Gain',['Gain-MND']='Gain',['Gain-STR']='Gain',
 	['Gain-VIT']='Gain',
---Impact
-	['Impact']='Impact',
---BLUE MAGIC
-	['Sheep Song']='BlueACC',['Sandspin']='BlueACC',['Frightful Roar']='BlueACC',['Chaotic Eye']='BlueACC',['Battle Dance']='BlueACC',['Ice Break']='BlueACC',
-	['Sickle Slash']='BlueACC',['Terror Touch']='BlueACC',['Uppercut']='BlueACC',['Grand Slam']='BlueACC',
-	['Cursed Sphere']='BlueNuke',
-	['Cocoon']='BlueENH',
-	['Healing Breeze']='BlueCure'
 }
 
 enfeeb_maps = {
 --Potency Reliant spells
-    ['Dia']='Dia', ['Dia II']='Dia', ['Dia III']='Dia',
-    ['Bio']='Bio', ['Bio II']='Bio', ['Bio III']='Bio',
+    ['Dia']='potency', ['Dia II']='potency', ['Dia III']='potency',
+    ['Bio']='potency', ['Bio II']='potency', ['Bio III']='potency',
 --Mind Scaling Potency spells
-    ['Paralyze']='Paralyze', ['Paralyze II']='Paralyze',
-	['Slow']='Slow', ['Slow II']='Slow', 
-	['Addle']='Addle', ['Addle II']='Addle', 
+    ['Paralyze']='mndpot', ['Paralyze II']='mndpot',['Slow']='mndpot', ['Slow II']='mndpot', ['Adle']='mndpot', 
+	['Adle II']='mndpot', 
 --Skill&Mind Scaling Spells	
-	['Frazzle III']='FrazzleIII',
-	['Distract']='Distract', ['Distract II']='Distract', ['Distract III']='Distract', 
+	['Frazzle III']='skillmndpot',['Distract']='skillmndpot', ['Distract II']='skillmndpot', 
+	['Distract III']='skillmndpot', 
 --Accuracy Reliant Spells
-    ['Silence']='Silence',
-	['Inundation']='Inundation',
-	['Dispel']='Dispel', ['Dispelga']='Dispelga',
-    ['Frazzle']='FrazzleII',['Frazzle II']='FrazzleII', 
+    ['Sleep']='macc', ['Sleep II']='macc', ['Sleepga']='macc', ['Silence']='macc',['Inundation']='macc',['Dispel']='macc', 
+    ['Break']='macc',['Bind']='macc',['Frazzle']='macc',['Frazzle II']='macc', 
 --Intelligence Scaling Potency Spells	
-	['Blind']='Blind', ['Blind II']='Blind',
+	['Blind']='intpot', ['Blind II']='intpot',
+--Raw Potency Spells	
+	['Gravity']='potency', ['Gravity II']='potency',
 --Raw Skill Scaling Spells
-    ['Poison']='Poison', ['Poison II']='Poison', ['Poisonga']='Poison',
---Duration Spells
-	['Gravity']='Gravity', ['Gravity II']='Gravity',
-	['Bind']='Bind',['Sleep']='Sleep', ['Sleep II']='Sleep', ['Sleepga']='Sleep', ['Break']='Break',
+    ['Poison']='skillpot', ['Poison II']='skillpot', ['Poisonga']='skillpot',
 }
 
 
@@ -504,6 +492,7 @@ Buff =
     {
         ['Composure'] = false, 
         ['Saboteur'] = false, 
+		['Sekkanoki'] = false, 
         ['En-Weather'] = false,
         ['En-Day'] = false,
         ['Enspell'] = false,
@@ -521,6 +510,7 @@ end
 function update_active_ja(name, gain)
     Buff['Composure'] = buffactive['Composure'] or false
     Buff['Saboteur'] = buffactive['Saboteur'] or false
+	Buff['Sekkanoki']= buffactive['Sekkanoki'] or false
     Buff['En-Weather'] = buffactive[nukes.enspell[world.weather_element]] or false
     Buff['En-Day'] = buffactive[nukes.enspell[world.day_element]] or false
     Buff['Enspell'] = buffactive[nukes.enspell['Earth']] or buffactive[nukes.enspell['Water']] or buffactive[nukes.enspell['Air']] or buffactive[nukes.enspell['Fire']] or buffactive[nukes.enspell['Ice']] or buffactive[nukes.enspell['Lightning']] or buffactive[nukes.enspell['Light']] or buffactive[nukes.enspell['Dark']] or false
@@ -539,16 +529,6 @@ function buff_change(name,gain,buff_details)
     update_active_ja()
     if use_UI == true then
         validateTextInformation()
-    end
-	if name == "doom" then
-        if gain then
-            equip(sets.buff.Doom)
-            send_command('@input /p Doomed.')
-             disable('ring1','ring2','neck','waist')
-        else
-            enable('ring1','ring2','neck','waist')
-
-        end
     end
 end
  
@@ -579,10 +559,9 @@ function precast(spell)
 
     -- Moving on to other types of magic
     if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' then
-        if spell.name == 'Impact' then
-			equip(sets.precast.Impact)
+     
         -- Stoneskin Precast
-        elseif spell.name == 'Stoneskin' then
+        if spell.name == 'Stoneskin' then
          
             windower.ffxi.cancel_buff(37)--[[Cancels stoneskin, not delayed incase you get a Quick Cast]]
             equip(sets.precast.stoneskin)
@@ -634,20 +613,11 @@ function midcast(spell)
     -- Curing
     if spell.name:match('Cure') or spell.name:match('Cura') then
         if spell.element == world.weather_element or spell.element == world.day_element then
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.weather)
-			else 
-				equip(sets.midcast.cure.weather.self)
-			end
+            equip(sets.midcast.cure.weather)
         else
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.normal)
-			else 
-				equip(sets.midcast.cure.normal.self)
-			end
+            equip(sets.midcast.cure.normal)
         end
-	elseif spell.name == 'Impact' then
-		equip(sets.midcast.Impact)
+
     -- Enhancing
     elseif spell.skill == 'Enhancing Magic' then
 
@@ -680,9 +650,7 @@ function midcast(spell)
     elseif spell.skill == 'Enfeebling Magic' then
         equip(sets.midcast.Enfeebling[enfeebMap])
         if Buff['Saboteur'] then
-			if enfeebMap=='Paralyze' or enfeebMap== 'Slow' or enfeebMap== 'Addle' or enfeebMap== 'FrazzleIII' or enfeebMap== 'Distract' or enfeebMap== 'Poison' or enfeebMap== 'Gravity' or enfeebMap== 'Blind'then
-				equip({hands="Leth. Gantherots +1"})
-			end
+            equip({hands=EMP.Hands})
         end 
 
     -- Nuking
@@ -699,8 +667,12 @@ function midcast(spell)
         if spell.element == world.day_element and spell.skill ~= 'Enhancing Magic' and spellMap ~= 'Helix' then
             equip(sets.midcast.Obi)
         end
-
+    
     -- Fail safe
+	elseif spell.type == "WeaponSkill" then
+		if Buff['Sekkanoki'] then
+			equip({hands=EMP.Hands})
+		end
     elseif spell.type ~= "WeaponSkill" then
         equip(sets.midcast.casting)
     end
@@ -752,7 +724,7 @@ function idle()
     -- This function is called after every action, and handles which set to equip depending on what we're doing
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if player.status=='Engaged' then
-        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') or subWeapon.current:match('Forfend')  then
+        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') then
             equip(sets.me.melee[meleeModes.value..'sw'])
         else
             equip(sets.me.melee[meleeModes.value..'dw'])
@@ -804,7 +776,7 @@ function self_command(command)
      
     if #commandArgs:split(' ') >= 2 then
         commandArgs = T(commandArgs:split(' '))
-  
+        
         if commandArgs[1] == 'toggle' then
             if commandArgs[2] == 'melee' then
                 -- //gs c toggle melee will toggle melee mode on and off.
@@ -864,8 +836,8 @@ function self_command(command)
                     windower.add_to_chat(8,"----- Matching SC Mode is now: "..tostring(matchsc.current)) 
                 end
             end
-        end   
-		
+        end
+        
         if commandArgs[1]:lower() == 'scholar' then
             handle_strategems(commandArgs)
 
@@ -921,39 +893,7 @@ function self_command(command)
                 send_command('@input /ma "'..nukes[nuke][elements.current]..'"')     
             end
         end
-	else 
-		if command == 'WS1' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet1[1] .. ' | Sub: ' .. WeaponSet1[2])
-			mainWeapon:set(WeaponSet1[1])
-			subWeapon:set(WeaponSet1[2])
-			idle()
-		elseif command == 'WS2' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet2[1] .. ' | Sub: ' .. WeaponSet2[2])
-			mainWeapon:set(WeaponSet2[1])
-			subWeapon:set(WeaponSet2[2])
-			idle()
-		elseif command == 'WS3' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet3[1] .. ' | Sub: ' .. WeaponSet3[2])
-			mainWeapon:set(WeaponSet3[1])
-			subWeapon:set(WeaponSet3[2])
-			idle()
-		elseif command == 'WS4' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet4[1] .. ' | Sub: ' .. WeaponSet4[2])
-			mainWeapon:set(WeaponSet4[1])
-			subWeapon:set(WeaponSet4[2])
-			idle()
-		elseif command == 'WS5' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet5[1] .. ' | Sub: ' .. WeaponSet5[2])
-			mainWeapon:set(WeaponSet5[1])
-			subWeapon:set(WeaponSet5[2])
-			idle()
-		elseif command == 'WS6' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet6[1] .. ' | Sub: ' .. WeaponSet6[2])
-			mainWeapon:set(WeaponSet6[1])
-			subWeapon:set(WeaponSet6[2])
-			idle()
-		end 
-	end
+    end
 end
 
 function updateMB( mBurst )   
@@ -961,13 +901,13 @@ function updateMB( mBurst )
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING OFF] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode OFF -----")
         end
     else
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING ON] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode ON -----")
         end
     end
 end
@@ -979,7 +919,7 @@ function updateRunspeedGear( value )
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8,"----- Locking Off Carmine Cuisses +1 +1 -----")   
+            windower.add_to_chat(8,"----- Locking Off Danzo Sune-Ate-----")   
         end
         enable('legs')
         idle()
@@ -987,9 +927,9 @@ function updateRunspeedGear( value )
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8,"----- Locking On Carmine Cuisses +1 +1 -----")
+            windower.add_to_chat(8,"----- Locking On Danzo Sune-Ate -----")
         end
-        equip({legs="Carmine Cuisses +1"})
+        equip({legs="Danzo Sune-Ate"})
         disable('legs')
         idle()
     end
@@ -998,7 +938,7 @@ end
 function lockMainHand( meleeing )   
     
     if meleeing then
-        enable('main','sub','ranged','ammo')
+        enable('main','sub','ranged')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1006,7 +946,7 @@ function lockMainHand( meleeing )
         end
         idle()
     else
-        disable('main','sub','ranged','ammo')
+        disable('main','sub','ranged')
         if use_UI == true then
             validateTextInformation()
         else

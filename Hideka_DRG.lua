@@ -23,27 +23,29 @@
 -- Setup functions for this job.  Generally should not be modified.
 -------------------------------------------------------------------------------------------------------------------
 include('organizer-lib')
+include('Modes.lua')
 send_command('input //send @all lua l superwarp') 
 send_command('input //lua l porterpacker') 
 send_command('wait 31;input //gs equip sets.weapons') 
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy", "Angon"},
-	Food={"Sublime Sushi"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    NinjaTools={"Shihei"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
+	Other={"Angon"},
 }
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 function get_gear()
---'//gs c getgear' to retrieve/pack gear manually. Only works in PortTowns list
-    if PortTowns:contains(world.area) then
-		send_command('wait 3;input //gs org') 
-		send_command('wait 6;input //po repack') 
-    else
-		add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    end
+	--[[Disable code in this sub if you dont have organizer or porter packer]]
+    send_command('wait 3;input //gs org')
+	-- if PortTowns:contains(world.area) then
+		-- send_command('wait 3;input //gs org') 
+		-- send_command('wait 6;input //po repack') 
+    -- else
+		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+    -- end
 end
 
 function AUTO_CP_CAPE()
@@ -540,8 +542,8 @@ function init_gear_sets()
 
     sets.buff.Doom = {
         neck="Nicander's Necklace", --20
-        ring1={name="Eshmun's Ring", bag="wardrobe3"}, --20
-        ring2={name="Eshmun's Ring", bag="wardrobe4"}, --20
+        ring1={name="Purity Ring", bag="wardrobe7"}, --20
+        ring2={name="Eshmun's Ring", bag="wardrobe7"}, --20
         waist="Gishdubar Sash", --10
         }
 
@@ -657,9 +659,9 @@ function customize_idle_set(idleSet)
     -- else
     --     enable('back')
     -- end
-    if state.Auto_Kite.value == true then
-       idleSet = set_combine(idleSet, sets.Kiting)
-    end
+    if moving then
+		idleSet=set_combine(idleSet, sets.Kiting)
+	end
 
     return idleSet
 end
@@ -708,6 +710,10 @@ end
 
 function job_self_command(cmdParams, eventArgs)
     gearinfo(cmdParams, eventArgs)
+	if cmdParams[1] == 'runspeed' then
+		runspeed:toggle()
+		updateRunspeedGear(runspeed.value) 
+	end
 end
 
 function gearinfo(cmdParams, eventArgs)
@@ -797,4 +803,42 @@ function hasso_check()
 		end
 	end
 end
-		
+
+--[AUTO MOVEMENT SPEED LOGIC]
+
+runspeed = M(false)
+mov = {counter=0}
+if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+	mov.x = windower.ffxi.get_mob_by_index(player.index).x
+	mov.y = windower.ffxi.get_mob_by_index(player.index).y
+	mov.z = windower.ffxi.get_mob_by_index(player.index).z
+end
+moving = false
+
+windower.raw_register_event('prerender',function()
+	mov.counter = mov.counter + 1;
+	if mov.counter>10 then
+		local pl = windower.ffxi.get_mob_by_index(player.index)
+		if pl and pl.x and mov.x then
+			local movement = math.sqrt( (pl.x-mov.x)^2 + (pl.y-mov.y)^2 + (pl.z-mov.z)^2 ) > 0.1
+			if movement and not moving then
+				send_command('gs c runspeed')
+				moving = true
+			elseif not movement and moving then
+				send_command('gs c runspeed')
+				moving = false
+			end
+		end
+
+		if pl and pl.x then
+			mov.x = pl.x
+			mov.y = pl.y
+			mov.z = pl.z
+		end
+		mov.counter = 0
+	end
+end)
+
+function updateRunspeedGear()   
+	handle_equipping_gear(player.status, pet.status)
+end

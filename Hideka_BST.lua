@@ -1,5 +1,7 @@
 include('organizer-lib')
 include('Modes.lua')
+require('logger')
+require('coroutine')
 --Basic hud Settings - styles are full or lite; 
 hud_style = 'full'
 use_UI = true
@@ -23,18 +25,18 @@ function job_setup()
 	PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 --Collection of all items you want to include in your inventory when processing the //gs org command
 	organizer_items = {
-	Consumables={"Echo Drops", "Holy Water", "Silent Oil", "Prisim Powder", "Panacea"},
+	Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
 		NinjaTools={"Shihei"},
 		Other="Pet Food Theta",
 		PetJugs={"Bubbly Broth","Windy Greens","Meaty Broth","Venomous Broth","Livid Broth"
 				,"Lyrical Broth","Dire Broth","Bug-Ridden Broth","Gassy Sap"
-				,"Spicy Broth","Tant. Broth"},
-		Food={"Grape Daifuku"},
-		Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-				"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+				,"Spicy Broth","Tant. Broth", "C. Plasma Broth"},
+		Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
+
 	}
 --Load dependent addons that user might not have included in their default load out
 	send_command('input //lua l porterpacker') 
+	send_command('input //lua l PetProject') 
 	send_command('input //send @all lua l superwarp') 
 --initializing variables for Pet HUD
 	ReadyMoveOne={}
@@ -101,14 +103,13 @@ function user_setup()
     state.RewardMode = M{['description']='Reward Mode', 'Theta', 'Roborant'}
     state.TreasureMode = M{['description']='Treasure Mode', 'Tag', 'Normal'}
 	state.AutoFight=M{'On','Off'}
-	state.AutoSong=M{'Off','On'}
+
 
 --Setup Commands for binds, lockstyles and 
 	send_command('@wait 8;input /lockstyleset 78')
 	
 	send_command('bind numpad0 gs c petfight')
 	send_command('bind PAGEUP gs c togglehud')
-	send_command('bind PAGEDOWN gs c SoOoNnGs')
 	send_command('bind numpad. gs c cycle AutoFight')
 	send_command('bind numpad1 input /bstpet 1')
 	send_command('bind numpad2 input /bstpet 2')
@@ -224,7 +225,6 @@ function file_unload()
     send_command('unbind @f8')
     send_command('unbind ^f11')
 	send_command('unbind PAGEUP')
-	send_command('unbind PAGEDOWN')
 	send_command('unbind END')
 	
 	send_command('unbind numpad0')
@@ -250,6 +250,7 @@ function file_unload()
     send_command('text CorrelationText delete')
     send_command('text AxeModeText delete')
     send_command('text AccuracyText delete')
+	send_command('input //lua u PetProject') 
 end
 
 -- BST gearsets
@@ -272,8 +273,8 @@ function init_gear_sets()
     Pet_PDT_AxeSub 	= "Agwu's Axe"
     Pet_MDT_AxeMain = "Aymur"
     Pet_MDT_AxeSub 	= "Agwu's Axe"
-    Pet_TP_AxeMain 	= {name="Skullrender", bag="wardrobe2"}
-    Pet_TP_AxeSub 	= {name="Skullrender", bag="wardrobe3"}
+    Pet_TP_AxeMain 	= {name="Skullrender", bag="wardrobe1"}
+    Pet_TP_AxeSub 	= {name="Skullrender", bag="wardrobe2"}
     Pet_Regen_AxeMain = "Aymur"
     Pet_Regen_AxeSub= "Agwu's Axe"
     Ready_Atk_Axe 	= "Aymur"
@@ -291,7 +292,7 @@ function init_gear_sets()
     Reward_Axe 		= "Aymur"
     Reward_Axe2 	= "Agwu's Axe"
     Ready_DA_Axe 	= "Aymur"
-    Ready_DA_Axe2 	= {name="Skullrender", bag="wardrobe3"}
+    Ready_DA_Axe2 	= {name="Skullrender", bag="wardrobe2"}
     CB_body 		= "Mirke Wardecors"
     CB_hands 		= "Ankusa Gloves +3"
 	
@@ -329,8 +330,8 @@ function init_gear_sets()
     sets.precast.JA.Tame = {head="Totemic Helm +2"}
 
     sets.precast.JA.Spur = {back="Artio's Mantle",feet="Nukumi Ocreae +1"}
-    sets.precast.JA.SpurNE = set_combine(sets.precast.JA.Spur, {main={name="Skullrender", bag="wardrobe2"}})
-    sets.precast.JA.SpurNEDW = set_combine(sets.precast.JA.Spur, {main={name="Skullrender", bag="wardrobe2"},sub={name="Skullrender", bag="wardrobe3"}})
+    sets.precast.JA.SpurNE = set_combine(sets.precast.JA.Spur, {main={name="Skullrender", bag="wardrobe1"}})
+    sets.precast.JA.SpurNEDW = set_combine(sets.precast.JA.Spur, {main={name="Skullrender", bag="wardrobe1"},sub={name="Skullrender", bag="wardrobe2"}})
 
     sets.precast.JA['Feral Howl'] = {
 		range="Ullr",
@@ -585,7 +586,7 @@ function init_gear_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Moonlight Ring", bag="wardrobe2"},
-		right_ring={name="Moonlight Ring", bag="wardrobe3"},
+		right_ring={name="Moonlight Ring", bag="wardrobe7"},
 		back=JSE.Cape.STP,	
 	}
 
@@ -602,7 +603,7 @@ function init_gear_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring={name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring={name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Artio's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}},	
 	}
     sets.idle.Reraise = set_combine(sets.idle, {})
@@ -621,7 +622,7 @@ function init_gear_sets()
 		left_ear="Hija Earring",
 		right_ear="Enmerkar Earring",
 		left_ring={name="Varar Ring +1", bag="wardrobe2"},
-		right_ring={name="Varar Ring +1", bag="wardrobe3"},
+		right_ring={name="Varar Ring +1", bag="wardrobe7"},
 		back=JSE.Cape.MAGPET
 	}
 
@@ -771,7 +772,7 @@ function init_gear_sets()
 
     sets.idle.DWNE = set_combine(sets.idle,{main="Aymur",sub="Agwu's Axe"})
 
-    sets.idle.DWNE.PetEngaged = set_combine(sets.idle.PetEngaged,{main={name="Skullrender",bag="wardrobe2"},sub={name="Skullrender",bag="wardrobe3"}})
+    sets.idle.DWNE.PetEngaged = set_combine(sets.idle.PetEngaged,{main={name="Skullrender",bag="wardrobe1"},sub={name="Skullrender",bag="wardrobe2"}})
 	
 	sets.defense.DWNE = {}
 
@@ -847,7 +848,7 @@ function init_gear_sets()
 		back=JSE.Cape.STP,
 	}
 	
-    sets.engaged.MedAcc		= set_combine(sets.engaged,{left_ring={name="Chirich Ring +1",bag="wardrobe2"},right_ring={name="Chirich Ring +1",bag="wardrobe3"}})
+    sets.engaged.MedAcc		= set_combine(sets.engaged,{left_ring={name="Chirich Ring +1",bag="wardrobe2"},right_ring={name="Chirich Ring +1",bag="wardrobe7"}})
     sets.engaged.HighAcc 	= set_combine(sets.engaged.MedAcc,{neck="Bst. Collar +2",})
     sets.engaged.MaxAcc	 	= set_combine(sets.engaged.HighAcc,{})
 	sets.engaged.DW			= set_combine(sets.engaged, sets.dw11, 		  {})
@@ -862,7 +863,7 @@ function init_gear_sets()
 		legs="Malignance Tights",
 		feet="Malignance Boots",
 		left_ring={name="Moonlight Ring", bag="wardrobe2"},
-		right_ring={name="Moonlight Ring", bag="wardrobe3"},
+		right_ring={name="Moonlight Ring", bag="wardrobe7"},
 	})
 	
 	sets.engaged.MedAcc.Hybrid 		= set_combine(sets.engaged.Hybrid,{neck="Bst. Collar +2",})
@@ -908,7 +909,7 @@ function init_gear_sets()
 		left_ear="Sherida Earring",
 		right_ear="Brutal Earring",
 		left_ring={name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring={name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring={name="Chirich Ring +1", bag="wardrobe7"},
 		back=JSE.Cape.STP,	
 	}
 	sets.engaged.MedAcc.SubtleBlow 		= set_combine(sets.engaged.SubtleBlow,{neck="Bst. Collar +2",})
@@ -937,7 +938,7 @@ function init_gear_sets()
 	sets.engaged.MedAcc.Counter 	= set_combine(sets.engaged.Counter,{})
     sets.engaged.HighAcc.Counter 	= set_combine(sets.engaged.MedAcc.Counter,{})
     sets.engaged.MaxAcc.Counter 	= set_combine(sets.engaged.HighAcc.Counter,	{})
-    sets.engaged.DW.Counter 		= set_combine(sets.engaged.Counter,sets.dw11, {left_ring={name="Moonlight Ring", bag="wardrobe2"},right_ring={name="Moonlight Ring", bag="wardrobe3"},})
+    sets.engaged.DW.Counter 		= set_combine(sets.engaged.Counter,sets.dw11, {left_ring={name="Moonlight Ring", bag="wardrobe2"},right_ring={name="Moonlight Ring", bag="wardrobe7"},})
     sets.engaged.DW.MedAcc.Counter 	= set_combine(sets.engaged.DW.Counter,sets.dw11, {})
     sets.engaged.DW.HighAcc.Counter = set_combine(sets.engaged.DW.Counter,sets.dw11, {})
     sets.engaged.DW.MaxAcc.Counter 	= set_combine(sets.engaged.DW.Counter,sets.dw11, {})
@@ -963,7 +964,7 @@ function init_gear_sets()
 		left_ear="Sherida Earring",
 		right_ear="Telos Earring",
 		left_ring={name="Moonlight Ring", bag="wardrobe2"},
-		right_ring={name="Moonlight Ring", bag="wardrobe3"},
+		right_ring={name="Moonlight Ring", bag="wardrobe7"},
 		back=JSE.Cape.STP,
 	}
 	
@@ -1192,7 +1193,7 @@ function init_gear_sets()
 		left_ear="Mache Earring +1",
 		right_ear="Mache Earring +1",
 		left_ring={name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring={name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring={name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Artio's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}},	
 	}
     sets.precast.Flourish1 = {}
@@ -1208,7 +1209,7 @@ function init_gear_sets()
 		left_ear="Hermetic Earring",
 		right_ear="Gwati Earring",
 		left_ring={name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring={name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring={name="Stikini Ring +1", bag="wardrobe7"},
 		back={ name="Artio's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}},		
 	}
 
@@ -1225,7 +1226,7 @@ function init_gear_sets()
 		left_ear="Mache Earring +1",
 		right_ear="Mache Earring +1",
 		left_ring={name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring={name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring={name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Artio's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}},		
 	}
     sets.precast.JA['High Jump'] = sets.precast.JA.Jump
@@ -1618,14 +1619,14 @@ function job_self_command(cmdParams, eventArgs)
 	if cmdParams[1]=="togglehud" then
 		hud_toggle()
 	end
-	if cmdParams[1]=="SoOoNnGs" then
-		auto_bard()
-	end
 	if cmdParams[1] == 'runspeed' then
 		runspeed:toggle()
 		updateRunspeedGear(runspeed.value) 
 	end
-		
+	if cmdParams[1] == 'BeastialFury' or cmdParams[1]== 'BF' then
+		add_to_chat(8, 'Beastial Fury Command Recieved')
+		Bestial_Fury()
+	end
 end
 
 function ready_move(cmdParams)
@@ -2136,10 +2137,10 @@ function pet_info_update()
 			ReadyMoveSeven.Name= '__________'; ReadyMoveSeven.Cost= '_'; ReadyMoveSeven.Type= '_____'; ReadyMoveSeven.Element= '_______'; ReadyMoveSeven.Effect= '_______'
         elseif pet.name == 'FatsoFargann' then
 			PetInfo = "Leech, Amorph";PetJob = 'Warrior'
-			ReadyMoveOne.Name	= '__________';	ReadyMoveOne.Cost	= '_'; ReadyMoveOne.Type	= '_____'; ReadyMoveOne.Element	 = '_______'; 	ReadyMoveOne.Effect	 = '_______'
-			ReadyMoveTwo.Name	= '__________';	ReadyMoveTwo.Cost	= '_'; ReadyMoveTwo.Type	= '_____'; ReadyMoveTwo.Element	 = '_______'; 	ReadyMoveTwo.Effect	 = '_______'
-			ReadyMoveThree.Name	= '__________';	ReadyMoveThree.Cost	= '_'; ReadyMoveThree.Type	= '_____'; ReadyMoveThree.Element= '_______'; 	ReadyMoveThree.Effect= '_______'
-			ReadyMoveFour.Name	= '__________';	ReadyMoveFour.Cost	= '_'; ReadyMoveFour.Type	= '_____'; ReadyMoveFour.Element = '_______'; 	ReadyMoveFour.Effect = '_______'
+			ReadyMoveOne.Name	= 'Suction   ';	ReadyMoveOne.Cost	= '1'; ReadyMoveOne.Type	= 'Blunt'; ReadyMoveOne.Element	 = 'Compres'; 	ReadyMoveOne.Effect	 = 'Stun   '
+			ReadyMoveTwo.Name	= 'Drainkiss ';	ReadyMoveTwo.Cost	= '1'; ReadyMoveTwo.Type	= 'Magic'; ReadyMoveTwo.Element	 = '_______'; 	ReadyMoveTwo.Effect	 = 'Drain  '
+			ReadyMoveThree.Name	= 'Acid Mist ';	ReadyMoveThree.Cost	= '2'; ReadyMoveThree.Type	= 'Magic'; ReadyMoveThree.Element= '_______'; 	ReadyMoveThree.Effect= 'ATK.DWN'
+			ReadyMoveFour.Name	= 'TP Drnkiss';	ReadyMoveFour.Cost	= '3'; ReadyMoveFour.Type	= 'Magic'; ReadyMoveFour.Element = '_______'; 	ReadyMoveFour.Effect = 'TPDrain'
 			ReadyMoveFive.Name	= '__________';	ReadyMoveFive.Cost	= '_'; ReadyMoveFive.Type	= '_____'; ReadyMoveFive.Element = '_______'; 	ReadyMoveFive.Effect = '_______'
 			ReadyMoveSix.Name	= '__________';	ReadyMoveSix.Cost	= '_'; ReadyMoveSix.Type	= '_____'; ReadyMoveSix.Element	 = '_______'; 	ReadyMoveSix.Effect  = '_______'
 			ReadyMoveSeven.Name	= '__________';	ReadyMoveSeven.Cost	= '_'; ReadyMoveSeven.Type	= '_____'; ReadyMoveSeven.Element= '_______'; 	ReadyMoveSeven.Effect= '_______'
@@ -2355,14 +2356,14 @@ function get_combat_form()
 end
 
 function get_gear()
---'//gs c getgear' to retrieve/pack gear manually. Only works in PortTowns list
-    if PortTowns:contains(world.area) then
-		send_command('wait 3;input //gs org') 
-		send_command('wait 6;input //po repack') 
-    else
-		add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    end
-
+	--[[Disable code in this sub if you dont have organizer or porter packer]]
+    -- send_command('wait 3;input //gs org')
+	-- if PortTowns:contains(world.area) then
+		-- send_command('wait 3;input //gs org') 
+		-- send_command('wait 6;input //po repack') 
+    -- else
+		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+    -- end
 end
 
 windower.register_event('target change', function(target_index)
@@ -2399,17 +2400,115 @@ function toggle_PetMelee()
 		add_to_chat(8, 'You need to summon a pet first')
 	end
 end
-function auto_bard()
-	send_command('input //send aunan Troubadour')
-	send_command('wait 2; input //send aunan Nightengale')
-	send_command('wait 4;input //send aunan Valor Minuet V')
-	send_command('wait 10;input //send aunan Blade Madrigal')
-	send_command('wait 16;input //send aunan Warding Round')
-	send_command('wait 22;input //send aunan Sinewy Etude')
-	send_command('wait 28;input //send aunan Victory March')
-	send_command('wait 34;input //send aunan Marcato')
-	send_command('wait 40;input //send aunan Honor March')
+
+function Bestial_Fury()
+	local ReadyRecast = windower.ffxi.get_ability_recasts()[102]
+	local unleashRecast = windower.ffxi.get_ability_recasts()[331]
+	local unleashed=false
+	local target = windower.ffxi.get_mob_by_target('t') or windower.ffxi.get_mob_by_target('st')
+	
+	if unleashrecast ~= nil then 
+		if UnleashRecast >0 and UnleashRecast < (45*60)-60 then
+			add_to_chat(8,"Unleash is on Cooldown for " .. tostring(unleashrecast) .. " Seconds. Aborting Beastial Fury")
+			return
+		elseif UnleashRecast >0 and UnleashRecast > (45*60)-60 then
+			unleashed=true
+			add_to_chat(8,"Initiating Bestial Fury. Halt all WS, JA, and Magic. Remaining unleash time: " .. tostring((45*60) -unleashRecast))
+		else
+			add_to_chat(8,"Initiating Bestial Fury. Halt all WS, JA, and Magic")
+		end
+			
+		if not target.is_npc or TargetType == 2 then 
+			add_to_chat(8,"Cannot Execute without a target. currently targeting: " .. tostring(target.name))
+			return
+		end
+	end
+	windower.chat.input("//gs disable ammo")
+	coroutine.sleep(1)
+	windower.chat.input("//gs disable range")
+	coroutine.sleep(0.5)	
+	
+	windower.add_to_chat(8,'test line 1')	
+	
+	if pet.isvalid then
+		return
+		-- if pet.name~="HeraldHenry" or pet.name ~="Jovial Edwin" then
+			-- add_to_chat(8,"Dismissing Current Pet")
+			-- windower.chat.input("/pet \"Leave\" <me>")
+        -- coroutine.sleep(0.5)
+        -- windower.chat.input("/equip ammo \"Trans. Broth\"")
+        -- coroutine.sleep(0.5)
+        -- windower.chat.input("/ja \"Call Beast\" <me>")
+			-- coroutine.sleep(2)
+		-- end
+	else
+		windower.chat.input("/equip ammo \"Trans. Broth\"")
+        coroutine.sleep(0.5)
+        windower.chat.input("/ja \"Call Beast\" <me>")
+			coroutine.sleep(2)
+	end
+	
+	if pet.status ~= "Engaged"  then
+		windower.chat.input("/pet \"Fight\"" .. target.name)
+		coroutine.sleep(2)
+	end
+	
+	if unleashed==false then 
+		unleashed=true
+		windower.chat.input("/ja \"Unleash\" <me>")
+		coroutine.sleep(2)	
+	end
+		
+	windower.chat.input("/pet \"Metallic Body\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Scissor Guard\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Bubble Guard\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Leave\" <me>")
+	coroutine.sleep(0.5)
+	
+	windower.chat.input("/equip ammo \"Airy Broth\"")
+	coroutine.sleep(0.5)
+	windower.chat.input("/ja \"Call Beast\" <me>")
+		coroutine.sleep(2)
+	windower.chat.input("/pet \"Water Wall\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Leave\" <me>")
+	coroutine.sleep(0.5)
+	
+	windower.chat.input("/equip ammo \"Fizzy Broth\"")
+	coroutine.sleep(0.5)
+	windower.chat.input("/ja \"Call Beast\" <me>")
+		coroutine.sleep(2)
+	windower.chat.input("/pet \"Zealous Snort\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Leave\" <me>")
+	coroutine.sleep(0.5)
+
+	windower.chat.input("/equip ammo \"Lyrical Broth\"")
+	coroutine.sleep(0.5)
+	windower.chat.input("/ja \"Call Beast\" <me>")
+		coroutine.sleep(2)
+	windower.chat.input("/pet \"Rage\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Leave\" <me>")
+	coroutine.sleep(0.5)
+
+	windower.chat.input("/equip ammo \"Frizzante Broth\"")
+	coroutine.sleep(0.5)
+	windower.chat.input("/ja \"Call Beast\" <me>")
+		coroutine.sleep(2)
+	windower.chat.input("/pet \"Frenzied Rage\" <me>")
+	coroutine.sleep(3)
+	windower.chat.input("/pet \"Leave\" <me>")
+	coroutine.sleep(0.5)
+	
+	windower.add_to_chat(8,"Beastial Fury Completed - Summon New Pet!!!")
+	
 end
+
+
 --BST_HUD--
 --------------------------------------------------------------------------------------------------------------
 -- HUD STUFF
@@ -2667,7 +2766,7 @@ function setupTextWindow()
     
 end
 
---[AUTO MOVEMENT SPEED LOGIC]
+
 
 --[AUTO MOVEMENT SPEED LOGIC]
 

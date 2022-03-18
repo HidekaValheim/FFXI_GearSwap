@@ -6,19 +6,19 @@ include('organizer-lib')
 send_command('input //lua l porterpacker') 
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water","Remedy","Panacea"},
-	Food={"Om. Sandwich","Miso Ramen"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+organizer_items = {
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    NinjaTools={"Shihei"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
+}
 }
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 if PortTowns:contains(world.area) then
 	send_command('wait 3;input //gs org') 
-	send_command('wait 6;input //po repack') 
 else
-	add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+	send_command('wait 3;input //gs org') 
 end
 
 -- Define your modes: 
@@ -285,7 +285,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Eabani Earring",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
 	}) 
 ---------------
@@ -383,7 +383,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Moonlight Ring",bag="wardrobe2"},
-		right_ring={name="Moonlight Ring",bag="wardrobe3"},
+		right_ring={name="Moonlight Ring",bag="wardrobe7"},
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
     }
 	
@@ -406,7 +406,7 @@ function get_sets()
 		left_ear="Telos Earring",
 		right_ear="Brutal Earring",
 		left_ring={name="Moonlight Ring",bag="wardrobe2"},
-		right_ring={name="Moonlight Ring",bag="wardrobe3"},
+		right_ring={name="Moonlight Ring",bag="wardrobe7"},
 		back={ name="Rudianos's Mantle", augments={'HP+60','Accuracy+20 Attack+20','HP+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.me.melee.MPRsw = {
@@ -467,7 +467,7 @@ function get_sets()
 ---------------
     sets.me["Savage Blade"] = {
 		ammo = "Coiste Bodhar",
-		head={ name="Odyssean Helm", augments={'Attack+3','Weapon skill damage +5%',}},
+		head="Sakpata's Helm",
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
 		legs="Sakpata's Cuisses",
@@ -737,7 +737,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back="Moonbeam Cape",
     }											
 ---------------
@@ -784,7 +784,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Moonlight Ring",bag="wardrobe2"},
-		right_ring={name="Moonlight Ring",bag="wardrobe3"},
+		right_ring={name="Moonlight Ring",bag="wardrobe7"},
 		back="Moonbeam Cape",
     }
 ---------------
@@ -952,7 +952,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back={ name="Weard Mantle", augments={'VIT+4','DEX+2','Enmity+4','Phalanx +5',}},
     }
 ---------------
@@ -987,7 +987,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Cure" potency +10%','Spell interruption rate down-10%',}},	
 	}
 ---------------
@@ -1041,7 +1041,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
 	}  
 ---------------
@@ -1061,7 +1061,7 @@ function get_sets()
 		left_ear="Loquac. Earring",
 		right_ear="Tuisto Earring",
 		left_ring="Kishar Ring",
-		right_ring	= {name="Moonlight Ring", bag="wardrobe3"},
+		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
 		back="Moonbeam Cape",
 	}  	
 ---------------

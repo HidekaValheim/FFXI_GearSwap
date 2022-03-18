@@ -4,24 +4,19 @@ res = require('resources')
 texts = require('texts')
 
 send_command('input //send @all lua l superwarp') 
-send_command('input //lua l porterpacker') 
-send_command('wait 30;input //gs validate') 
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy"},
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
     NinjaTools={"Shihei"},
-	Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
-if PortTowns:contains(world.area) then
-	send_command('wait 3;input //gs org') 
-	send_command('wait 6;input //po repack') 
-else
-	add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-end
+-- if PortTowns:contains(world.area) then
+	-- send_command('wait 3;input //gs org') 
+-- else
+	-- send_command('wait 3;input //gs org') 
+-- end
 
 -- Define your modes: 
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
@@ -40,8 +35,14 @@ nukeModes = M('normal', 'acc')
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
-mainWeapon = M('Crocea Mors','Naegling','Excalibur','Tauret','Maxentius','Daybreak','Contemplator +1')
-subWeapon = M('Demers. Degen +1',"Sakpata's Sword",'Daybreak','Machaera +3','Naegling','Ternion Dagger +1','Tauret','Sacro Bulwark','Ammurapi Shield', 'Enki Strap')
+mainWeapon = M('Crocea Mors','Naegling','Excalibur','Tauret','Maxentius','Daybreak')
+subWeapon = M('Demers. Degen +1','Machaera +3','Daybreak','Forfend +1')
+WeaponSet1={"Naegling","Machaera +3"}
+WeaponSet2={"Excalibur","Demers. Degen +1"}
+WeaponSet3={"Tauret","Machaera +3"}
+WeaponSet4={"Maxentius","Machaera +3"}
+WeaponSet5={"Crocea Mors","Daybreak"}
+WeaponSet6={"Maxentius","Forfend +1"}
 ------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------
@@ -55,10 +56,10 @@ DYNA_NECK = "Duelist's Torque +2"
 -- Setting this to true will stop the text spam, and instead display modes in a /UI.
 -- Currently in construction.
 use_UI = true
-hud_x_pos = 1765    --important to update these if you have a smaller screen
+hud_x_pos = 1560    --important to update these if you have a smaller screen
 hud_y_pos = 300     --important to update these if you have a smaller screen
 hud_draggable = true
-hud_font_size = 10
+hud_font_size = 8
 hud_transparency = 200 -- a value of 0 (invisible) to 255 (no transparency at all)
 hud_font = 'Impact'
 
@@ -81,6 +82,13 @@ hud_font = 'Impact'
 	windower.send_command('bind ^end gs c hud keybinds')        -- CTRL-End to toggle Keybinds  
 	windower.send_command('bind f11 parse report damage p')
 	windower.send_command('bind ^f11 parse reset')
+	windower.send_command('bind numpad1 gs c WS1')
+	windower.send_command('bind numpad2 gs c WS2')
+	windower.send_command('bind numpad3 gs c WS3')
+	windower.send_command('bind numpad4 gs c WS4')
+	windower.send_command('bind numpad5 gs c WS5')
+	windower.send_command('bind numpad6 gs c WS6')
+	
 	send_command('unbind ^r')
 	
 --[[
@@ -98,9 +106,6 @@ keybinds_on['key_bind_enspell_cycle'] = '(HOME + PgUP)'
 keybinds_on['key_bind_lock_weapon'] = '(ALT-F9)'
 keybinds_on['key_bind_matchsc'] = '(F10)'
 
-send_command('lua l gearinfo')
-send_command('lua l equipviewer')
-send_command('lua l parse')
 send_command('gs c hud hidejob')
 
 -- Remember to unbind your keybinds on job change.
@@ -125,6 +130,12 @@ function user_unload()
 	send_command('lua u parse')
 	send_command('unbind f11 parse reset')
 	send_command('unbind ^f11 parse reset')
+	windower.send_command('unbind numpad1')
+	windower.send_command('unbind numpad2')
+	windower.send_command('unbind numpad3')
+	windower.send_command('unbind numpad4')
+	windower.send_command('unbind numpad5')
+	windower.send_command('unbind numpad6')
 end
 
 include('RDM_Lib.lua')
@@ -367,7 +378,7 @@ function get_sets()
 		left_ear="Etiolation Earring",
 		right_ear="Cryptic Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back="Moonbeam Cape",
 	}		
 
@@ -455,25 +466,7 @@ function get_sets()
 		left_ear="Telos Earring",
 		right_ear="Sherida Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
-		back=JSE.MELEE.STP
-	}
----------------	
---[MELEE]-[DUALWIELD]-[NORMAL]
----------------
-    sets.me.melee.FULLACCsw ={
-		ammo = "Coiste Bodhar",
-		head="Malignance Chapeau",
-		body="Malignance Tabard",
-		hands="Malignance Gloves",
-		legs="Malignance Tights",
-		feet="Malignance Boots",
-		neck="Sanctity Necklace",
-		waist="Reiki Yotai",
-		left_ear="Telos Earring",
-		right_ear="Sherida Earring",
-		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back=JSE.MELEE.STP
 	}
 ---------------
@@ -489,21 +482,6 @@ function get_sets()
 		neck="Anu Torque",
 		waist="Reiki Yotai",
 		left_ear="Eabani Earring",				
-		right_ear="Sherida Earring",
-		left_ring="Petrov Ring",
-		right_ring="Hetairoi Ring",
-		back=JSE.MELEE.STP 
-		}
-    sets.me.melee.FullHastesw = {
-		ammo = "Coiste Bodhar",
-		head="Malignance Chapeau",
-		body="Malignance Tabard",
-		hands="Malignance Gloves",
-		legs="Malignance Tights",
-		feet="Malignance Boots",
-		neck="Anu Torque",
-		waist="Windbuffet Belt +1",
-		left_ear="Dedition Earring",				
 		right_ear="Sherida Earring",
 		left_ring="Petrov Ring",
 		right_ring="Hetairoi Ring",
@@ -542,9 +520,9 @@ function get_sets()
 		neck="Anu Torque",
 		waist="Orpheus's Sash",
 		left_ear="Sherida Earring",
-		right_ear="Eabani Earring",
+		right_ear="Telos Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Sucellos's Cape", augments={'DEX+15','Accuracy+20 Attack+20','"Dual Wield"+10',}},
 
 	}
@@ -560,19 +538,24 @@ function get_sets()
 		left_ear="Sherida Earring",
 		right_ear="Telos Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back=JSE.MELEE.STP
 	}
 ---------------
 --[MELEE]-[SWORD&BOARD]-[NORMAL]
 ---------------
-    sets.me.melee.FULLACCsw = set_combine(sets.me.melee.FULLACCdw,{   
+    sets.me.melee.FULLACCsw = set_combine(sets.me.melee.FULLACCdw,{ 
+		neck="Loricate Torque +1",
+		left_ear="Crep. Earring",
+		waist="Sailfi Belt +1",
 		back=JSE.MELEE.STP
     })
 ---------------
 --[MELEE]-[SWORD&BOARD]-[ACCURACY]
 ---------------
     sets.me.melee.FullHastesw = set_combine(sets.me.melee.FullHastedw,{
+		left_ear="Crep. Earring",
+		waist="Sailfi Belt +1",
 		back=JSE.MELEE.STP
     })
 ---------------
@@ -624,10 +607,10 @@ function get_sets()
 	sets.me.MAGWS = {
 		ammo		= "Regal Gem",
 		head		= "C. Palug Crown",
-		body		= "Nyame Mail",
+		body		= {name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		feet		= {name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		hands		= JHA.HND,
 		legs		= AMA.LEG,
-		feet		= "Nyame Sollerets",
 		neck		= "Baetyl Pendant",
 		waist		= "Orpheus's Sash",
 		left_ear	= "Regal Earring",
@@ -652,7 +635,7 @@ function get_sets()
 ---------------
     sets.me["Red Lotus Blade"] = set_combine(sets.me.MAGWS, {})
     sets.me["Seraph Blade"] = set_combine(sets.me.MAGWS, {})
-    sets.me["Aeolian Edge"] = set_combine(sets.me.MAGWS, {})
+    sets.me["Aeolian Edge"] = set_combine(sets.me.MAGWS, {ammo="Pemphredo Tathlum", back={ name="Sucellos's Cape", augments={'DEX+20','Mag. Acc+20 /Mag. Dmg.+20','DEX+8','Weapon skill damage +10%',}}})
 
     sets.me["Asuran Fists"] = {
 		ammo		= "Coiste Bodhar",
@@ -803,14 +786,14 @@ function get_sets()
 		ammo="Regal Gem",
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
-		hands="Atrophy Gloves +3",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
+		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs="Atrophy Tights +2",
+		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist="Luminary Sash",
-		left_ear="Regal Earring",
-		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring	= "Metamorph Ring +1",
+		left_ear="Malignance Earring",
+		right_ear="Regal Earring",
+		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
 		right_ring="Stikini Ring +1",
 		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%',}},
     }
@@ -976,10 +959,10 @@ function get_sets()
 		range="Ullr",
 		body="Twilight Cloak",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Luminary Sash",
+		waist="Acuity Belt +1",
 		left_ear="Malignance Earring",
 		right_ear="Regal Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
@@ -1134,8 +1117,8 @@ function get_sets()
 		sub="Ammurapi Shield",
 		range="Ullr",
 		head="Pixie Hairpin +1",
-		body="Atrophy Tabard +3",
-		hands="Malignance Gloves",
+		body={ name="Merlinic Jubbah", augments={'Mag. Acc.+13','"Drain" and "Aspir" potency +11','"Mag.Atk.Bns."+13',}},
+		hands={ name="Merlinic Dastanas", augments={'"Drain" and "Aspir" potency +10','Mag. Acc.+2','"Mag.Atk.Bns."+13',}},
 		legs="Malignance Tights",
 		feet={ name="Merlinic Crackows", augments={'DEX+8','Crit. hit damage +1%','"Refresh"+1','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
 		neck="Erra Pendant",
@@ -1177,7 +1160,7 @@ function get_sets()
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck="Erra Pendant",
 		waist="Channeler's Stone",
@@ -1197,10 +1180,10 @@ function get_sets()
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body="Atrophy Tabard +3",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Rumination Sash",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
@@ -1214,10 +1197,10 @@ function get_sets()
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body="Atrophy Tabard +3",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Rumination Sash",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
@@ -1236,7 +1219,7 @@ function get_sets()
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body="Lethargy Sayon +1",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist="Luminary Sash",
@@ -1255,10 +1238,10 @@ function get_sets()
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body="Lethargy Sayon +1",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Channeler's Stone",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
@@ -1277,11 +1260,11 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Rumination Sash",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
-		left_ring="Stikini Ring +1",
-		right_ring="Stikini Ring +1",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},
     }		
     sets.midcast.Enfeebling.Distract = {
@@ -1294,7 +1277,7 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Rumination Sash",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring="Stikini Ring +1",
@@ -1313,11 +1296,11 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Rumination Sash",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
-		left_ring="Stikini Ring +1",
-		right_ring="Stikini Ring +1",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back={ name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10',}},
     }	
 -------------------------------------------
@@ -1328,8 +1311,8 @@ function get_sets()
 		ammo="Regal Gem",
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body="Atrophy Tabard +3",
-		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Cure" potency +6%','CHR+3','Mag. Acc.+6','"Mag.Atk.Bns."+9',}},
+		hands = "Regal Cuffs",
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist="Obstin. Sash",
@@ -1350,10 +1333,10 @@ function get_sets()
 		main={ name="Colada", augments={'Enh. Mag. eff. dur. +4','Mag. Acc.+5','"Mag.Atk.Bns."+20','DMG:+6',}},
 		sub="Ammurapi Shield",
 		ammo="Staunch Tathlum",
-		head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}},
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
 		body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
 		hands="Atrophy Gloves +3",
-		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Fast Cast"+1','Enh. Mag. eff. dur. +10',}},
+		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		feet="Leth. Houseaux +1",
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist="Embla Sash",
@@ -1368,7 +1351,7 @@ function get_sets()
 ---------------
     sets.midcast.enhancing.potency = set_combine(sets.midcast.enhancing.duration, {
 		main		= "Pukulatmuj +1",
-		sub			= "Secespita",
+		sub			= "Forfend +1",
 		head		= "Befouled Crown",
 		body		= REL.BOD,
 		hands		= "Viti. Gloves +3",
@@ -1379,7 +1362,7 @@ function get_sets()
 		left_ear	= "Etiolation earring",
 		right_ear	= "Andoaa Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back		= { name="Ghostfyre Cape", augments={'Enfb.mag. skill +2','Enha.mag. skill +10','Enh. Mag. eff. dur. +18',}},
     })
 
@@ -1396,7 +1379,20 @@ function get_sets()
 		hands		=	ART.HND,
 		legs		=	EMP.LEG,
 		feet		=	EMP.FEE,
-    })  
+    })
+---------------
+--[MIDCASTING]-[REGEN+]
+--RDM ONLY GETS REGEN 2. NEED TO MAX OUT ITS POWER USING GEAR
+--BOLELABUNGA GIVES +10%
+--TELCHINE BODY GIVES +12 SECONDS (EXTENDED UNDER COMPOSURE)
+--TELCHINE GIVES +3 POTENCY AUGMENT PER PIECE USING DUSKDIM AUGMENTATION, FOR +15 TOTAL HP
+--RDM CAN GET REGEN 2 UP TO 30 HP PER TIC, WHICH IS INCREDIBLY STRONG - ALMOST AS STRONG AS A FULL POWER REGEN 5  
+---------------
+	sets.midcast.Regen = set_combine(sets.midcast.enhancing.composure,{    
+		main="Bolelabunga",
+		sub="Ammurapi Shield",
+	})
+	
 ---------------
 --[MIDCASTING]-[OHALANX]
 --TAEON CAN BE AUGMENTED WITH +1-3 PHALANX USING DUSKDIM STONES. 
@@ -1406,7 +1402,7 @@ function get_sets()
 ---------------
     sets.midcast.phalanx ={
 		main		= "Sakpata's Sword",
-		sub			= "Secespita",
+		sub			= "Forfend +1",
 		head		= { name="Taeon Chapeau", augments={'Attack+10','"Triple Atk."+2','Phalanx +3',}},
 		body		= { name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands		= { name="Taeon Gloves", augments={'Phalanx +2',}},
@@ -1417,7 +1413,7 @@ function get_sets()
 		left_ear	= "Etiolation earring",
 		right_ear	= "Andoaa Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back		= "Ghostfyre Cape",
     }
 ---------------
@@ -1439,11 +1435,27 @@ function get_sets()
 ---------------
 --[MIDCASTING]-[AQUAVEIL]
 ---------------
-    sets.midcast.aquaveil = set_combine(sets.midcast.refresh, {})
+    sets.midcast.aquaveil = set_combine(sets.midcast.refresh, {hands = "Regal Cuffs"})
 ---------------
 --[MIDCASTING]-[Protect]
 ---------------
-    sets.midcast.protect = set_combine(sets.midcast.enhancing.duration, {right_ring="Sheltered Ring"})
+    sets.midcast.protect = {    
+		main={ name="Colada", augments={'Enh. Mag. eff. dur. +4','Mag. Acc.+5','"Mag.Atk.Bns."+20','DMG:+6',}},
+		sub="Ammurapi Shield",
+		ammo="Staunch Tathlum",
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		body={ name="Telchine Chas.", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		hands="Atrophy Gloves +3",
+		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
+		feet={ name="Telchine Pigaches", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		neck={ name="Dls. Torque +2", augments={'Path: A',}},
+		waist="Embla Sash",
+		left_ear="Etiolation Earring",
+		right_ear="Malignance Earring",
+		left_ring="Meridian Ring",
+		right_ring="Sheltered Ring",
+		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},
+	}
 ---------------
 --[MIDCASTING]-[SHELL]
 ---------------
@@ -1454,57 +1466,105 @@ function get_sets()
 --PRIORITIZE HEALING MAGIC SKILL > CURE POTENCY. RDMS HEALING MAGIC IS VERY LOW. 
 --BECAUSE CURE POT IS A % INCREASE, IT PERFORMS BETTER IF WE INCREASE ITS BASE VALUE THROUGH HEALING SKILL. 
 ---------------
-    sets.midcast.cure.normal = set_combine(sets.midcast.casting,{
-		main={ name="Crocea Mors", augments={'Path: C',}},
-		sub="Sakpata's Sword",
-		ammo="Staunch Tathlum",
-		head={ name="Vanya Hood", augments={'MP+49','"Cure" potency +7%','Enmity-5',}},
-		body="Nyame Mail",
-		hands={ name="Telchine Gloves", augments={'"Conserve MP"+1','"Regen" potency+2',}},
-		legs="Atrophy Tights +2",
-		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+    sets.midcast.cure.normal = {
+		ammo="Regal Gem",
+		head={ name="Kaykaus Mitra +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		body={ name="Kaykaus Bliaut +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		neck="Incanter's Torque",
+		waist="Luminary Sash",
+		left_ear="Mendi. Earring",
+		right_ear="Regal Earring",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
+		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},
+    }
+---------------
+--[MIDCASTING]-[CURE WEATHER]
+---------------
+    sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{main="Iridal Staff", sub="Enki Strap", waist= "Hachirin-no-obi"})  
+
+sets.midcast.cure.normal.self={
+		ammo="Regal Gem",
+		head={ name="Kaykaus Mitra +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		body={ name="Kaykaus Bliaut +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		neck="Incanter's Torque",
 		waist="Gishdubar Sash",
 		left_ear="Mendi. Earring",
 		right_ear="Tuisto Earring",
 		left_ring="Meridian Ring",
 		right_ring="Stikini Ring +1",
 		back="Moonbeam Cape",
-    })
----------------
---[MIDCASTING]-[CURE WEATHER]
----------------
-    sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{waist= "Hachirin-no-obi"})    
----------------
---[MIDCASTING]-[REGEN+]
---RDM ONLY GETS REGEN 2. NEED TO MAX OUT ITS POWER USING GEAR
---BOLELABUNGA GIVES +10%
---TELCHINE BODY GIVES +12 SECONDS (EXTENDED UNDER COMPOSURE)
---TELCHINE GIVES +3 POTENCY AUGMENT PER PIECE USING DUSKDIM AUGMENTATION, FOR +15 TOTAL HP
---RDM CAN GET REGEN 2 UP TO 30 HP PER TIC, WHICH IS INCREDIBLY STRONG - ALMOST AS STRONG AS A FULL POWER REGEN 5  
----------------
-	sets.midcast.Regen = {    
-		main="Bolelabunga",
-		sub="Ammurapi Shield",
-		ammo="Staunch Tathlum",
-		head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}},
-		body={ name="Telchine Chas.", augments={'"Conserve MP"+5','"Regen" potency+3',}},
-		hands={ name="Telchine Gloves", augments={'"Conserve MP"+1','"Regen" potency+2',}},
-		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Fast Cast"+1','Enh. Mag. eff. dur. +10',}},
-		feet={ name="Telchine Pigaches", augments={'"Regen" potency+3',}},
-		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Embla Sash",
-		left_ear="Odnowa Earring +1",
-		right_ear="Eabani Earring",
-		left_ring="Defending Ring",
-		right_ring="Meridian Ring",
-		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},
 	}
+sets.midcast.cure.weather.self = set_combine(sets.midcast.cure.normal.self,{main="Iridal Staff", sub="Enki Strap", waist= "Hachirin-no-obi"}) 
 
-	sets.midcast["Stone"] ={		
+	sets.midcast["Stone"] ={
+		ammo = "Per. Lucky Egg",
 		head = "Wh. Rarab Cap +1",
 		hands={ name="Merlinic Dastanas", augments={'Magic dmg. taken -2%','Pet: VIT+6','"Treasure Hunter"+1','Accuracy+11 Attack+11','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
 		waist="Chaac Belt",
 		}
-
+    sets.buff.Doom = {
+        neck="Nicander's Necklace", --20
+        ring1="Purity ring",	--7
+        ring2="Ephedra ring",
+        waist="Gishdubar Sash", --10
+        }
+	sets.midcast.BlueCure={
+		main="Daybreak",
+		sub="Ammurapi Shield",
+		ammo="Regal Gem",
+		head={ name="Kaykaus Mitra +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		body={ name="Kaykaus Bliaut +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
+		neck={ name="Dls. Torque +2", augments={'Path: A',}},
+		waist="Luminary Sash",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring="Stikini Ring +1",
+		right_ring="Stikini Ring +1",
+		back="Aurist's Cape +1",	
+	}
+	sets.midcast.BlueENH={}
+	sets.midcast.BlueACC={
+		main={ name="Crocea Mors", augments={'Path: C',}},
+		sub="Ammurapi Shield",
+		range="Ullr",
+		head="Malignance Chapeau",
+		body="Atrophy Tabard +3",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck={ name="Dls. Torque +2", augments={'Path: A',}},
+		waist="Luminary Sash",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring="Stikini Ring +1",
+		right_ring="Stikini Ring +1",
+		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','"Fast Cast"+10',}},	
+	}
+	sets.midcast.BlueNuke={
+		main="Bunzi's Rod",
+		sub="Ammurapi Shield",
+		ammo="Pemphredo Tathlum",
+		head="C. Palug Crown",
+		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		neck="Baetyl Pendant",
+		waist="Hachirin-no-Obi",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring="Freke Ring",
+		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		back={ name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10',}},	
+	}
 end

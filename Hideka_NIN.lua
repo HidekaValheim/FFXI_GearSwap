@@ -5,13 +5,12 @@
 send_command('input //send @all lua l superwarp') 
 send_command('input //lua l porterpacker') 
 include('organizer-lib')
+include('Modes.lua')
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy"},
-    NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda"},
-	Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda", "Toolbag (Shihe)", "Toolbag (Ino)", "Toolbag (Shika)", "Toolbag (Cho)"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
@@ -24,13 +23,13 @@ function get_sets()
 end
 
 function get_gear()
---'//gs c getgear' to retrieve/pack gear manually. Only works in PortTowns list
-    if PortTowns:contains(world.area) then
-		send_command('wait 3;input //gs org') 
-		send_command('wait 6;input //po repack') 
-    else
-		add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    end
+	--[[Disable code in this sub if you dont have organizer or porter packer]]
+	-- if PortTowns:contains(world.area) then
+		-- send_command('wait 3;input //gs org') 
+		-- send_command('wait 6;input //po repack') 
+    -- else
+		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+    -- end
 end
 
 -- Setup vars that are user-independent.
@@ -80,9 +79,9 @@ function user_setup()
 	state.OffenseMode:options ('Normal', 'LowAcc', 'MidAcc', 'HighAcc')
 	state.RangedMode:options('Normal', 'Acc')
 	state.WeaponskillMode:options('Normal', 'MAXBUFF')
-	state.HybridMode:options('Normal', 'PDT', 'MEVA','PEVA')
+	state.HybridMode:options('Normal', 'Hybrid', 'MEVA','PEVA')
 	state.CastingMode:options('Normal', 'Resistant', 'Burst')
-	state.IdleMode:options('Normal')
+	state.IdleMode:options('Normal','Recover','DT')
 	mainweapon={}
 	subWeapon={}
 	state.mainWeapon = M('Heishi Shorinken','Gokotai','Tauret','Naegling','Hachimonji','Karambit')
@@ -92,19 +91,24 @@ function user_setup()
 	state.PhysicalDefenseMode:options('PDT')
 	state.MagicalDefenseMode:options('MDT')
 	-- Binds
-
+	
+	send_command('bind numpad0 input /ja provoke <t>')
+	send_command('bind numpad1 gs c KatanaMode')
+	send_command('bind numpad2 gs c GktMode')
+	send_command('bind numpad3 gs c SwordMode')
+	send_command('bind numpad4 gs c cycle CastingMode')
+	send_command('bind numpad5 gs c cycle WeaponskillMode')
+	send_command('bind numpad6 gs c cycle IdleMode')
 	send_command('bind numpad7 gs c cycle OffenseMode')
 	send_command('bind numpad9 gs c cycle RangedMode')
-	send_command('bind numpad5 gs c cycle WeaponskillMode')
+
 	send_command('bind numpad8 gs c cycle HybridMode')
-	send_command('bind numpad4 gs c cycle CastingMode')
+
 	send_command('bind numpad/ gs c cycle mainWeapon')
 	send_command('bind numpad* gs c cycle subWeapon')
 	send_command('bind numpad- gs c cycle HasteMode')
 	send_command('bind numpad+ gs c cycle MarchMode')
-	send_command('bind numpad1 gs c KatanaMode')
-	send_command('bind numpad2 gs c GktMode')
-	send_command('bind numpad3 gs c SwordMode')
+
 	send_command('unbind ^r')
 	
 	
@@ -112,7 +116,7 @@ function user_setup()
 	select_movement_feet()
 	select_default_macro_book()
 	use_UI = true
-	hud_x_pos = 1680    --important to update these if you have a smaller screen
+	hud_x_pos = 1515    --important to update these if you have a smaller screen
 	hud_y_pos = 300     --important to update these if you have a smaller screen
 	hud_draggable = true
 	hud_font_size = 10
@@ -247,18 +251,18 @@ function init_gear_sets()
 	-- Precasts
 	sets.precast.FC = {
 		ammo="Sapience Orb",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
 		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
-		feet="Nyame Sollerets",
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Orunmila's Torque",
-		waist="Oneiros Belt",
+		waist="Carrier's Sash",
 		left_ear="Etiolation Earring",
 		right_ear="Loquac. Earring",
-		left_ring="Meridian Ring",
-		right_ring="Defending Ring",
-		back=Andartia.FC
+		left_ring="Rahab Ring",
+		right_ring="Weather. Ring",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
 	
 	sets.precast.FC.ElementalNinjutsuSan = set_combine(sets.precast.FC, {})
@@ -271,10 +275,10 @@ function init_gear_sets()
 	-- FastRecast (A set to end in when no other specific set is built to reduce recast time)
 	sets.midcast.FastRecast = {
 		ammo="Sapience Orb",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
 		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
 		feet="Nyame Sollerets",
 		neck="Orunmila's Torque",
 		waist="Oneiros Belt",
@@ -298,17 +302,17 @@ function init_gear_sets()
 		left_ear="Gwati Earring", --get digni earring you lazy fuck
 		right_ear="Tuisto Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back= Andartia.MAB 
 	}
 	
 	-- Any ninjutsu cast on self - Recast Time Focus - Effects items that dont scale with Ninjutsu Skill, but not utsusemi
 	sets.midcast.SelfNinjutsu = set_combine(sets.midcast.Ninjutsu, {
 		ammo="Sapience Orb",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
 		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
 		feet="Nyame Sollerets",
 		neck="Orunmila's Torque",
 		waist="Oneiros Belt",
@@ -326,13 +330,13 @@ function init_gear_sets()
 		feet="Mochi. Kyahan +3",
 		neck="Incanter's Torque",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe3"},		
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},		
 		back=Andartia.FC
 	})
 
 	-- Nuking Ninjutsu (skill & magic attack) - Scales Ton line spells
 		sets.midcast.ElementalNinjutsu = {
-		ammo="Pemphredo Tathlum",
+		ammo="Ghastly Tathlum +1",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -372,23 +376,38 @@ function init_gear_sets()
 	----------------------------------
 	-- Idle Sets
 	----------------------------------
-	sets.idle = {
+	sets.idle = {}
+	sets.idle.Normal = {	
 		ammo="Staunch Tathlum",
-		head="Nyame Helm",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet=gear.MovementFeet,
-		neck="Loricate Torque +1",
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
 		waist="Carrier's Sash",
-		left_ear="Eabani Earring",
-		right_ear="Cryptic Earring",
-		left_ring="Warden's Ring",
+		left_ear="Infused Earring",
+		right_ear="Eabani Earring",
+		left_ring="Chirich Ring +1",
 		right_ring="Defending Ring",
-		back="Reiki Cloak",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
-
-    sets.idle.PDT = {
+    sets.idle.Recover = {
+		ammo="Staunch Tathlum",
+		head="Malignance Chapeau",
+		body="Hiza. Haramaki +2",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Flume Belt",
+		left_ear="Infused Earring",
+		right_ear="Eabani Earring",
+		left_ring="Chirich Ring +1",
+		right_ring="Chirich Ring +1",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+	}
+    sets.idle.DT = {
 		ammo="Staunch Tathlum",
 		head="Nyame Helm",
 		body="Nyame Mail",
@@ -403,7 +422,7 @@ function init_gear_sets()
 		right_ring="Defending Ring",
 		back="Moonbeam Cape",	
 	}
-
+	
 	----------------------------------
 	-- full Defense sets for react and other things
 	----------------------------------
@@ -487,6 +506,14 @@ function init_gear_sets()
 		sets.mpaca.legs	= {legs = "Mpaca's Hose"}
 		sets.mpaca.feet	= {feet = "Mpaca's Boots"}
 		sets.mpaca.full	= set_combine(sets.mpaca.head,sets.mpaca.body,sets.mpaca.hands,sets.mpaca.legs,sets.mpaca.feet)
+	sets.hybrid={}
+	sets.hybrid.full={
+		head = "Malignance Chapeau",
+		body = "Mpaca's Doublet",
+		hands= "Malignance Gloves",
+		legs = "Malignance Tights",
+		legs = "Malignance Tights",
+	}
 	----------------------------------
 	--Generic Accuracy Sets
 	----------------------------------
@@ -501,22 +528,22 @@ function init_gear_sets()
 	--[ACC+70] - Need 1200 total once combined into parent set
 		sets.acc.low = set_combine(sets.ken.legs,{
 			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe3"}
+			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"}
 		})
 	--[ACC+140] - need 1300 Total once Combined into parent set
 		sets.acc.mid = set_combine(sets.ken.head,sets.ken.legs,{
 			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
+			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 			waist		= "Grunfeld Rope", 
-			right_ear	= {name="Mache Earring +1",bag="wardrobe3"}
+			right_ear	= {name="Mache Earring +1",bag="wardrobe7"}
 		})
 	--[ACC+200] - need 1400 total once combined into parent set
 		sets.acc.high=set_combine(sets.ken.head,sets.ken.legs,sets.ken.feet, {
 			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
+			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 			waist		= "Grunfeld Rope",
 			left_ear	= "Telos Earring",
-			right_ear	= {name="Mache Earring +1",bag="wardrobe3"}
+			right_ear	= {name="Mache Earring +1",bag="wardrobe7"}
 		})
 	----------------------------------
 	--DW SETS
@@ -537,20 +564,17 @@ function init_gear_sets()
 		sets.dw.t24	 = set_combine(sets.dw.ear1, sets.dw.ear2, sets.dw.waist,sets.dw.feet)--Alt used for MEVA/PDT Sets, Cant Natively Hit Capped DW in those full Hybrid sets
 		sets.dw.t32	 = set_combine(sets.dw.head, sets.dw.ear1, sets.dw.ear2, sets.dw.body, sets.dw.waist)--32 DW To cap
 		sets.dw.t39  = set_combine(sets.dw.head, sets.dw.ear1, sets.dw.ear2, sets.dw.body, sets.dw.waist, sets.dw.feet)--39 DW To cap
-		
 	----------------------------------
 	-- No Haste - Requires 39 total DW to cap. use sets.dw.t39 as primary set join
 	----------------------------------	
 	sets.engaged = set_combine(sets.dw.t39, {
 		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
+		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
 		back=Andartia.DA
 	})
-
-
 	----------------------------------
 	-- No Haste SetVariants
 	----------------------------------
@@ -559,22 +583,22 @@ function init_gear_sets()
 	sets.engaged.MidAcc 		= set_combine(sets.engaged,	sets.acc.mid,	{})
 	sets.engaged.HighAcc 		= set_combine(sets.engaged,	sets.acc.high,	{})
 
-	sets.engaged.PEVA 			= set_combine(sets.engaged, sets.mpaca.full,	{})
-	sets.engaged.LowAcc.PEVA	= set_combine(sets.engaged, sets.acc.low,	sets.mpaca.full,	{})
-	sets.engaged.MidAcc.PEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.mpaca.full,	{})
-	sets.engaged.HighAcc.PEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.mpaca.full,	{})
+	sets.engaged.PEVA 			= set_combine(sets.engaged, sets.mpaca.full,	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.PEVA	= set_combine(sets.engaged, sets.acc.low,	sets.mpaca.full,	{right_ring="Defending Ring"})
+	sets.engaged.MidAcc.PEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.mpaca.full,	{right_ring="Defending Ring"})
+	sets.engaged.HighAcc.PEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.mpaca.full,	{right_ring="Defending Ring"})
 	
-	sets.engaged.MEVA 			= set_combine(sets.engaged, sets.ken.full,	{})
-	sets.engaged.LowAcc.MEVA	= set_combine(sets.engaged, sets.acc.low,	sets.ken.full,	{})
-	sets.engaged.MidAcc.MEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.ken.full,	{})
-	sets.engaged.HighAcc.MEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.ken.full,	{})
+	sets.engaged.MEVA 			= set_combine(sets.engaged, sets.malig.full,	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.MEVA	= set_combine(sets.engaged, sets.acc.low,	sets.malig.full,	{right_ring="Defending Ring"})
+	sets.engaged.MidAcc.MEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.malig.full,	{right_ring="Defending Ring"})
+	sets.engaged.HighAcc.MEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.malig.full,	{right_ring="Defending Ring"})
 	
-	sets.engaged.PDT 			= set_combine(sets.engaged,	sets.malig.full,{})
-	sets.engaged.LowAcc.PDT		= set_combine(sets.engaged,	sets.acc.low,	sets.malig.full,{})
-	sets.engaged.MidAcc.PDT		= set_combine(sets.engaged, sets.acc.mid,	sets.malig.full,{})
-	sets.engaged.HighAcc.PDT	= set_combine(sets.engaged, sets.acc.high,	sets.malig.full,{})
+	sets.engaged.Hybrid 		= set_combine(sets.engaged,	sets.hybrid.full,{})
+	sets.engaged.LowAcc.Hybrid	= set_combine(sets.engaged,	sets.acc.low,	sets.hybrid.full,{})
+	sets.engaged.MidAcc.Hybrid	= set_combine(sets.engaged, sets.acc.mid,	sets.hybrid.full,{})
+	sets.engaged.HighAcc.Hybrid	= set_combine(sets.engaged, sets.acc.high,	sets.hybrid.full,{})
 
-    
+
 	----------------------------------
 	-- Kannagi
 	----------------------------------
@@ -596,8 +620,8 @@ function init_gear_sets()
 		left_ear="Telos Earring",
 		right_ear="Dedition Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Chirich Ring +1", bag="wardrobe3"},
-		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10',}},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}},
 	}
 	sets.engaged.H2H = {
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
@@ -608,7 +632,7 @@ function init_gear_sets()
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist= "Windbuffet Belt +1",
 		left_ear={name="Mache Earring +1",bag="wardrobe2"},
-		right_ear={name="Mache Earring +1",bag="wardrobe3"},
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
 		back=Andartia.DA
@@ -627,17 +651,17 @@ function init_gear_sets()
 	
 	sets.engaged.MaxHaste = {
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Mpaca's Doublet",
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
+		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
+		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
+		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
+		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		waist="Windbuffet Belt +1",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Telos Earring",
-		right_ear="Brutal Earring",
+		right_ear="Dedition Earring",
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
-		back= Andartia.DA
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}},
 	}
 	
 
@@ -645,20 +669,20 @@ function init_gear_sets()
 	sets.engaged.MidAcc.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	{})
 	sets.engaged.HighAcc.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	{})
 
-	sets.engaged.PEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.mpaca.full, {})	
-	sets.engaged.LowAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.mpaca.full, {})
-	sets.engaged.MidAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.mpaca.full, {})
-	sets.engaged.HighAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.mpaca.full, {})	 
+	sets.engaged.PEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.mpaca.full, {right_ring="Defending Ring"})	
+	sets.engaged.LowAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.mpaca.full, {right_ring="Defending Ring"})	 
 	
-	sets.engaged.MEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.ken.full, {})	
-	sets.engaged.LowAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.ken.full, {})
-	sets.engaged.MidAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.ken.full, {})
-	sets.engaged.HighAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.ken.full, {})	
+	sets.engaged.MEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.malig.full, {right_ring="Defending Ring"})	
+	sets.engaged.LowAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.malig.full, {right_ring="Defending Ring"})	
 	 
-	sets.engaged.PDT.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.malig.full,	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PDT.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PDT.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PDT.MaxHaste	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.Hybrid.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.hybrid.full,	{})
+	sets.engaged.LowAcc.Hybrid.MaxHaste = set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.hybrid.full, {})
+	sets.engaged.MidAcc.Hybrid.MaxHaste = set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.hybrid.full, {})
+	sets.engaged.HighAcc.Hybrid.MaxHaste= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.hybrid.full, {})
  
 	----------------------------------
     -- 35% Haste (~10-12%DW Needed)
@@ -670,20 +694,20 @@ function init_gear_sets()
 	sets.engaged.MidAcc.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	{})
 	sets.engaged.HighAcc.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t12, 	{})
 
-	sets.engaged.PEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.mpaca.full, 	{})
-	sets.engaged.LowAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.mpaca.full, {})
-	sets.engaged.MidAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.mpaca.full, {})
-	sets.engaged.HighAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.mpaca.full, {})
+	sets.engaged.PEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.LowAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
 	
-	sets.engaged.MEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.ken.full, 	{})
-	sets.engaged.LowAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.ken.full, {})
-	sets.engaged.MidAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.ken.full, {})
-	sets.engaged.HighAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.ken.full, {})
+	sets.engaged.MEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.malig.full, 	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
 	
-	sets.engaged.PDT.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.malig.full,{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PDT.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PDT.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PDT.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.Hybrid.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.hybrid.full,{})
+	sets.engaged.LowAcc.Hybrid.Haste_35 = set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.hybrid.full, {})
+	sets.engaged.MidAcc.Hybrid.Haste_35 = set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.hybrid.full, {})
+	sets.engaged.HighAcc.Hybrid.Haste_35= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.hybrid.full, {})
 
 	----------------------------------
     -- 30% Haste (~21-22%DW Needed)
@@ -697,20 +721,20 @@ function init_gear_sets()
 	sets.engaged.MidAcc.Haste_30		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22,	{})
 	sets.engaged.HighAcc.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22,	{})
 
-	sets.engaged.PEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.mpaca.full, 	{})
-	sets.engaged.LowAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.mpaca.full, {})
-	sets.engaged.MidAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.mpaca.full, {})
-	sets.engaged.HighAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.mpaca.full, {})	
+	sets.engaged.PEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.LowAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})	
 	
-	sets.engaged.MEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.ken.full, 	{})
-	sets.engaged.LowAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.ken.full, {})
-	sets.engaged.MidAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.ken.full, {})
-	sets.engaged.HighAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.ken.full, {})	
+	sets.engaged.MEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.malig.full, 	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})	
 	
-	sets.engaged.PDT.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22, 	sets.malig.full,{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PDT.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PDT.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PDT.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.Hybrid.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22, 	sets.hybrid.full,{})
+	sets.engaged.LowAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.hybrid.full, {})
+	sets.engaged.MidAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.hybrid.full, {})
+	sets.engaged.HighAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.hybrid.full, {})
 	----------------------------------
 	-- 15% Haste (~32%DW Needed)
 	----------------------------------
@@ -721,20 +745,21 @@ function init_gear_sets()
 	sets.engaged.MidAcc.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t32, 	{})
 	sets.engaged.HighAcc.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32,	{})
 
-	sets.engaged.PEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.mpaca.full, 	{})
-	sets.engaged.LowAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.mpaca.full, {})
-	sets.engaged.MidAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.mpaca.full, {})
-	sets.engaged.HighAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.mpaca.full, {})	
+	sets.engaged.PEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.mpaca.full, 	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})	
 	
-	sets.engaged.MEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.ken.full, 	{})
-	sets.engaged.LowAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.ken.full, {})
-	sets.engaged.MidAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.ken.full, {})
-	sets.engaged.HighAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.ken.full, {})	
+	sets.engaged.MEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.malig.full, 	{right_ring="Defending Ring"})
+	sets.engaged.LowAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.MidAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.HighAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})	
 	
-	sets.engaged.PDT.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.malig.full,{})
-	sets.engaged.LowAcc.PDT.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PDT.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PDT.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
+	sets.engaged.Hybrid.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.hybrid.full,{})
+	sets.engaged.LowAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.hybrid.full, {})
+	sets.engaged.MidAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.hybrid.full, {})
+	sets.engaged.HighAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.hybrid.full, {})
+
 	----------------------------------
 	-- Weaponskills (General)
 	----------------------------------
@@ -784,8 +809,8 @@ function init_gear_sets()
 	sets.precast.WS['Blade: Ten'] 		={
 		ammo="Seething Bomblet +1",
 		head="Mpaca's Cap",
-		hands="Nyame Gauntlets",
 		body="Nyame Mail",
+		hands="Nyame Gauntlets",
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
 		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
@@ -821,10 +846,10 @@ function init_gear_sets()
 	sets.precast.WS['Blade: Kamu'] 		= {
 		ammo="Seething Bomblet +1",
 		head="Mpaca's Cap",
-		body="Nyame Mail",
+		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
 		hands="Nyame Gauntlets",
-		legs="Mpaca's Hose",	
-		feet="Nyame Sollerets",
+		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
+		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
@@ -870,7 +895,7 @@ function init_gear_sets()
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
 		body="Adhemar Jacket +1",
 		hands={ name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}},
-		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
+		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
@@ -1009,7 +1034,6 @@ function init_gear_sets()
 		head="Hachiya Hatsu. +3",
 		hands="Malignance Gloves",
 		right_ring="Epaminondas's Ring",
-		legs="Nyame Flanchard",
 	})
  	sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS['Blade: Ei'], {})
 	sets.WSDayBonus = {head="Gavialis Helm"}
@@ -1158,6 +1182,9 @@ function customize_idle_set(idleSet)
 		end
 	else
 		idleSet = idleSet
+	end
+    if moving then
+		idleSet=set_combine(idleSet, {feet=gear.MovementFeet.name})
 	end
 	return idleSet
 end
@@ -1549,6 +1576,9 @@ function job_self_command(cmdParams, eventArgs)
 		select_weapons()
 		setupTextWindow()
 		update_combat_form()
+	elseif cmdParams[1] == 'runspeed' then
+		runspeed:toggle()
+		updateRunspeedGear(runspeed.value) 
 	end
 
 end
@@ -1654,6 +1684,7 @@ hud_padding = 10
 hub_mode_std = [[\cs(204, 0, 0)KeyBinds    \cs(255, 115, 0)GS Info: \cr              
 		\cs(175, 125, 225)${KB_C_MH}\cs(0, 150, 175)Main:\cr \cs(125,255,125)${player_current_mainweapon|Kannagi}
 		\cs(175, 125, 225)${KB_C_OH}\cs(0, 150, 175)Sub:\cr \cs(125,255,125)  ${player_current_subweapon|Kannagi}
+		\cs(175, 125, 225)${KB_Idle_M}\cs(0, 150, 175)Idle Mode:\cr         ${player_current_idle}
 		\cs(175, 125, 225)${KB_Melee_M}\cs(0, 150, 175)Melee Mode:\cr     ${player_current_melee}
 		\cs(175, 125, 225)${KB_WS_M}\cs(0, 150, 175)WS Mode:\cr            ${player_current_ws}
 		\cs(175, 125, 225)${KB_PDT_M}\cs(0, 150, 175)Hybrid Mode:\cr    ${player_current_Hybrid}
@@ -1682,15 +1713,16 @@ hub_job = hub_job_std
 hub_battle = hub_battle_std
 
 KB = {}
-KB['KB_C_MH'] = 	'   (NUM /)         '
-KB['KB_C_OH'] = 	'   (NUM *)          '
-KB['KB_Melee_M'] = '   (NUM 7)         '
-KB['KB_WS_M'] = '   (NUM 5)        '
-KB['KB_PDT_M'] = 	'   (NUM 8)        '
-KB['KB_RA_M'] = 	'   (NUM 9)        '
-KB['KB_CAST_M'] = 	'   (NUM 4)        '
-KB['KB_Haste_M'] = '   (NUM -)         '
-KB['KB_March_M'] = '   (NUM +)        '
+KB['KB_C_MH'] 	= '   (NUM /)         '
+KB['KB_C_OH'] 	= '   (NUM *)          '
+KB['KB_Idle_M'] = '   (NUM 6)         '
+KB['KB_Melee_M']= '   (NUM 7)         '
+KB['KB_WS_M'] 	= '   (NUM 5)        '
+KB['KB_PDT_M'] 	= '   (NUM 8)        '
+KB['KB_RA_M'] 	= '   (NUM 9)        '
+KB['KB_CAST_M'] = '   (NUM 4)        '
+KB['KB_Haste_M']= '   (NUM -)         '
+KB['KB_March_M']= '   (NUM +)        '
 
 
 
@@ -1808,6 +1840,7 @@ function validateTextInformation()
 
 
     --Mode Information
+    main_text_hub.player_current_idle =  state.IdleMode.current
     main_text_hub.player_current_melee =  state.OffenseMode.current
 	main_text_hub.player_current_ws =  state.WeaponskillMode.current
     main_text_hub.player_current_mainweapon = state.mainWeapon.current
@@ -1895,4 +1928,42 @@ function setupTextWindow()
     --Finally we show this to the user
     main_text_hub:show()
     
+end
+--[AUTO MOVEMENT SPEED LOGIC]
+
+runspeed = M(false)
+mov = {counter=0}
+if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+	mov.x = windower.ffxi.get_mob_by_index(player.index).x
+	mov.y = windower.ffxi.get_mob_by_index(player.index).y
+	mov.z = windower.ffxi.get_mob_by_index(player.index).z
+end
+moving = false
+
+windower.raw_register_event('prerender',function()
+	mov.counter = mov.counter + 1;
+	if mov.counter>10 then
+		local pl = windower.ffxi.get_mob_by_index(player.index)
+		if pl and pl.x and mov.x then
+			local movement = math.sqrt( (pl.x-mov.x)^2 + (pl.y-mov.y)^2 + (pl.z-mov.z)^2 ) > 0.1
+			if movement and not moving then
+				send_command('gs c runspeed')
+				moving = true
+			elseif not movement and moving then
+				send_command('gs c runspeed')
+				moving = false
+			end
+		end
+
+		if pl and pl.x then
+			mov.x = pl.x
+			mov.y = pl.y
+			mov.z = pl.z
+		end
+		mov.counter = 0
+	end
+end)
+
+function updateRunspeedGear()   
+	handle_equipping_gear(player.status, pet.status)
 end

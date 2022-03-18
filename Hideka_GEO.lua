@@ -55,19 +55,16 @@ send_command('input //lua l porterpacker')
 include('organizer-lib')
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy"},
-    NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda"},
-	Food={"Tropical Crepe", "Sublime Sushi", "Om. Sandwich"},
-	Storage={"Storage Slip 16","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"}
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    NinjaTools={"Shihei"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 if PortTowns:contains(world.area) then
 	send_command('wait 3;input //gs org') 
-	send_command('wait 6;input //po repack') 
 else
-	add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+	send_command('wait 3;input //gs org') 
 end
 
 --------------------------------------------------------------------------------------------------------------

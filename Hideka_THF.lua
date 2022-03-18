@@ -1,4 +1,3 @@
-  
 -- Original: Motenten / Modified: Arislan
 -- Haste/DW Detection Requires Gearinfo Addon
 
@@ -64,24 +63,40 @@
 --  gs c cycle altstep              Cycles through the available steps to use for alternating with the
 --                                  configured main step.
 --  gs c toggle usealtstep          Toggles whether or not to use an alternate step.
---  gs c toggle selectsteptarget    Toggles whether or not to use <stnpc> (as opposed to <t>) when using a step.
-
-
+--  gs c toggle selectsteptarget    Toggles whether or not to use <stnpc> (as opposed to <t>) when using a step
+--[[gs c cycle treasuremode (set on ctrl-numpad9 by default): Cycles through the available treasure hunter modes.
+     
+    Treasure hunter modes:
+        None - Will never equip TH gear
+        Tag - Will equip TH gear sufficient for initial contact with a mob (either melee, ranged hit, or Aeolian Edge AOE)
+        SATA - Will equip TH gear sufficient for initial contact with a mob, and when using SATA
+        Fulltime - Will keep TH gear equipped fulltime
+--]]
 -------------------------------------------------------------------------------------------------------------------
 -- Setup functions for this job.  Generally should not be modified.
 -------------------------------------------------------------------------------------------------------------------
-include('organizer-lib')
 send_command('input //send @all lua l superwarp') 
+include('organizer-lib')
+include('Modes.lua')
 send_command('input //lua l porterpacker') 
-send_command('wait 31;input //gs equip sets.weapons') 
-
+send_command('wait 3;input //gs org') 
+send_command('wait 6;input //po repack') 
+send_command('wait 30;input //gs validate')
+send_command('unbind ^r')
 organizer_items = {
     Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
     NinjaTools={"Shihei"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
-
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
+
+-- Initialization function for this job file.
+function get_sets()
+    mote_include_version = 2
+
+    -- Load and initialize the include file.
+    include('Mote-Include.lua')
+end
 
 function get_gear()
 	--[[Disable code in this sub if you dont have organizer or porter packer]]
@@ -94,19 +109,13 @@ function get_gear()
     -- end
 end
 
--- Initialization function for this job file.
-function get_sets()
-    mote_include_version = 2
-
-    -- Load and initialize the include file.
-    include('Mote-Include.lua')
-end
-
-
 -- Setup vars that are user-independent.  state.Buff vars initialized here will automatically be tracked.
 function job_setup()
+    lockstyleset = 7
+    include('Mote-TreasureHunter')
+	
     state.Buff['Climactic Flourish'] = buffactive['climactic flourish'] or false
-    state.Buff['Sneak Attack'] = buffactive['sneak attack'] or false
+
 	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	
     state.MainStep = M{['description']='Main Step', 'Box Step', 'Quickstep', 'Feather Step', 'Stutter Step'}
@@ -122,7 +131,18 @@ function job_setup()
 
     state.CP = M(false, "Capacity Points Mode")
 
-    lockstyleset = 43
+
+    state.Buff['Sneak Attack'] = buffactive['sneak attack'] or false
+    state.Buff['Trick Attack'] = buffactive['trick attack'] or false
+    state.Buff['Feint'] = buffactive['feint'] or false
+     
+
+ 
+    -- For th_action_check():
+    -- JA IDs for actions that always have TH: Provoke, Animated Flourish
+    info.default_ja_ids = S{35, 204}
+    -- Unblinkable JA IDs for actions that always have TH: Quick/Box/Stutter Step, Desperate/Violent Flourish
+    info.default_u_ja_ids = S{201, 202, 203, 205, 207}
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -160,9 +180,10 @@ function user_setup()
     elseif player.sub_job == 'SAM' then
         send_command('bind ^numpad/ input /ja "Meditate" <me>')
         send_command('bind ^numpad* input /ja "Sekkanoki" <me>')
-        send_command('bind ^numpad- input /ja "Third Eye" <me>')
+        send_command('bind ^numpad- input /ja "Third Eye" <me>') 
+
     elseif player.sub_job == 'THF' then
-        send_command('bind ^numpad0 input /ja "Sneak Attack" <me>')
+        send_command('bind ^numpad0 input /ja "Sneak Attack" <me>') 
         send_command('bind ^numpad. input /ja "Trick Attack" <me>')
     end
 
@@ -174,11 +195,13 @@ function user_setup()
     send_command('bind ^numpad5 input /ws "Rudra\'s Storm" <t>')
     send_command('bind ^numpad6 input /ws "Pyrrhic Kleos" <t>')
     send_command('bind ^numpad1 input /ws "Aeolian Edge" <t>')
+	send_command('bind ^numpad9 gs c cycle treasuremode')
 
     send_command('bind numpad0 gs c step t')
 
     select_default_macro_book()
     set_lockstyle()
+	get_gear()
 
     Haste = 0
     DW_needed = 0
@@ -186,7 +209,6 @@ function user_setup()
     moving = false
     update_combat_form()
     determine_haste_group()
-	get_gear()
 end
 
 
@@ -219,7 +241,7 @@ function user_unload()
     send_command('unbind numpad0')
     send_command('unbind ^numpad0')
     send_command('unbind ^numpad.')
-
+	send_command('unbind ^numpad9')
     send_command('unbind #`')
     send_command('unbind #1')
     send_command('unbind #2')
@@ -243,7 +265,11 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Precast Sets ------------------------------------------
     ------------------------------------------------------------------------------------------------
-
+	sets.TreasureHunter = {
+		hands={ name="Plun. Armlets +1", augments={'Enhances "Perfect Dodge" effect',}},	--+3
+		feet="Skulk. Poulaines +1",															--+3
+	}
+	
     -- Enmity set
     sets.Enmity = {
 		ammo="Sapience Orb",			--+2	
@@ -251,298 +277,217 @@ function init_gear_sets()
 		body="Emet Harness",			--+9
 		hands="Kurys Gloves",			--+9
 		legs="Zoar Subligar",			--+5	
-		feet="Ahosi Leggings",			--+7	
-		neck="Warder's Charm",			--+8
-		waist="Trance Belt",			--+4
+		feet="Ahosi leggings",			--+7	
+		neck="Unmoving Collar",			--+8
+		waist="Carrier's Sash",			--+0
 		left_ear="Friomisi Earring",	--+2
 		right_ear="Cryptic Earring",	--+4
 		left_ring="Provocare Ring",		--+5
 		right_ring="Begrudging Ring",	--+5
 		back="Reiki Cloak",				--+6
     }
-
-    sets.precast.JA['Provoke'] = sets.Enmity
-    sets.precast.JA['No Foot Rise'] = {body="Horos Casaque +3"}
-    sets.precast.JA['Trance'] = {head="Horos Tiara +3"}
-
-    sets.precast.Waltz = {
+    sets.precast.Waltz 	= {
 		ammo="Yamarang",
-		head="Anwig Salade", 
-		body="Maxixi Casaque +3",
-		hands="Maxixi Bangles +3",
-		legs="Dashing Subligar",
-		feet="Maxixi Toe Shoes +3",
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Chaac Belt",
-		left_ear="Handler's Earring +1",
-		right_ear="Odnowa Earring +1",
-		left_ring="Metamorph Ring +1",
-		right_ring="Meridian Ring",
-		back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}},
-	} -- Waltz Potency/CHR
-    sets.precast.WaltzEnmity = set_combine(sets.precast.Waltz, {
-		head="Halitus Helm",
-		hands={ name="Horos Bangles +3", augments={'Enhances "Fan Dance" effect',}},
-		feet="Ahosi Leggings",
-		waist="Trance Belt",
-		left_ear="Cryptic Earring",
-		left_ring="Provocare Ring",
-	}) 
-    sets.precast.WaltzSelf = set_combine(sets.precast.Waltz, {
-        head="Mummu Bonnet +2", --(8)
-    }) -- Waltz effects received
-    sets.precast.WaltzSelfEnmity = set_combine(sets.precast.WaltzSelf, {
-        head="Mummu Bonnet +2", --(8)
-		hands={ name="Horos Bangles +3", augments={'Enhances "Fan Dance" effect',}},
-		feet="Ahosi Leggings",
-		waist="Trance Belt",
-		left_ear="Cryptic Earring",
-		left_ring="Provocare Ring",
-    })
-	
-    sets.precast.Waltz['Healing Waltz'] = {}
-    sets.precast.Samba = {head="Maxixi Tiara +2", back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}}}
-    sets.precast.Jig = {legs="Horos Tights +3", feet="Maxixi Toe Shoes +3"}
-	
-    sets.precast.Step = {
-		ammo="Yamarang",
-		head="Maxixi Tiara +2",
-		body="Maxixi Casaque +3",
-		hands="Maxixi Bangles +3",
-		legs="Maxixi Tights +2",
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
-    }
-
-    sets.precast.Step['Feather Step'] = set_combine(sets.precast.Step, {feet="Macu. Toe Shoes +1"})
-    sets.precast.Flourish1 = {}
-    sets.precast.Flourish1['Animated Flourish'] = sets.Enmity
-
-    sets.precast.Flourish1['Violent Flourish'] = {
-		ammo="Yamarang",
-		head="Malignance Chapeau",
-		body="Horos Casaque +3",
+		head="Mummu Bonnet +2",
+		body="Passion Jacket",
 		hands="Malignance Gloves",
-		legs="Malignance Tights",
+		legs="Dashing Subligar",
 		feet="Malignance Boots",
-		neck="Etoile Gorget +1",
-		waist="Salire Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Odnowa Earring +1",
-		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
-		back="Moonbeam Cape"
-    } -- Magic Accuracy
+		neck="Unmoving Collar",
+		waist="Carrier's Sash",
+		left_ear="Roundel Earring",
+		right_ear="Handler's Earring +1",
+		left_ring="Regal Ring",
+		right_ring="Defending Ring",
+		back="Moonbeam Cape",	
+	} -- Waltz Potency/CHR
 	
-    sets.precast.Flourish1['Desperate Flourish'] = {
+    sets.precast.JA['Provoke'] 						= sets.Enmity
+    sets.precast.WaltzSelf 							= set_combine(sets.precast.Waltz, {head="Mummu Bonnet +2", ring1="Asklepian Ring", ear1="Roundel Earring",})
+    sets.precast.Waltz['Healing Waltz'] 			= {}
+    sets.precast.Samba 								= {}
+    sets.precast.Jig 								= {}
+    sets.precast.Step 								= {
 		ammo="Yamarang",
 		head="Malignance Chapeau",
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
 		legs="Malignance Tights",
 		feet="Malignance Boots",
-		neck="Etoile Gorget +1",
+		neck="Sanctity Necklace",
 		waist="Reiki Yotai",
 		left_ear="Mache Earring +1",
 		right_ear="Mache Earring +1",
 		left_ring="Chirich Ring +1",
 		right_ring="Chirich Ring +1",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10',}}
-        } -- Accuracy
-
-    sets.precast.Flourish2 = {}
-    sets.precast.Flourish2['Reverse Flourish'] = {hands="Macu. Bangles +1",    back="Toetapper Mantle"}
-    sets.precast.Flourish3 = {}
-    sets.precast.Flourish3['Striking Flourish'] = {body="Macu. Casaque +1"}
-    sets.precast.Flourish3['Climactic Flourish'] = {head="Maculele Tiara +1",}
+		back="Sacro Mantle",
+	}
+    sets.precast.Step['Stutter Step'] 				= set_combine(sets.precast.Step,sets.TreasureHunter ,{head = "Wh. Rarab Cap +1", waist="Chaac Belt"})
+    sets.precast.Flourish1						 	= {}
+    sets.precast.Flourish1['Animated Flourish']		= sets.Enmity
+    sets.precast.Flourish1['Violent Flourish'] 		= set_combine(sets.precast.Step,{}) -- Magic Accuracy
+    sets.precast.Flourish1['Desperate Flourish'] 	= set_combine(sets.precast.Step,{}) -- Accuracy
+    sets.precast.Flourish2 							= {}
+    sets.precast.Flourish2['Reverse Flourish'] 		= {}
 
     sets.precast.FC = {
-		ammo="Impatiens",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
-		body="Malignance Tabard",
+		ammo="Sapience Orb",
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
+		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
-		feet="Malignance Boots",
-		neck="Orunmila's Torque",
-		waist="Reiki Yotai",
-		left_ear="Etiolation Earring",
-		right_ear="Loquac. Earring",
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck="Sanctity Necklace",
+		waist="Carrier's Sash",
+		left_ear="Loquac. Earring",
+		right_ear="Etiolation Earring",
 		left_ring="Rahab Ring",
-		right_ring="Moonlight Ring",
-		back="Moonbeam Cape"
+		right_ring="Weather. Ring",
+		back="Moonbeam Cape",
         }
     sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {
-        ammo="Impatiens",
+		neck="Magoraga Beads",
         body="Passion Jacket",
-        ring1="Lebeche Ring",
         })
     ------------------------------------------------------------------------------------------------
     ------------------------------------- Weapon Skill Sets ----------------------------------------
     ------------------------------------------------------------------------------------------------
 
     sets.precast.WS = {
-		ammo = "Coiste Bodhar",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},	
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
-		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		right_ear="Ishvara Earring",
-		left_ring="Regal Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}}
-	} -- default set
-    sets.precast.WS['Exenterator'] = set_combine(sets.precast.WS, {
-		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Maxixi Bangles +3",
-		legs="Meg. Chausses +2",
-		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Brutal Earring",
-		right_ear="Sherida Earring",
-		left_ring="Petrov Ring",
-		right_ring="Gere Ring",
-		back="Sacro Mantle",
-	})
-    sets.precast.WS['Pyrrhic Kleos'] = set_combine(sets.precast.WS, {
-		ammo="C. Palug Stone",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Epona's Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
-	})
-    sets.precast.WS['Dancing Edge'] = set_combine(sets.precast.WS, {
-		ammo="C. Palug Stone",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands={ name="Lustr. Mittens +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Epona's Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
-	})
-    sets.precast.WS['Shark Bite'] = set_combine(sets.precast.WS, {
-		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
-		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		right_ear="Sherida Earring",
+		main="Tauret",
+		sub={ name="Sandung", augments={'Accuracy+50','Crit. hit rate+5%','"Triple Atk."+3',}},
+		ammo="Sapience Orb",
+		head="Gleti's Mask",
+		body="Gleti's Cuirass",
+		hands="Gleti's Gauntlets",
+		legs="Gleti's Breeches",
+		feet="Gleti's Boots",
+		neck="Anu Torque",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Sherida Earring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Gere Ring",
 		right_ring="Regal Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
-    })
-    sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS, {
-		ammo="Charis Feather",
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Meg. Cuirie +2",
-		hands="Mummu Wrists +2",
+		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
+	} -- default set
+	
+    sets.precast.WS['Mandalic Stab'] = {
+		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
+		head="Malignance Chapeau",
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands="Meg. Gloves +2",
 		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
+		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		neck="Anu Torque",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Sherida Earring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Ilabrat Ring",
+		right_ring="Regal Ring",
+		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
+	}
+    sets.precast.WS['Shark Bite'] = {
+		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
+		head="Gleti's Mask",
+		body="Gleti's Cuirass",
+		hands="Meg. Gloves +2",
+		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
+		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		neck="Anu Torque",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Sherida Earring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Ilabrat Ring",
+		right_ring="Regal Ring",
+		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},	
+	}
+    sets.precast.WS['Rudra\'s Storm'] = set_combine(sets.precast.WS, {
+		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
+		head="Malignance Chapeau",
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands="Meg. Gloves +2",
+		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
+		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		neck="Anu Torque",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Sherida Earring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Ilabrat Ring",
+		right_ring="Regal Ring",
+		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
+	})
+	
+    sets.precast.WS['Exenterator'] = set_combine(sets.precast.WS, {
+		ammo="C. Palug Stone",
+		head="Gleti's Mask",
+		body="Gleti's Cuirass",
+		hands="Meg. Gloves +2",
+		legs="Meg. Chausses +2",
+		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		neck="Fotia Gorget",
+		waist="Fotia Belt",
+		left_ear="Sherida Earring",
+		right_ear="Telos Earring",
+		left_ring="Ilabrat Ring",
+		right_ring="Regal Ring",
+		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
+	})
+
+    sets.precast.WS['Dancing Edge'] = set_combine(sets.precast.WS, {
+		ammo="C. Palug Stone",
+		head="Nyame Helm",
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck="Fotia Gorget",
+		waist="Fotia Belt",
+		left_ear="Sherida Earring",
+		right_ear="Telos Earring",
+		left_ring="Ilabrat Ring",
+		right_ring="Mujin Band",
+		back="Sacro Mantle",
+	})
+
+    sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS, {
+		ammo="Yetshila",
+		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
+		body="Gleti's Cuirass",
+		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
+		legs="Gleti's Breeches",
 		feet="Mummu Gamash. +2",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Mache Earring +1",
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Begrudging Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10',}},
-	})
-    sets.precast.WS['Rudra\'s Storm'] = set_combine(sets.precast.WS, {
-		ammo="C. Palug Stone",
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},	
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
-		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		right_ear="Ishvara Earring",
-		left_ring="Regal Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
-        })
-    sets.precast.WS['Aeolian Edge'] = {
-		ammo="Pemphredo Tathlum",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
-		neck="Fotia Gorget",
-		waist="Orpheus's Sash",
-		left_ear="Hecate's Earring",
-		right_ear="Friomisi Earring",
-		left_ring="Regal Ring",
-		right_ring="Shiva Ring +1",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Dingir Ring",
+		right_ring="Epaminondas's Ring",
 		back="Sacro Mantle",
-	}
-    sets.precast.WS['Asuran Fists'] = {
-		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Shukuyu Ring",
-		right_ring="Regal Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
-	}
-    sets.precast.WS['Raging Fists'] = {
-		ammo="C. Palug Stone",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Shukuyu Ring",
-		right_ring="Regal Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
-	}
-    sets.precast.WS['Rudra\'s Storm'].Acc = set_combine(sets.precast.WS['Rudra\'s Storm'],{neck="Etoile Gorget +1", ammo="Yamarang"})
-	sets.precast.WS['Evisceration'].Acc = set_combine(sets.precast.WS['Evisceration'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS['Pyrrhic Kleos'].Acc = set_combine(sets.precast.WS['Pyrrhic Kleos'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS['Exenterator'].Acc = set_combine(sets.precast.WS['Exenterator'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {neck="Etoile Gorget +1", ammo="Yamarang"})
+	})
+
+    sets.precast.WS['Aeolian Edge'] =  set_combine(sets.precast.WS, {
+		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
+		head="Nyame Helm",
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck="Baetyl Pendant",
+		waist="Orpheus's Sash",
+		left_ear="Hermetic Earring",
+		right_ear="Friomisi Earring",
+		left_ring="Dingir Ring",
+		right_ring="Epaminondas's Ring",
+		back="Sacro Mantle",
+	})
+		
+    sets.precast.WS['Rudra\'s Storm'].Acc = set_combine(sets.precast.WS['Rudra\'s Storm'],{})
+	sets.precast.WS['Evisceration'].Acc = set_combine(sets.precast.WS['Evisceration'], {})
+    sets.precast.WS['Exenterator'].Acc = set_combine(sets.precast.WS['Exenterator'], {})
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {})
     sets.precast.WS.Critical = {body="Meg. Cuirie +2"}
     
-	sets.precast.Skillchain = {hands="Macu. Bangles +1"}
+	sets.precast.Skillchain = {}
 
 
     ------------------------------------------------------------------------------------------------
@@ -551,10 +496,7 @@ function init_gear_sets()
 
     sets.midcast.FastRecast = sets.precast.FC
 
-    sets.midcast.SpellInterrupt = {
-        ammo="Impatiens", --10
-        ring1="Evanescence Ring", --5
-        }
+    sets.midcast.SpellInterrupt = {}
 
     sets.midcast.Utsusemi = sets.midcast.SpellInterrupt
 
@@ -565,52 +507,67 @@ function init_gear_sets()
 
     sets.resting = {
 		ammo="Staunch Tathlum",
-		head="Meghanada Visor +2",
+		head="Malignance Chapeau",
 		body="Meg. Cuirie +2",
 		hands="Meg. Gloves +2",
 		legs="Meg. Chausses +2",
 		feet="Malignance Boots",
 		neck="Loricate Torque +1",
-		waist="Flume Belt",
-		left_ear="Tuisto Earring",
+		waist="Oneiros Belt",
+		left_ear="Odnowa Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Chirich Ring +1",
+		left_ring="Meghanada Ring",
 		right_ring="Chirich Ring +1",
 		back="Moonbeam Cape",	
 	}
 
     sets.idle = {
 		ammo="Staunch Tathlum",
-		head="Meghanada Visor +2",
-		body="Meg. Cuirie +2",
-		hands="Meg. Gloves +2",
-		legs="Meg. Chausses +2",
-		feet="Meg. Jam. +2",
-		neck="Loricate Torque +1",
-		waist="Flume Belt",
+		head="Gleti's Mask",
+		body="Gleti's Cuirass",
+		hands="Gleti's Gauntlets",
+		legs="Gleti's Breeches",
+		feet="Gleti's Boots",
+		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
 		left_ear="Tuisto Earring",
-		right_ear="Odnowa Earring +1",
+		right_ear="Etiolation Earring",
 		left_ring="Moonlight Ring",
 		right_ring="Defending Ring",
 		back="Moonbeam Cape",
     }
 
-    sets.idle.DT = set_combine(sets.idle, {		
+    sets.idle.DT = {
 		ammo="Staunch Tathlum",
-		head="Malignance Chapeau",
-		body="Malignance Tabard",
-		hands="Malignance Gloves",
-		legs="Malignance Tights",
-		feet="Malignance Boots",
-		neck="Loricate Torque +1",
-		waist="Flume Belt",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring="Moonlight Ring",
 		right_ring="Moonlight Ring",
-		back="Moonbeam Cape"}
-		)
-    sets.idle.Town = set_combine(sets.idle, {})
+		back="Moonbeam Cape",
+	}
+	
+    sets.idle.Town = set_combine(sets.idle, {
+		ammo="Staunch Tathlum",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
+		left_ear="Tuisto Earring",
+		right_ear="Odnowa Earring +1",
+		left_ring="Moonlight Ring",
+		right_ring="Moonlight Ring",
+		back="Moonbeam Cape",
+	})
     sets.idle.Weak = sets.idle.DT
 
     ------------------------------------------------------------------------------------------------
@@ -620,7 +577,7 @@ function init_gear_sets()
     sets.defense.PDT = sets.idle.DT
     sets.defense.MDT = sets.idle.DT
 
-    sets.Kiting = {feet="Skd. Jambeaux +1"}
+    sets.Kiting = {feet="Jute Boots +1"}
 
 
     ------------------------------------------------------------------------------------------------
@@ -633,158 +590,132 @@ function init_gear_sets()
     -- EG: sets.engaged.Dagger.Accuracy.Evasion
 
     sets.engaged = {
-		ammo = "Coiste Bodhar",
-		Head= "Adhemar Bonnet +1",
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Mummu Wrists +2",
+		ammo="Ginsen",
+		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
+		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
 		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
+		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
+		neck="Anu Torque",
 		waist="Windbuffet Belt +1",
-		left_ear="Brutal Earring",
-		right_ear="Sherida Earring",
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-        }
+		left_ear="Sherida Earring",
+		right_ear="Telos Earring",
+		left_ring="Gere Ring",
+		right_ring="Epona's Ring",
+		back={ name="Toutatis's Cape", augments={'HP+60','Accuracy+20 Attack+20','HP+20','"Store TP"+10','Phys. dmg. taken-10%',}},
+	}
 
-    sets.engaged.LowAcc = set_combine(sets.engaged, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},	head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.MidAcc = set_combine(sets.engaged.LowAcc, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},	head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.HighAcc = set_combine(sets.engaged.MidAcc,{body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},	head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.STP = set_combine(sets.engaged, {})
-
-    -- * DNC Native DW Trait: 30% DW
-    -- * DNC Job Points DW Gift: 5% DW
-
-    -- No Magic Haste ( > 40 to cap)
-    sets.engaged.DW = {
-		ammo = "Coiste Bodhar",
-		Head= "Adhemar Bonnet +1",
-		body="Adhemar Jacket +1", 	--6%
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Reiki Yotai", 		--7%
-		left_ear="Eabani Earring", 	--4%
-		right_ear="Suppanomimi", 	--5%
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-    } -- 36%
-
-    sets.engaged.DW.LowAcc = set_combine(sets.engaged.DW, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},	head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.MidAcc = set_combine(sets.engaged.DW.LowAcc, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.HighAcc = set_combine(sets.engaged.DW.MidAcc, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.STP = set_combine(sets.engaged.DW, {})
-
-    -- 15% Magic Haste (<=40% to cap >21% )
-    sets.engaged.DW.LowHaste = {
-		ammo = "Coiste Bodhar",
-		Head="Adhemar Bonnet +1",
-		body="Adhemar Jacket +1", 	--6%
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Reiki Yotai", 		--7%
-		left_ear="Eabani Earring", 	--4%
-		right_ear="Suppanomimi", 	--5%
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-    } -- 31%
-
-    sets.engaged.DW.LowAcc.LowHaste = set_combine(sets.engaged.DW.LowHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.MidAcc.LowHaste = set_combine(sets.engaged.DW.LowAcc.LowHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.HighAcc.LowHaste = set_combine(sets.engaged.DW.MidAcc.LowHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.STP.LowHaste = set_combine(sets.engaged.DW.LowHaste, {})
-
-    -- 30% Magic Haste (<=21% DW To cap >=9)
-    sets.engaged.DW.MidHaste = {
-		ammo = "Coiste Bodhar",
-		Head="Adhemar Bonnet +1",
-		body="Adhemar Jacket +1", 	--6%
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Reiki Yotai", 		--7%
-		left_ear="Eabani Earring", 	--4%
-		right_ear="Suppanomimi", 	--5%
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-    } -- 22%
-
-    sets.engaged.DW.LowAcc.MidHaste = set_combine(sets.engaged.DW.MidHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.MidAcc.MidHaste = set_combine(sets.engaged.DW.LowAcc.MidHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.HighAcc.MidHaste = set_combine(sets.engaged.DW.MidAcc.MidHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.STP.MidHaste = set_combine(sets.engaged.DW.MidHaste, {})
-
-    -- 35% Magic Haste (<=9% DW To cap >1%)
-    sets.engaged.DW.HighHaste = {
-		ammo = "Coiste Bodhar",
-		Head="Adhemar Bonnet +1",
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Reiki Yotai", --7%
-		left_ear="Eabani Earring", --4%
-		right_ear="Sherida Earring",
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-      } -- 11% Gear
-
-    sets.engaged.DW.LowAcc.HighHaste = set_combine(sets.engaged.DW.HighHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.MidAcc.HighHaste = set_combine(sets.engaged.DW.LowAcc.HighHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.HighAcc.HighHaste = set_combine(sets.engaged.DW.MidAcc.HighHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.STP.HighHaste = set_combine(sets.engaged.DW.HighHaste, {})
-
-    -- 45% Magic Haste (1% DW to cap)
-    sets.engaged.DW.MaxHaste = {
-		ammo = "Coiste Bodhar",
-		Head="Adhemar Bonnet +1",
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Adhemar Wrist. +1",
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Windbuffet Belt +1",
-		left_ear="Brutal Earring",
-		right_ear="Sherida Earring",
-		left_ring="Epona's Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
-        } -- 0%
-
-    sets.engaged.DW.LowAcc.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.MidAcc.MaxHaste = set_combine(sets.engaged.DW.LowAcc.MaxHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.HighAcc.MaxHaste = set_combine(sets.engaged.DW.MidAcc.MaxHaste, {body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights",neck="Etoile Gorget +1",ammo="Yamarang",left_ear ="Telos Earring"})
-    sets.engaged.DW.STP.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, {})
+    sets.engaged.LowAcc = set_combine(sets.engaged, 
+		{ammo="Yamarang",})
+    sets.engaged.MidAcc = set_combine(sets.engaged.LowAcc, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1", back="Sacro Mantle",})
+    sets.engaged.HighAcc = set_combine(sets.engaged.MidAcc,
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+    sets.engaged.STP = set_combine(sets.engaged,{})
+		
+	--SET YOUR DW VALUES TO MATCH THIS TABLE. ALSO ADJUST DW SETTINGS IN determine_haste_group SUB
+	---------------------------------------------------------------------------------------------------------------------------------
+	---------[MAGIC HASTE RECIEVED]-------------|---------------------[HASTE TIER BY JOB]-------------------|-----[INFORMATION]-----|
+	--DW Tier|  0%  |  10% |  15% |  30% |  Cap	|      NIN  |   DNC  |	THF	  |	  BLU   | BLU(J1) | BLU(JM) |-----------------------|
+	---------|------|------|------|------|------| ----------|--------|--------|---------|---------|---------| [(SJ)=Support job]	|
+	--T1(10) |  64  |  60  |  57  |  46  |  26	| -- 		|		 |		  | BLU(8)	|		  |			| [(J1) = 100  JP Gift] |
+	--T2(15) |  59  |  55  |  52  |  41  |  21	| -- 		| DNC(SJ)| 		  | BLU(16)	| BLU(8)  |			| [(J2) = 550  JP Gift] |	
+	--T3(25) |  49  |  45  |  42  |  31  |  11	| -- NIN(SJ)| 		 | THF	  | BLU(24)	| BLU(16) | BLU(8)	| [(JM) = 1200 JP Gift] |
+	--T4(30) |  44  |  40  |  37  |  26  |  6	| --		| DNC	 | THF(JM)| BLU(32)	| BLU(24) | BLU(16)	| [BLU  = 8 pts per DW] |
+	--T5(35) |  39  |  35  |  32  |  21  |  1	| -- NIN 	| DNC(JM)| 		  |			| BLU(32) | BLU(24)	|						|
+	--T6(37) |  37  |  33  |  30  |  19  |  0	| -- 	 	|		 |	      | 		|		  | BLU(32)	|						|	
+	---------------------------------------------------------------------------------------------------------------------------------
 	
+    -- No Magic Haste 
+    sets.engaged.DW = set_combine(sets.engaged,  {
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
+		waist="Reiki Yotai",																					--+7
+		left_ear="Eabani Earring",																				--+4
+		right_ear="Suppanomimi",																				--+5
+    })
+
+    sets.engaged.DW.LowAcc = set_combine(sets.engaged.DW, 
+		{ammo="Yamarang",})
+    sets.engaged.DW.MidAcc = set_combine(sets.engaged.DW.LowAcc, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1", back="Sacro Mantle",})
+    sets.engaged.DW.HighAcc = set_combine(sets.engaged.DW.MidAcc, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+	sets.engaged.DW.STP = set_combine(sets.engaged.DW, {})
+
+    -- 15% Magic Haste 
+    sets.engaged.DW.LowHaste = set_combine(sets.engaged, {
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
+		waist="Reiki Yotai",																					--+7
+		left_ear="Eabani Earring",																				--+4
+		right_ear="Suppanomimi",																				--+5
+    })
+
+    sets.engaged.DW.LowAcc.LowHaste = set_combine(sets.engaged.DW.LowHaste, 
+		{ammo="Yamarang"})
+	sets.engaged.DW.MidAcc.LowHaste = set_combine(sets.engaged.DW.LowAcc.LowHaste, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+	sets.engaged.DW.HighAcc.LowHaste = set_combine(sets.engaged.DW.MidAcc.LowHaste, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+	sets.engaged.DW.STP.LowHaste = set_combine(sets.engaged.DW.LowHaste, {})
+
+    -- 30% Magic Haste
+    sets.engaged.DW.MidHaste = set_combine(sets.engaged, {
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
+		waist="Reiki Yotai",																					--+7
+		left_ear="Eabani Earring",																				--+4
+		right_ear="Suppanomimi",																				--+5
+    })
+
+    sets.engaged.DW.LowAcc.MidHaste = set_combine(sets.engaged.DW.MidHaste, 
+		{ammo="Yamarang"})
+	sets.engaged.DW.MidAcc.MidHaste = set_combine(sets.engaged.DW.LowAcc.MidHaste, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+	sets.engaged.DW.HighAcc.MidHaste = set_combine(sets.engaged.DW.MidAcc.MidHaste, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+	sets.engaged.DW.STP.MidHaste = set_combine(sets.engaged.DW.MidHaste, {})
+
+    -- 35% Magic Haste
+    sets.engaged.DW.HighHaste = set_combine(sets.engaged, {
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		waist="Reiki Yotai",																					--+7
+		right_ear="Suppanomimi",																				--+5
+	})
+
+    sets.engaged.DW.LowAcc.HighHaste = set_combine(sets.engaged.DW.HighHaste, 
+		{ammo="Yamarang"})
+	sets.engaged.DW.MidAcc.HighHaste = set_combine(sets.engaged.DW.LowAcc.HighHaste, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+	sets.engaged.DW.HighAcc.HighHaste = set_combine(sets.engaged.DW.MidAcc.HighHaste, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+	sets.engaged.DW.STP.HighHaste = set_combine(sets.engaged.DW.HighHaste, {})
+
+    -- 45% Magic Haste
+    sets.engaged.DW.MaxHaste = set_combine(sets.engaged, {
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		waist="Reiki Yotai",																					--+7
+	})
+
+    sets.engaged.DW.LowAcc.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, 
+		{ammo="Yamarang"})
+	sets.engaged.DW.MidAcc.MaxHaste = set_combine(sets.engaged.DW.LowAcc.MaxHaste, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+	sets.engaged.DW.HighAcc.MaxHaste = set_combine(sets.engaged.DW.MidAcc.MaxHaste, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+	sets.engaged.DW.STP.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, {})
+
     sets.engaged.DW.Aftermath = {
-		ammo = "Coiste Bodhar",
-		head="Malignance Chapeau",
-		body="Malignance Tabard",
-		hands="Malignance Gloves",
-		legs="Malignance Tights",
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Telos Earring",
-		right_ear="Sherida Earring",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
-		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
+
 	} -- 0%
 
-    sets.engaged.DW.LowAcc.Aftermath = set_combine(sets.engaged.DW.Aftermath, {ammo="Yamarang"})
-    sets.engaged.DW.MidAcc.Aftermath = set_combine(sets.engaged.DW.LowAcc.Aftermath, {ammo="Yamarang"})
-    sets.engaged.DW.HighAcc.Aftermath = set_combine(sets.engaged.DW.MidAcc.Aftermath, {ammo="Yamarang"})
+    sets.engaged.DW.LowAcc.Aftermath = set_combine(sets.engaged.DW.Aftermath, 
+		{ammo="Yamarang"})
+    sets.engaged.DW.MidAcc.Aftermath = set_combine(sets.engaged.DW.LowAcc.Aftermath, 
+		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+    sets.engaged.DW.HighAcc.Aftermath = set_combine(sets.engaged.DW.MidAcc.Aftermath, 
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
     sets.engaged.DW.STP.Aftermath = set_combine(sets.engaged.DW.Aftermath, {})
 
     ------------------------------------------------------------------------------------------------
@@ -847,18 +778,14 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Special Sets ------------------------------------------
     ------------------------------------------------------------------------------------------------
+
     sets.buff['Saber Dance'] = {legs="Horos Tights +3"}
     sets.buff['Fan Dance'] = {body="Horos Bangles +3"}
-    sets.buff['Climactic Flourish'] = {
-		ammo="Charis Feather",
-		head="Maculele Tiara +1",
-		body="Meg. Cuirie +2"}
-    sets.buff['Closed Position'] = {feet="Horos T. Shoes +3"}
 
     sets.buff.Doom = {
         neck="Nicander's Necklace", --20
-        ring1="Ephedra ring",
-        ring2="Ephedra ring",
+        ring1={name="Eshmun's Ring", bag="wardrobe3"}, --20
+        ring2={name="Eshmun's Ring", bag="wardrobe7"}, --20
         waist="Gishdubar Sash", --10
         }
 
@@ -889,37 +816,47 @@ function job_precast(spell, action, spellMap, eventArgs)
 end
 
 function job_post_precast(spell, action, spellMap, eventArgs)
-    if spell.type == "WeaponSkill" then
-        if state.Buff['Sneak Attack'] == true then
+    if spell.english == 'Aeolian Edge' and state.TreasureMode.value ~= 'None' then
+        equip(sets.TreasureHunter)
+    elseif spell.english=='Sneak Attack' or spell.english=='Trick Attack' then
+        if state.TreasureMode.value == 'SATA' or state.TreasureMode.value == 'Fulltime' then
+            equip(sets.TreasureHunter)
+        end	
+	elseif spell.type == "WeaponSkill" then
+        if state.Buff['Sneak Attack'] == true or state.Buff['Trick Attack'] == true then
             equip(sets.precast.WS.Critical)
         end
-        if state.Buff['Climactic Flourish'] then
-            equip(sets.buff['Climactic Flourish'])
-        end
     end
-    if spell.type=='Waltz' and spell.english:startswith('Curing') and spell.target.type == 'SELF' and buffactive['Fan Dance'] then
-        equip(sets.precast.WaltzSelfEnmity)
-	elseif spell.type=='Waltz' and spell.english:startswith('Curing') and spell.target.type ~= 'SELF' and buffactive['Fan Dance'] then
-        equip(sets.precast.WaltzEnmity)
-	elseif spell.type=='Waltz' and spell.english:startswith('Curing') and spell.target.type == 'SELF' then
+    if spell.type=='Waltz' and spell.english:startswith('Curing') and spell.target.type == 'SELF' then
         equip(sets.precast.WaltzSelf)
-	elseif spell.type=='Waltz' and spell.english:startswith('Divine') and buffactive['Fan Dance'] then
-        equip(sets.precast.WaltzEnmity)
-	elseif spell.type=='Waltz' and spell.english:startswith('Divine') then
-        equip(sets.precast.Waltz)
-	elseif spell.type=='Waltz' and spell.english:startswith('Divine') then
-        equip(sets.precast.Waltz) 
     end
 end
 
+ 
+-- Run after the general midcast() set is constructed.
+function job_post_midcast(spell, action, spellMap, eventArgs)
+    if state.TreasureMode.value ~= 'None' and spell.action_type == 'Ranged Attack' then
+        equip(sets.TreasureHunter)
+    end
+end
+ 
 -- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
 function job_aftercast(spell, action, spellMap, eventArgs)
-    -- Weaponskills wipe SATA.  Turn those state vars off before default gearing is attempted.
+    -- Weaponskills wipe SATA/Feint.  Turn those state vars off before default gearing is attempted.
     if spell.type == 'WeaponSkill' and not spell.interrupted then
         state.Buff['Sneak Attack'] = false
+        state.Buff['Trick Attack'] = false
+        state.Buff['Feint'] = false
     end
 end
-
+ 
+-- Called after the default aftercast handling is complete.
+function job_post_aftercast(spell, action, spellMap, eventArgs)
+    -- If Feint is active, put that gear set on on top of regular gear.
+    -- This includes overlaying SATA gear.
+    check_buff('Feint', eventArgs)
+end
+ 
 -------------------------------------------------------------------------------------------------------------------
 -- Job-specific hooks for non-casting events.
 -------------------------------------------------------------------------------------------------------------------
@@ -963,12 +900,19 @@ end
 function job_handle_equipping_gear(playerStatus, eventArgs)
     update_combat_form()
     determine_haste_group()
+    check_buff('Sneak Attack', eventArgs)
+    check_buff('Trick Attack', eventArgs)
+    check_buff('Feint', eventArgs)
 end
 
-function Aftermath_Overide()
-	if  state.Buff['Aftermath: Lv.3'] == true then
-		classes.CustomMeleeGroups:append('Aftermath')
-	end
+function check_buff(buff_name, eventArgs)
+    if state.Buff[buff_name] then
+        equip(sets.buff[buff_name] or {})
+        if state.TreasureMode.value == 'SATA' or state.TreasureMode.value == 'Fulltime' then
+            equip(sets.TreasureHunter)
+        end
+        eventArgs.handled = true
+    end
 end
 
 function job_update(cmdParams, eventArgs)
@@ -981,7 +925,9 @@ function update_combat_form()
     elseif DW == false then
         state.CombatForm:reset()
     end
-
+	if state.Buff['Aftermath: Lv.3'] == true then
+		classes.CustomMeleeGroups:append('Aftermath')
+	end
 end
 
 function get_custom_wsmode(spell, spellMap, defaut_wsmode)
@@ -1001,7 +947,9 @@ function customize_idle_set(idleSet)
     else
         enable('back')
     end
-
+    if moving then
+		idleSet=set_combine(idleSet, sets.Kiting)
+	end
     return idleSet
 end
 
@@ -1009,6 +957,9 @@ function customize_melee_set(meleeSet)
     if state.Buff['Climactic Flourish'] then
         meleeSet = set_combine(meleeSet, sets.buff['Climactic Flourish'])
     end
+	if state.Buff['Aftermath: Lv.3'] then
+		 meleeSet = set_combine(meleeSet, sets.buff['Aftermath: Lv.3'])
+	end
     if state.ClosedPosition.value == true then
         meleeSet = set_combine(meleeSet, sets.buff['Closed Position'])
     end
@@ -1080,20 +1031,32 @@ end
 -- Utility functions specific to this job.
 -------------------------------------------------------------------------------------------------------------------
 
+	---------------------------------------------------------------------------------------------------------------------------------
+	---------[MAGIC HASTE RECIEVED]-------------|---------------------[HASTE TIER BY JOB]-------------------|-----[INFORMATION]-----|
+	--DW Tier|  0%  |  10% |  15% |  30% |  Cap	|      NIN  |   DNC  |	THF	  |	  BLU   | BLU(J1) | BLU(JM) |-----------------------|
+	---------|------|------|------|------|------| ----------|--------|--------|---------|---------|---------| [(SJ)=Support job]	|
+	--T1(10) |  64  |  60  |  57  |  46  |  26	| -- 		|		 |		  | BLU(8)	|		  |			| [(J1) = 100  JP Gift] |
+	--T2(15) |  59  |  55  |  52  |  41  |  21	| -- 		| DNC(SJ)| 		  | BLU(16)	| BLU(8)  |			| [(J2) = 550  JP Gift] |	
+	--T3(25) |  49  |  45  |  42  |  31  |  11	| -- NIN(SJ)| 		 | THF	  | BLU(24)	| BLU(16) | BLU(8)	| [(JM) = 1200 JP Gift] |
+	--T4(30) |  44  |  40  |  37  |  26  |  6	| --		| DNC	 | THF(JM)| BLU(32)	| BLU(24) | BLU(16)	| [BLU  = 8 pts per DW] |
+	--T5(35) |  39  |  35  |  32  |  21  |  1	| -- NIN 	| DNC(JM)| 		  |			| BLU(32) | BLU(24)	|						|
+	--T6(37) |  37  |  33  |  30  |  19  |  0	| -- 	 	|		 |	      | 		|		  | BLU(32)	|						|	
+	---------------------------------------------------------------------------------------------------------------------------------
+	
 function determine_haste_group()
     classes.CustomMeleeGroups:clear()
     if DW == true then
-		if state.Buff['Aftermath: Lv.3'] then
+		if state.Buff['Aftermath: Lv.3'] == true then
 			classes.CustomMeleeGroups:append('Aftermath')
-        elseif DW_needed <= 1 then
+        elseif DW_needed <= 11 then
             classes.CustomMeleeGroups:append('MaxHaste')
-        elseif DW_needed > 1 and DW_needed <= 9 then
+        elseif DW_needed > 11 and DW_needed <= 20 then
             classes.CustomMeleeGroups:append('HighHaste')
-        elseif DW_needed > 9 and DW_needed <= 21 then
+        elseif DW_needed > 20 and DW_needed <= 31 then
             classes.CustomMeleeGroups:append('MidHaste')
-        elseif DW_needed > 21 and DW_needed <= 39 then
+        elseif DW_needed > 31 and DW_needed <= 42 then
             classes.CustomMeleeGroups:append('LowHaste')
-        elseif DW_needed > 39 then
+        elseif DW_needed > 42 then
             classes.CustomMeleeGroups:append('')
         end
     end
@@ -1115,7 +1078,10 @@ function job_self_command(cmdParams, eventArgs)
 
         send_command('@input /ja "'..doStep..'" <t>')
     end
-
+	if cmdParams[1] == 'runspeed' then
+		runspeed:toggle()
+		updateRunspeedGear(runspeed.value) 
+	end
     gearinfo(cmdParams, eventArgs)
 end
 
@@ -1154,14 +1120,7 @@ end
 -- Automatically use Presto for steps when it's available and we have less than 3 finishing moves
 function job_pretarget(spell, action, spellMap, eventArgs)
     if spell.type == 'Step' then
-        local allRecasts = windower.ffxi.get_ability_recasts()
-        local prestoCooldown = allRecasts[236]
-        local under3FMs = not buffactive['Finishing Move 3'] and not buffactive['Finishing Move 4'] and not buffactive['Finishing Move 5']
-
-        if player.main_job_level >= 77 and prestoCooldown < 1 and under3FMs then
-            cast_delay(1.1)
-            send_command('input /ja "Presto" <me>')
-        end
+		equip(sets.TreasureHunter)		
     end
 end
 
@@ -1175,20 +1134,60 @@ windower.register_event('zone change',
 function select_default_macro_book()
     -- Default macro set/book: (set, book)
     if player.sub_job == 'WAR' then
-        set_macro_page(1, 7)
+        set_macro_page(1, 2)
     elseif player.sub_job == 'THF' then
-        set_macro_page(2, 2)
+        set_macro_page(1, 2)
     elseif player.sub_job == 'NIN' then
-        set_macro_page(3, 2)
+        set_macro_page(1, 2)
     elseif player.sub_job == 'RUN' then
-        set_macro_page(4, 2)
+        set_macro_page(1, 2)
     elseif player.sub_job == 'SAM' then
-        set_macro_page(5, 2)
+        set_macro_page(1, 2)
     else
         set_macro_page(1, 2)
     end
 end
 
+
+	
 function set_lockstyle()
     send_command('wait 2; input /lockstyleset ' .. lockstyleset)
+end
+--[AUTO MOVEMENT SPEED LOGIC]
+
+runspeed = M(false)
+mov = {counter=0}
+if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+	mov.x = windower.ffxi.get_mob_by_index(player.index).x
+	mov.y = windower.ffxi.get_mob_by_index(player.index).y
+	mov.z = windower.ffxi.get_mob_by_index(player.index).z
+end
+moving = false
+
+windower.raw_register_event('prerender',function()
+	mov.counter = mov.counter + 1;
+	if mov.counter>10 then
+		local pl = windower.ffxi.get_mob_by_index(player.index)
+		if pl and pl.x and mov.x then
+			local movement = math.sqrt( (pl.x-mov.x)^2 + (pl.y-mov.y)^2 + (pl.z-mov.z)^2 ) > 0.1
+			if movement and not moving then
+				send_command('gs c runspeed')
+				moving = true
+			elseif not movement and moving then
+				send_command('gs c runspeed')
+				moving = false
+			end
+		end
+
+		if pl and pl.x then
+			mov.x = pl.x
+			mov.y = pl.y
+			mov.z = pl.z
+		end
+		mov.counter = 0
+	end
+end)
+
+function updateRunspeedGear()   
+	handle_equipping_gear(player.status, pet.status)
 end

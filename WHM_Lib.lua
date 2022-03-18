@@ -126,6 +126,10 @@ enfeeb_maps = {
     ['Poison']='skillpot', ['Poison II']='skillpot', ['Poisonga']='skillpot',
 }
 
+autows=M(false)
+processingWS=M(false)
+autosamba=M(false)
+processingJA=M(false)
 
 -- Set Macros for your SCH's macro page, book.
 function set_macros(sheet,book)
@@ -204,7 +208,9 @@ hub_job_std = [[ \cs(255, 115, 0)${player_job}: \cr
 hub_battle_std = [[ \cs(255, 115, 0)Battle: \cr             
         \cs(200, 200, 200)Last SC:\cr ${last_sc_element_color}${last_sc|No SC yet} \cr           
         \cs(200, 200, 200)Burst Window:\cr ${last_sc_element_color}${burst_window|0} \cr
-        \cs(200, 200, 200)Magic Burst:\cr ${player_current_mb}  \cr        
+        \cs(200, 200, 200)Magic Burst:\cr ${player_current_mb}  \cr   
+        \cs(200, 200, 200)Auto Haste Samba:\cr ${player_current_SM}  \cr
+        \cs(200, 200, 200)Auto Weaponskill:\cr ${player_current_WS}  \cr		
 ]]
 
 -- LITE Mode
@@ -236,6 +242,8 @@ keybinds_on['key_bind_mburst'] = '       '
 keybinds_off['key_bind_mainweapon'] = '       '
 keybinds_off['key_bind_subweapon'] = '       '
 keybinds_on['key_bind_movespeed_lock'] = '        '
+keybinds_on['key_bind_samba'] = '        '
+keybinds_on['key_bind_weaponskill'] = '        '
 
 keybinds_off['key_bind_element_cycle'] = '       '
 keybinds_off['key_bind_sc_level'] = '       '
@@ -243,6 +251,8 @@ keybinds_off['key_bind_lock_weapon'] = '       '
 keybinds_off['key_bind_movespeed_lock'] = '        '
 keybinds_off['key_bind_matchsc'] = '        '
 keybinds_off['key_bind_enspell_cycle'] = '       '
+keybinds_off['key_bind_samba'] = '        '
+keybinds_off['key_bind_weaponskill'] = '        '
 
 function validateTextInformation()
 
@@ -292,6 +302,18 @@ function validateTextInformation()
     main_text_hub.element_color = Colors[elements.current]
     main_text_hub.enspell_color = Colors[enspellElements.current]
     main_text_hub.sc_element_color = scColor
+	
+    if autosamba.value then
+        main_text_hub.player_current_SM =  const_on
+    else
+        main_text_hub.player_current_SM =  const_off
+    end
+    if autows.value then
+        main_text_hub.player_current_WS =  const_on
+    else
+        main_text_hub.player_current_WS =  const_off
+    end
+
 end
 
 --Default To Set Up the Text Window
@@ -499,6 +521,8 @@ Buff =
         ['En-Weather'] = false,
         ['En-Day'] = false,
         ['Enspell'] = false,
+		['Haste Samba']=false,
+		['Aftermath: Lv.3']=false,
     }
     
 -- Get a spell mapping for the spell.
@@ -517,6 +541,8 @@ function update_active_ja(name, gain)
     Buff['En-Weather'] = buffactive[nukes.enspell[world.weather_element]] or false
     Buff['En-Day'] = buffactive[nukes.enspell[world.day_element]] or false
     Buff['Enspell'] = buffactive[nukes.enspell['Earth']] or buffactive[nukes.enspell['Water']] or buffactive[nukes.enspell['Air']] or buffactive[nukes.enspell['Fire']] or buffactive[nukes.enspell['Ice']] or buffactive[nukes.enspell['Lightning']] or buffactive[nukes.enspell['Light']] or buffactive[nukes.enspell['Dark']] or false
+	Buff['Haste Samba']=buffactive['Haste Samba'] or false
+	Buff['Aftermath: Lv.3']=buffactive['Aftermath: Lv.3'] or false
 end
 
 function buff_refresh(name,buff_details)
@@ -845,6 +871,12 @@ function self_command(command)
                 else
                     windower.add_to_chat(8,"----- Matching SC Mode is now: "..tostring(matchsc.current)) 
                 end
+			elseif commandArgs[2] == 'autosamba' then
+				autosamba:toggle()
+				add_to_chat("-----Autosamba Mode: "..tostring(autosamba.value))
+			elseif commandArgs[2] == 'autows' then
+				autows:toggle()
+				add_to_chat("-----Auto Weaponskill Mode: "..tostring(autows.value))
             end
         end
         
@@ -948,7 +980,7 @@ end
 function lockMainHand( meleeing )   
     
     if meleeing then
-        enable('main','sub','ranged','ammo')
+        enable('main','sub')
         if use_UI == true then
             validateTextInformation()
         else
@@ -956,7 +988,7 @@ function lockMainHand( meleeing )
         end
         idle()
     else
-        disable('main','sub','ranged','ammo')
+        disable('main','sub')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1131,6 +1163,8 @@ if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
                 validateTextInformation()
             end
         end
+		auto_samba()
+		auto_ws()
     end)
 
     function movingCheck()
@@ -1291,4 +1325,46 @@ function downgradenuke( spell )
         send_command('input /ma "'..newspell..'" <t>')
     end
 
+end
+
+function auto_samba()
+	if player.status=='Engaged' and player.sub_job=='DNC' and processingJA.value==false then
+		if autosamba.value == true and Buff['Haste Samba'] == false then
+			if player.tp >= 350 and player.tp <= 1000 then
+				send_command('@input /ja "Haste Samba" <me> ;wait 1')
+				processingJA:toggle()
+			end
+		end
+	elseif player.status=='Engaged' and player.sub_job=='DNC' and processingJA.value==true then 
+		if Buff['Haste Samba'] == false and player.tp >= 1000 then
+			processingJA:toggle()
+		end
+	end
+end
+
+function auto_ws()
+	if player.status=='Engaged' then
+		if autows.value == true and processingWS.value==false then
+			-- if player.tp == 3000 and Buff['Aftermath: Lv.3'] == false then
+				-- send_command('@input /ws "Mystic Boon" <t> ;wait 1')
+				-- processingWS:toggle()
+			-- elseif player.tp >= 1000 and Buff['Aftermath: Lv.3'] and player.mpp < 25 then
+				-- send_command('@input /ws "Mystic Boon" <t> ;wait 1')
+				-- processingWS:toggle()
+			-- elseif player.tp >= 1000 and Buff['Aftermath: Lv.3'] and player.mpp >= 25 then
+				-- send_command('@input /ws "Mystic Boon" <t> ;wait 1')
+				-- --send_command('@input /ws "Black Halo" <t> ;wait 1')
+				-- processingWS:toggle()
+			-- end
+			if player.tp >= 1000 and player.mpp < 25 then
+				send_command('@input /ws "Mystic Boon" <t> ;wait 1')
+				processingWS:toggle()
+			elseif player.tp >= 1000 and player.mpp >= 25 then
+				send_command('@input /ws "Black Halo" <t> ;wait 1')
+				processingWS:toggle()
+			end
+		elseif player.tp <1000 and processingWS.value==true then
+			processingWS:toggle()
+		end
+	end
 end

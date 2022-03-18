@@ -724,7 +724,7 @@ function idle()
     -- This function is called after every action, and handles which set to equip depending on what we're doing
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if player.status=='Engaged' then
-        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') then
+        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') or subWeapon.current:match('Ochain')or subWeapon.current:match('Aegis')or subWeapon.current:match('Priwen')  then
             equip(sets.me.melee[meleeModes.value..'sw'])
         else
             equip(sets.me.melee[meleeModes.value..'dw'])

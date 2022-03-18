@@ -1,7 +1,4 @@
-
-
 --Relyk
-
 -- Load and initialize the include file.
 include('Mirdain-Include')
 include('organizer-lib')
@@ -10,11 +7,9 @@ send_command('input //lua l porterpacker')
 send_command('wait 31;input //gs equip sets.weapons') 
 
 organizer_items = {
-    Consumables={"Echo Drops","Holy Water", "Remedy"},
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
     NinjaTools={"Shihei"},
-	Food={"Sublime Sushi", "Om. Sandwich", "Grape Daifuku"},
-	Storage={"Storage Slip 16","Storage Slip 17","Storage Slip 18","Storage Slip 21","Storage Slip 23","Storage Slip 24",
-			"Storage Slip 25","Storage Slip 26","Storage Slip 27","Storage Slip 28"},
+	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 	Bullets={"Eminent Bullet", "Eminent Bullet Pouch"},
 	Other={"Trump Card", "Trump Card Case"}
 }
@@ -50,12 +45,15 @@ Ammo_Warning_Limit = 99
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
-if PortTowns:contains(world.area) then
-	send_command('wait 3;input //gs org') 
-	send_command('wait 6;input //po repack') 
-else
-	add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-end
+
+--[[Disable code in this sub if you dont have organizer or porter packer]]
+send_command('wait 3;input //gs org')
+-- if PortTowns:contains(world.area) then
+	-- send_command('wait 3;input //gs org') 
+	-- send_command('wait 6;input //po repack') 
+-- else
+	-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
+-- end
 
 function get_sets()
 
@@ -217,15 +215,15 @@ function get_sets()
 	-- Fast Cast for Magic
 	sets.Precast.FastCast = {
 		head={ name="Carmine Mask +1", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
-		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
+		body="Passion Jacket",
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
 		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
 		feet="Malignance Boots",
-		neck="Orunmila's Torque",
+		neck="Magoraga Beads",
 		waist="Tempus Fugit",
 		left_ear="Etiolation Earring",
 		right_ear="Loquac. Earring",
-		left_ring="Kishar Ring",
+		left_ring="Weather. Ring",
 		right_ring="Rahab Ring",
 		back="Moonbeam Cape",
 	}
@@ -383,7 +381,7 @@ function get_sets()
 
 	sets.WS.MAB = {
 		ammo=Ammo.Bullet.MAB,
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
+		head="Nyame Helm",
 		body={ name="Lanun Frac +3", augments={'Enhances "Loaded Deck" effect',}},
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
@@ -410,7 +408,7 @@ function get_sets()
 		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
 		body="Laksa. Frac +3",
 		hands="Meg. Gloves +2",
-		legs={ name="Herculean Trousers", augments={'Weapon skill damage +5%','CHR+3','Accuracy+7',}},
+		legs={"Nyame Flanchard"},
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck={ name="Comm. Charm +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},

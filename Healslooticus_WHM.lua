@@ -20,7 +20,7 @@ nukeModes = M('normal', 'acc')
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
-mainWeapon = M("Terra's Staff", "Maxentius")
+mainWeapon = M("Terra's Staff", "Maxentius", "Yagrush")
 subWeapon = M("Mensch Strap", "Magesmasher +1", "Sors Shield")
 ------------------------------------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ subWeapon = M("Mensch Strap", "Magesmasher +1", "Sors Shield")
 -- fighting Apex mobs and job is not mastered
 ----------------------------------------------------------
 CP_CAPE ={name="Mecisto. Mantle", augments={'Cap. Point+48%','DEX+3','DEF+3',}} -- Put your CP cape here
-DYNA_NECK = "Duelist's Torque +2"
+DYNA_NECK = "Cleric's Torque +2"
 ----------------------------------------------------------
 
 -- Setting this to true will stop the text spam, and instead display modes in a /UI.
@@ -61,7 +61,37 @@ hud_font = 'Impact'
 	windower.send_command('bind ^end gs c hud keybinds')        -- CTRL-End to toggle Keybinds  
 	windower.send_command('bind f11 parse report damage p')
 	windower.send_command('bind ^f11 parse reset')
+	windower.send_command('bind numpad- gs c toggle autows')
+	windower.send_command('bind numpad* gs c toggle autosamba')
+	windower.send_command('lua l superwarp')
 	
+	windower.send_command('lua u NyzulHelper')
+	windower.send_command('lua u Omen')
+	windower.send_command('lua u Plugin_Manager')
+	windower.send_command('lua u PointWatch')
+	windower.send_command('lua u RollTracker')
+	windower.send_command('lua u THTracker')
+	windower.send_command('lua u xivbar')
+	windower.send_command('lua u equipviewer')
+	windower.send_command('lua u giltracker')
+	windower.send_command('lua u infobar')
+	windower.send_command('lua u invtracker')
+	windower.send_command('lua u EnemyBar')
+	windower.send_command('lua u clock')
+	windower.send_command('lua u debuffed')
+	windower.send_command('lua u capetrader')
+	windower.send_command('lua u checkparam')
+	windower.send_command('lua u azuresets')
+	windower.send_command('lua u battlemod')
+	windower.send_command('lua u autora')
+	windower.send_command('lua u organizer')
+	windower.send_command('lua u tparty')
+	windower.send_command('lua u Parse')
+	windower.send_command('unload FFXIDB')
+	windower.send_command('unload infobar')	
+	windower.send_command('unload timers')
+	windower.send_command('lua u partybuffs')	
+
 --[[
     This gets passed in when the Keybinds is turned on.
     IF YOU CHANGED ANY OF THE KEYBINDS ABOVE, edit the ones below so it can be reflected in the hud using the "//gs c hud keybinds" command
@@ -76,7 +106,7 @@ keybinds_on['key_bind_element_cycle'] = '(INS + DEL)'
 keybinds_on['key_bind_enspell_cycle'] = '(HOME + PgUP)'
 keybinds_on['key_bind_lock_weapon'] = '(ALT-F9)'
 keybinds_on['key_bind_matchsc'] = '(F10)'
-send_command('lua l equipviewer')
+
 send_command('gs c hud hidejob')
 
 -- Remember to unbind your keybinds on job change.
@@ -136,7 +166,7 @@ function get_sets()
 		body="Ayanmo Corazza +2",
 		hands="Bunzi's Gloves",
 		legs={ name="Chironic Hose", augments={'Pet: Accuracy+28 Pet: Rng. Acc.+28','Enmity-4','Quadruple Attack +3','Accuracy+1 Attack+1','Mag. Acc.+13 "Mag.Atk.Bns."+13',}},
-		feet={ name="Chironic Slippers", augments={'INT+5','Rng.Atk.+23','Quadruple Attack +2','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
+		feet={ name="Chironic Slippers", augments={'INT+9','CHR+5','Quadruple Attack +2','Accuracy+4 Attack+4',}},
 		neck="Sanctity Necklace",
 		waist="Windbuffet Belt",
 		left_ear="Brutal Earring",
@@ -162,11 +192,11 @@ function get_sets()
 	}
 	sets.me.idle.dt = {
 		ammo="Staunch Tathlum",
-		head="Bunzi's Hat",
-		body="Bunzi's Robe",
-		hands="Bunzi's Gloves",
-		legs="Bunzi's Pants",
-		feet="Bunzi's Sabots",
+		head="Nyame Helm",		
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",	
 		neck="Loricate Torque +1",
 		waist="Porous Rope",
 		left_ear="Hearty Earring",
@@ -193,7 +223,7 @@ function get_sets()
 		head="Aya. Zucchetto +2",
 		body="Ayanmo Corazza +2",
 		hands="Bunzi's Gloves",
-		legs={ name="Chironic Hose", augments={'Pet: Accuracy+28 Pet: Rng. Acc.+28','Enmity-4','Quadruple Attack +3','Accuracy+1 Attack+1','Mag. Acc.+13 "Mag.Atk.Bns."+13',}},
+		legs="Aya. Cosciales +2",
 		feet={ name="Chironic Slippers", augments={'INT+9','CHR+5','Quadruple Attack +2','Accuracy+4 Attack+4',}},
 		neck="Sanctity Necklace",
 		waist="Shetal Stone",
@@ -220,7 +250,7 @@ function get_sets()
 --[WEAPONSKILL]-[CLUB]-[BLACK HALO]-[MOD:70%MND/30%STR/P.ATTK]-[ELEMENT:Fragmentation/compression]
 ---------------
 	sets.me["Black Halo"] = {
-		ammo="Amar Cluster",
+		ammo="Floestone",
 		head={ name="Piety Cap +3", augments={'Enhances "Devotion" effect',}},
 		body={ name="Piety Bliaut +3", augments={'Enhances "Benediction" effect',}},
 		hands={ name="Piety Mitts +3", augments={'Enhances "Martyr" effect',}},
@@ -243,7 +273,7 @@ function get_sets()
 	sets.me["Retribution"] = set_combine(sets.me["Black Halo"], {})
 	
 	sets.me["Hexastrike"] = {
-		ammo="Staunch Tathlum",
+		ammo="Floestone",
 		head={ name="Piety Cap +3", augments={'Enhances "Devotion" effect',}},
 		body={ name="Piety Bliaut +3", augments={'Enhances "Benediction" effect',}},
 		hands={ name="Piety Mitts +3", augments={'Enhances "Martyr" effect',}},
@@ -254,19 +284,19 @@ function get_sets()
 		left_ear="Brutal Earring",
 		right_ear="Assuage Earring",
 		left_ring="Apate Ring",
-		right_ring="Rajas Ring",
+		right_ring="Rufescent Ring",
 		back={ name="Alaunus's Cape", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-6%',}},	
 	}
 	sets.me["Realmrazer"] = set_combine(sets.me["Hexastrike"], {})
 	sets.me["Shattersoul"] = set_combine(sets.me["Hexastrike"], {})	
 	
 	sets.me["Mystic Boon"] = {
-		ammo="Amar Cluster",
-		head="Bunzi's Hat",
-		body="Bunzi's Robe",
-		hands="Bunzi's Gloves",
-		legs="Bunzi's Pants",
-		feet="Bunzi's Sabots",
+		ammo="Floestone",
+		head="Nyame Helm",		
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",		
 		neck={ name="Clr. Torque +2", augments={'Path: A',}},
 		waist="Luminary Sash",
 		left_ear="Aredan Earring",
@@ -286,7 +316,7 @@ function get_sets()
 		waist="Refoccilation Stone",
 		left_ear="Sortiarius Earring",
 		right_ear="Friomisi Earring",
-		left_ring="Stikini Ring",
+		left_ring="Rufescent Ring",
 		right_ring="Stikini Ring",
 		back={ name="Alaunus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%',}},	
 	}
@@ -567,8 +597,7 @@ function get_sets()
 		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
 	sets.midcast.Erase ={
-		main="Terra's Staff",
-		sub="Clemency Grip",
+		main="Yagrush",
 		ammo="Staunch Tathlum",
 		head="Ebers Cap +1",
 		body="Inyanga Jubbah +2",
@@ -585,8 +614,7 @@ function get_sets()
 	}
 
 	sets.midcast.StatusRemoval={
-		main="Terra's Staff",
-		sub="Clemency Grip",
+		main="Yagrush",
 		ammo="Staunch Tathlum",
 		head="Ebers Cap +1",
 		body="Inyanga Jubbah +2",
@@ -602,8 +630,7 @@ function get_sets()
 		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
 	sets.midcast.Cursna ={
-		main="Terra's Staff",
-		sub="Mensch Strap",
+		main="Yagrush",
 		ammo="Staunch Tathlum",
 		head={ name="Vanya Hood", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
 		body="Ebers Bliaut +1",
