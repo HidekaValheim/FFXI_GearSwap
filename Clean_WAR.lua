@@ -135,10 +135,9 @@ function user_setup()
 	-- Binds
 
 	send_command('bind numpad7 gs c cycle OffenseMode')
-	send_command('bind numpad9 gs c cycle RangedMode')
 	send_command('bind numpad5 gs c cycle WeaponskillMode')
-	send_command('bind numpad6 gs c cycle IdleMode')
-	send_command('bind numpad3 gs c cycle SchereMode')
+	send_command('bind numpad9 gs c cycle IdleMode')
+	send_command('bind numpad6 gs c cycle SchereMode')
 	send_command('bind numpad8 gs c cycle HybridMode')
 	send_command('bind numpad4 gs c cycle CastingMode')
 	send_command('bind numpad/ gs c StyleShift')
@@ -1371,7 +1370,7 @@ KB['KB_Melee_M'] = '   (NUM 7)         '
 KB['KB_WS_M'] 	 = '   (NUM 5)        '
 KB['KB_PDT_M'] 	 = '   (NUM 8)        '
 KB['KB_ID_M'] 	 = '   (NUM 9)        '
-KB['KB_SC_M'] 	 = '   (NUM 3)        '
+KB['KB_SC_M'] 	 = '   (NUM 6)        '
 KB['KB_Haste_M'] = '   (NUM -)         '
 KB['KB_March_M'] = '   (NUM +)        '
 
