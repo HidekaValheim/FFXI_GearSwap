@@ -25,7 +25,7 @@
 include('organizer-lib')
 include('Modes.lua')
 send_command('input //send @all lua l superwarp') 
-send_command('input //lua l porterpacker') 
+-- send_command('input //lua l porterpacker') 
 send_command('wait 31;input //gs equip sets.weapons') 
 
 organizer_items = {
@@ -39,7 +39,7 @@ PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 function get_gear()
 	--[[Disable code in this sub if you dont have organizer or porter packer]]
-    send_command('wait 3;input //gs org')
+    -- send_command('wait 3;input //gs org')
 	-- if PortTowns:contains(world.area) then
 		-- send_command('wait 3;input //gs org') 
 		-- send_command('wait 6;input //po repack') 
@@ -284,9 +284,28 @@ function init_gear_sets()
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Niqmaddu Ring",
 		right_ring="Regal Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
         }
-
+	sets.precast.WS['Cataclysm'] ={
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+		head="Pixie Hairpin +1",
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck="Baetyl Pendant",
+		waist="Orpheus's Sash",
+		left_ear="Friomisi Earring",
+		right_ear="Hecate's Earring",
+		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		right_ring="Epaminondas's  Ring",
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+	}
+	sets.precast.WS['Aeolian Edge'] = set_combine(sets.precast.WS['Cataclysm'], {})
+	sets.precast.WS['Sunburst'] = set_combine(sets.precast.WS['Cataclysm'], {})
+	sets.precast.WS['Starburst'] = set_combine(sets.precast.WS['Cataclysm'], {head="Nyame Helm", right_ring="Weather. Ring"})
+	sets.precast.WS['Rock Crusher'] = set_combine(sets.precast.WS['Cataclysm'], {head="Nyame Helm"})
+	sets.precast.WS['Earth Crusher'] = set_combine(sets.precast.WS['Cataclysm'], {})
     sets.precast.WS.Acc = set_combine(sets.precast.WS, {})
     sets.precast.WS['Camlann\'s Torment'] = set_combine(sets.precast.WS, {})
     sets.precast.WS['Camlann\'s Torment'].Acc = set_combine(sets.precast.WS['Camlann\'s Torment'], {})
@@ -306,7 +325,7 @@ function init_gear_sets()
 		right_ear="Sherida Earring",
 		left_ring="Niqmaddu Ring",
 		right_ring="Regal Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},	
 	})
     sets.precast.WS['Geirskogul'] = set_combine(sets.precast.WS, {})
     sets.precast.WS['Geirskogul'].Acc = set_combine(sets.precast.WS['Geirskogul'], {})
@@ -323,7 +342,7 @@ function init_gear_sets()
 		right_ear="Sherida Earring",
 		left_ring="Niqmaddu Ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
     sets.precast.WS['Impulse Drive'].Acc = set_combine(sets.precast.WS['Impulse Drive'],{
 		ammo="Knobkierrie",
@@ -338,7 +357,7 @@ function init_gear_sets()
 		right_ear="Sherida Earring",
 		left_ring="Niqmaddu Ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	})
 	
     sets.precast.WS['Sonic Thrust'] = {
@@ -354,7 +373,7 @@ function init_gear_sets()
 		right_ear="Sherida Earring",
 		left_ring="Niqmaddu Ring",
 		right_ring="Regal Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
     sets.precast.WS['Sonic Thrust'].Acc = set_combine(sets.precast.WS['Sonic Thrust'],{
 		ammo="Knobkierrie",
@@ -369,7 +388,7 @@ function init_gear_sets()
 		right_ear="Sherida Earring",
 		left_ring="Niqmaddu Ring",
 		right_ring="Regal Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	})
     
 	sets.precast.WS['Stardiver'] = {
@@ -410,18 +429,18 @@ function init_gear_sets()
 	}
     sets.precast.WS['Savage Blade'] = {
 		ammo="Knobkierrie",
-		head="Hjarrandi Helm",
-		body="Hjarrandi Breast.",
+		head="Nyame Helm",
+		body="Nyame Mail",
 		hands={ name="Ptero. Fin. G. +3", augments={'Enhances "Angon" effect',}},
 		legs="Vishap Brais +3",
-		feet="Gleti's Boots",
+		feet="Nyame Sollerets",
 		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		right_ear="Ishvara Earring",
 		left_ring="Regal Ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
     sets.WSDayBonus = {head="Gavialis Helm"}
 
@@ -515,20 +534,20 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.engaged.Hybrid = {
-		ammo = "Coiste Bodhar",
-		head="Hjarrandi Helm",
-		body="Hjarrandi Breast.",
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Sulev. Gauntlets +2",
-		legs={ name="Valorous Hose", augments={'Attack+13','"Dbl.Atk."+5','STR+5',}},
+		legs="Nyame Flanchard",
 		feet="Flam. Gambieras +2",
-		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
+		neck="Dgn. Collar +2",
 		waist="Ioskeha Belt",
 		left_ear="Sherida Earring",
-		right_ear="Brutal Earring",
-		left_ring="Niqmaddu Ring",
-		right_ring="Defending Ring",
+		right_ear="Telos Earring",
+		left_ring={name="Moonlight Ring", bag="wardrobe2"},
+		right_ring={name="Moonlight Ring", bag="wardrobe7"},
 		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
-        }
+	}
 
     sets.engaged.DT = set_combine(sets.engaged, sets.engaged.Hybrid)
     sets.engaged.LowAcc.DT = set_combine(sets.engaged.Hybrid, {left_ring="Chirich Ring +1"})

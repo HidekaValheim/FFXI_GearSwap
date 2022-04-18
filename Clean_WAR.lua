@@ -1,3 +1,14 @@
+-- LEGEND 
+-- Use CTRL+F, and search for [[UPDATE START]] to jump to each block of code that needs to be updated with gear. 
+-- There are sets in the [[IGNORE START]] blocks that can be fine tuned if you want, but it should largely be unncessary. these are default gears, or set combines that should need little to no tweaking. 
+--if using notepad ++ you can select Ignore start to ignore end, and hit hide lines to reduce the clutter. 
+-------------------------------------------------------------------------------------------------------------------
+--[[UPDATE START]] --this indicates gear that needs to be Updated
+--[[UPDATE END]] --this indicates gear the end of the update block
+--[[IGNORE START]] --This indicates code that can be ignored
+--[[IGNORE End]] --This indicates the end of ignored gear
+
+-------------------------------------------------------------------------------------------------------------------
 --Disclaimer: this is a heavily modified version of a random lua found out on the internet years ago.  
 -------------------------------------------------------------------------------------------------------------------
 -- Initialization function that defines sets and variables to be used.
@@ -180,7 +191,7 @@ end
 -- sets.engaged[state.CombatForm][state.CombatWeapon][state.OffenseMode][state.HybridMode][classes.CustomMeleeGroups] (any number)
 
 function init_gear_sets()
-	
+--[[IGNORE START]]	
 	--[[ These sets are for determining your toggleable weapons]]
 	sets.default={}
 	--[[ you can make sub variants of each group, and have custom sub equips on each weapon if needed. 
@@ -209,9 +220,18 @@ function init_gear_sets()
 	sets.default.DualClub	= set_combine(sets.default.Loxotic, 	sets.default.OffHand)
 	sets.default.DualDagger = set_combine(sets.default.Ternion, 	sets.default.OffHand)
 
+	--[[use these sets if you want a custom weapon that isnt pre-defined - you wont need to add these to the logic for weapon selection]]
+	sets.default.CustomOffhand={sub="Blurred Knife +1"}
+	sets.default.CustomShield={sub  = "Adapa Shield"}
+	sets.default.TwHnCustom	= set_combine(sets.default.grip,		{main="Beryllium Sword"})
+	sets.default.H2HCustom	= {main="Hepatizon Baghnaks"}
+	sets.default.SWCustom	= set_combine(sets.default.CustomShield,{main = "Hepatizon Sapara"})
+	sets.default.DualCustom = set_combine(sets.default.SWCustom, sets.default.CustomOffhand)
 	-- Set the Ear to override for Schere Earring if used. 
 	sets.default.schere={left_ear="Schere Earring"}
-	
+--[[IGNORE END]]
+
+--[[UPDATE START]]	
 	cape={}
 	--WS CAPES
 		cape.STRDA  = {name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','Damage taken-5%',}}
@@ -227,33 +247,12 @@ function init_gear_sets()
 		cape.FC		= {name="Cichol's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Fast Cast"+10','Phys. dmg. taken-10%',}}
 		cape.Waltz 	= {name="Cichol's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','CHR+10','"Waltz" potency +10%','Phys. dmg. taken-10%',}}
 		cape.Crit 	= {name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10','Damage taken-5%',}}
-	
-	--[[use these sets if you want a custom weapon that isnt pre-defined - you wont need to add these to the logic for weapon selection]]
-	sets.default.CustomOffhand={sub="Blurred Knife +1"}
-	sets.default.CustomShield={sub  = "Adapa Shield"}
-	sets.default.TwHnCustom	= set_combine(sets.default.grip,		{main="Beryllium Sword"})
-	sets.default.H2HCustom	= {main="Hepatizon Baghnaks"}
-	sets.default.SWCustom	= set_combine(sets.default.CustomShield,{main = "Hepatizon Sapara"})
-	sets.default.DualCustom = set_combine(sets.default.SWCustom, sets.default.CustomOffhand)
+--[[UPDATE END]]	
+
 	--------------------------------------
 	-- Job Abilties
 	--------------------------------------
-	sets.precast.JA['Provoke'] = {
-		ammo="Sapience Orb",
-		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		legs={ name="Souv. Diechlings +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		feet={ name="Eschite Greaves", augments={'HP+80','Enmity+7','Phys. dmg. taken -4',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Asklepian Belt",
-		left_ear="Cryptic Earring",
-		right_ear="Friomisi Earring",
-		left_ring="Apeile Ring +1",
-		right_ring="Apeile Ring",
-		back="Reiki Cloak",	
-	}
-	
+--[[Ignore Start]]
 	sets.precast.JA['Berserk'] = {feet="Agoge Calligae +3", body="Pummeler's Lorica +3", back = "Cichol's Mantle"}
 	sets.precast.JA['Defender'] = {}
 	sets.precast.JA['Warcry'] = set_combine(sets.precast.JA['Provoke'],{head = "Agoge Mask +3"})
@@ -262,66 +261,47 @@ function init_gear_sets()
 	sets.precast.JA["Warrior's Charge"] = {legs="Agoge Cuisses +3"}
 	sets.precast.JA['Tommahawk'] = {ammo="Tommahawk"}
 	sets.precast.JA['Restraint'] = {hands = "Boii Mufflers +1"}
-	sets.precast.JA['Blood Rage'] = {body = "Boii Lorica +1"}
-	
+	sets.precast.JA['Blood Rage'] = {body = "Boii Lorica +1"}	
 	sets.precast.JA['Mighty Strikes'] = {hands = "Agoge Mufflers +3"}
 	sets.precast.JA['Brazen Rush'] = {}
-
-	sets.precast.JA['Ancient Circle'] = {}
-	sets.precast.JA['Jump'] = {}
-	sets.precast.JA['High Jump'] = {}
-	sets.precast.JA['Super Jump'] = {}
-
 	sets.precast.JA['Warding Circle'] = {}
 	sets.precast.JA['Hasso'] = {}
 	sets.precast.JA['Seigan'] = {}
 	sets.precast.JA['Third Eye'] = {}
 	sets.precast.JA['Meditate'] = {}
 	sets.precast.JA['Sekkanoki'] = {}
+	sets.precast.JA['Ancient Circle'] = {}
+--[[IGNORE END]]
+--[[UPDATE START]]
+	sets.precast.JA['Provoke'] = {
+		back = cape.Enmity,
+	}
+	
+	sets.precast.JA['Jump'] = {back = cape.STP,}
+	sets.precast.JA['High Jump'] = {back = cape.STP,}
+	sets.precast.JA['Super Jump'] = {back = cape.STP,}
 
 	-- Waltz (chr and vit)
 	sets.precast.Waltz = {
-		ammo="Staunch Tathlum",
-		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		legs="Dashing Subligar",
-		feet={ name="Eschite Greaves", augments={'HP+80','Enmity+7','Phys. dmg. taken -4',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Asklepian Belt",
-		left_ear="Handler's Earring",
-		right_ear="Handler's Earring +1",
-		left_ring="Apeile Ring +1",
-		right_ring="Apeile Ring",
-		back="Reiki Cloak",	
+		back = cape.Waltz,
 	}
 	sets.precast.Waltz['Healing Waltz'] = set_combine(sets.precast.Waltz,{})
 	sets.precast.Step = {
-		ammo="Staunch Tathlum",
-		head="Nyame Helm",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Sanctity Necklace",
-		waist="Eschan Stone",
-		left_ear="Telos Earring",
-		right_ear="Mache Earring +1",
-		left_ring="Flamma Ring",
-		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
-	}	
+		back = cape.Crit,
+	}
+--[[UPDATE END]]
+--[[IGNORE START]]
 	sets.precast.JA['Animated Flourish'] = set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.Flourish1 = set_combine(sets.precast.Step, {waist="Chaac Belt"})
+	sets.precast.Flourish1 = set_combine(sets.precast.Step,{})
 	sets.midcast["Apururu (UC)"] = {body="Apururu Unity shirt"}
 
-	sets.precast.JA['Vallation'] = 	set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Swordplay'] = 	set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Pflug'] = 		set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Valiance'] = 	set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Embolden'] = 	set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Vivacious Pulse'] = set_combine(	sets.precast.JA['Provoke'],{})
-	sets.precast.JA['Gambit'] = 	set_combine(	sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Vallation']	 	= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Swordplay'] 	 	= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Pflug'] 		 	= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Valiance'] 		= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Embolden'] 	 	= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Vivacious Pulse']	= set_combine(sets.precast.JA['Provoke'],{})
+	sets.precast.JA['Gambit'] 			= set_combine(sets.precast.JA['Provoke'],{})
  
 	-- Effusions
 	sets.precast.Effusion = {}
@@ -337,129 +317,54 @@ function init_gear_sets()
 	sets.locked={}
 	sets.locked.Retaliation={feet="Boii Calligae +1", hands="Pumm. Mufflers +3"}
 	
-	--------------------------------------
-	-- Utility Sets for rules below
-	--------------------------------------
-	sets.TreasureHunter = {waist="Chaac Belt"}
-	sets.WSDayBonus     = {}
-	sets.BrutalLugra    = {ear1="Lugra Earring +1",		ear2="Brutal Earring"}
-	sets.BrutalTrux     = {ear1="Trux Earring",			ear2="Brutal Earring"}
-	sets.BrutalMoon     = {ear1="Moonshade Earring",	ear2="Brutal Earring"}
-	sets.IshvaraMoon	= {ear1="Moonshade Earring",	ear2="Ishvara Earring"}
-	sets.LugraMoon		= {ear1="Moonshade Earring",	ear2="Lugra Earring +1"}
-	sets.DualLugra		= {ear1="Lugra Earring +1",		ear2="Brutal Earring"}
-	sets.IshvaraCessance= {ear1="Ishvara Earring", 		ear2="Brutal Earring"}
-	sets.IshvaraBrutal  = {ear1="Ishvara Earring", 		ear2="Brutal Earring"}
 
 	--------------------------------------
 	-- Ranged
 	--------------------------------------
 	-- Snapshot for ranged
-	sets.precast.RA = {
-		ammo="Staunch Tathlum",
-		head="Hjarrandi Helm",
-		body="Hjarrandi Breast.",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Marked Gorget",
-		waist="Reiki Yotai",
-		left_ear="Telos Earring",
-		right_ear="Enervating Earring",
-		left_ring="Paqichikaji Ring",
-		right_ring="Hajduk Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
-	}	
-	sets.midcast.RA = {
-		ammo="Staunch Tathlum",
-		head="Hjarrandi Helm",
-		body="Hjarrandi Breast.",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Marked Gorget",
-		waist="Reiki Yotai",
-		left_ear="Telos Earring",
-		right_ear="Enervating Earring",
-		left_ring="Paqichikaji Ring",
-		right_ring="Hajduk Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
-	}
+	sets.precast.RA = {}	
+	sets.midcast.RA = {}
 	sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {})
 	sets.midcast.RA.TH = set_combine(sets.midcast.RA, sets.TreasureHunter)
-
+--[[IGNORE END]]
 	----------------------------------
     -- Casting
 	----------------------------------
 	-- Precasts
+--[[UPDATE START]]
 	sets.precast.FC = {
-		ammo="Sapience Orb",
-		head="Sakpata's Helm",
-		body="Sacro Breastplate",
-		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Odyssean Cuisses", augments={'Accuracy+20','"Fast Cast"+4','STR+5',}},
-		feet={ name="Odyssean Greaves", augments={'"Fast Cast"+6','INT+5','Mag. Acc.+10',}},
-		neck="Orunmila's Torque",
-		waist="Asklepian Belt",
-		left_ear="Loquac. Earring",
-		right_ear="Etiolation Earring",
-		left_ring="Rahab Ring",
-		right_ring="Defending Ring",
-		back="Moonbeam Cape",	
+		back = cape.FC,
 	}
+--[[UPDATE END]]
+--[[IGNORE START]]
 	sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {})
-	
 	-- Midcasts
-	sets.midcast.FastRecast = {}
+	sets.midcast.FastRecast = set_combine(sets.precast.FC, {})
 	sets.midcast.Utsusemi = set_combine(sets.midcast.SelfNinjutsu, {})
-
+--[[IGNORE END]]
 	----------------------------------
 	-- Idle Sets
 	----------------------------------
+--[[UPDATE START]]
 	sets.idle = {
-		ammo="Staunch Tathlum",
-		head="Nyame Helm",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Asklepian Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Odnowa Earring +1",
-		left_ring="Moonlight Ring",
-		right_ring="Moonlight Ring",
-		back="Moonbeam Cape",	
+		back = cape.STP,
 	}
 
     sets.idle.PDT = {
-		ammo="Staunch Tathlum",
-		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		legs={ name="Souv. Diechlings +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		feet={ name="Souveran Schuhs +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Asklepian Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Odnowa Earring +1",
-		left_ring="Moonlight Ring",
-		right_ring="Moonlight Ring",
-		back="Moonbeam Cape",	
+		back = cape.STP,
 	}
-
+--[[UPDATE END]]
+--[[IGNORE START]]
 	----------------------------------
-	-- full Defense sets for react and other things
+	-- Defensive Set Overrides. 
 	----------------------------------
-	-- use the minimum gear necessary to achieve desired effect. This gear will merge with TP gear to optimize offense and defense. if you use more than you need, your end set will suffer
-	-- These Sets overlay onto the original TP Sets. Customize any accessory swaps in that specific set.  
 
 	sets.Hybrid = {
 		head="Flam. Zucchetto +2",
-		body="Sakpata's Plate",--"Dagon Breast.",
+		body="Sakpata's Plate",-- Can be swapped for  "Dagon Breast.",
 		hands="Sakpata's Gauntlets",
-		legs="Sakpata's Cuisses",
-		feet="Pumm. Calligae +2"
+		legs="Pumm. Cuisses +3",
+		feet="Pumm. Calligae +3"
 	}
 	sets.Sakpata = {
 		head="Sakpata's Helm",
@@ -494,13 +399,13 @@ function init_gear_sets()
 	--[ACC+100] - Need 1200 total once combined into parent set
 		sets.acc.low = {
 			neck="Sanctity Necklace",
-			waist="Ioskeha Belt",
+			waist="Ioskeha Belt +1",
 			right_ring="Moonlight Ring",		
 		}
 	--[ACC+200] - need 1400 Total once Combined into parent set
 		sets.acc.mid = {
 			neck="Sanctity Necklace",
-			waist="Ioskeha Belt",
+			waist="Ioskeha Belt +1",
 			left_ear="Telos Earring",
 			right_ear="Crep. Earring",
 			right_ring="Moonlight Ring",		
@@ -508,7 +413,7 @@ function init_gear_sets()
 	--[ACC+300] - need 1500 total once combined into parent set
 		sets.acc.high= {
 			neck="Sanctity Necklace",
-			waist="Ioskeha Belt",
+			waist="Ioskeha Belt +1",
 			left_ear="Telos Earring",
 			right_ear="Crep. Earring",
 			left_ring="Moonlight Ring",
@@ -525,39 +430,29 @@ function init_gear_sets()
 	sets.dw={}
 		sets.dw.head = {head 	 = ""} --+
 		sets.dw.body = {body 	 = ""} --+
-		sets.dw.hands= {} --+6 hands	 = "Emicho gauntlets +1
+		sets.dw.hands= {hands 	 = "Emicho gauntlets +1"} --+6 hands
 		sets.dw.legs = {legs 	 = ""} --+
 		sets.dw.feet = {feet 	 = ""} --+
 		sets.dw.ear1 = {left_ear = "Suppanomimi"}		--+5
 		sets.dw.ear2 = {right_ear= "Eabani Earring"}	--+4
 		sets.dw.waist= {waist 	 = "Reiki Yotai"}		--+7	
-		sets.dw.back = {} -- +10 back 	 = {name="Cichol Mantle", augments={'STR+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}}
+		sets.dw.back = {back 	 = cape.DW}				--+10 back
 		sets.dw.MAX  = set_combine(sets.dw.ear2, sets.dw.waist) --Needs 11
 		sets.dw.H30  = set_combine(sets.dw.hands, sets.dw.ear1, sets.dw.ear2, sets.dw.waist, sets.dw.back) --Needs 31
 		sets.dw.H15	 = set_combine(sets.dw.hands, sets.dw.ear1, sets.dw.ear2, sets.dw.waist, sets.dw.back) --Needs 42
 		sets.dw.H10	 = set_combine(sets.dw.hands, sets.dw.ear1, sets.dw.ear2, sets.dw.waist, sets.dw.back) --Needs 45
-		sets.dw.H0   = set_combine(sets.dw.hands, sets.dw.ear1, sets.dw.ear2, sets.dw.waist, sets.dw.back)  --Needs 49
-
+		sets.dw.H0   = set_combine(sets.dw.hands, sets.dw.ear1, sets.dw.ear2, sets.dw.waist, sets.dw.back) --Needs 49
+--[[IGNORE END]]
+--[[UPDATE START]]
 	----------------------------------
-	-- No Haste - 
+	-- Untyped Engaged - 
 	----------------------------------	
 	sets.engaged = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Flam. Zucchetto +2",
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Schere Earring",
-		right_ear="Dedition Earring",
-		left_ring="Niqmaddu Ring",
-		right_ring="Chirich Ring +1",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},
+		back = cape.DA,
 	}
 
-	
+--[[UPDATE END]]
+--[[IGNORE START]]	
 	----------------------------------
 	--*NOTE: NONE OF THE FOLLOWING SETS NEED TO BE CHANGED AT ALL UNLESS YOU WANT TO MICROMANGE THE FINAL OUTPUT OF A SPECIFIC CONFIGURATION.]] 	
 	----------------------------------
@@ -581,10 +476,10 @@ function init_gear_sets()
 	sets.engaged.DW.MidAcc.Hybrid 	= set_combine(sets.engaged, sets.acc.mid, sets.dw.H0, sets.Hybrid, {})
 	sets.engaged.DW.HighAcc.Hybrid 	= set_combine(sets.engaged, sets.acc.high,sets.dw.H0, sets.Hybrid, {})
 	
-	sets.engaged.DW.Sakpata 			= set_combine(sets.engaged, sets.dw.H0, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.LowAcc.Sakpata		= set_combine(sets.engaged, sets.acc.low, sets.dw.H0, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.MidAcc.Sakpata 		= set_combine(sets.engaged, sets.acc.mid, sets.dw.H0, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.HighAcc.Sakpata 	= set_combine(sets.engaged, sets.acc.high,sets.dw.H0, sets.Sakpata, {right_ring="Moonlight Ring",})
+	sets.engaged.DW.Sakpata 		= set_combine(sets.engaged, sets.dw.H0, sets.Sakpata, {})
+	sets.engaged.DW.LowAcc.Sakpata	= set_combine(sets.engaged, sets.acc.low, sets.dw.H0, sets.Sakpata, {})
+	sets.engaged.DW.MidAcc.Sakpata 	= set_combine(sets.engaged, sets.acc.mid, sets.dw.H0, sets.Sakpata, {})
+	sets.engaged.DW.HighAcc.Sakpata = set_combine(sets.engaged, sets.acc.high,sets.dw.H0, sets.Sakpata, {})
 	
 
 	----------------------------------
@@ -595,17 +490,16 @@ function init_gear_sets()
 	sets.engaged.DW.MidAcc.MaxHaste 		= set_combine(sets.engaged, sets.acc.mid, sets.dw.MAX, {})
 	sets.engaged.DW.HighAcc.MaxHaste 		= set_combine(sets.engaged, sets.acc.high,sets.dw.MAX, {})
 
-	sets.engaged.DW.Hybrid.MaxHaste 			= set_combine(sets.engaged, sets.dw.MAX,  sets.Hybrid, {})	
+	sets.engaged.DW.Hybrid.MaxHaste 		= set_combine(sets.engaged, sets.dw.MAX,  sets.Hybrid, {})	
 	sets.engaged.DW.LowAcc.Hybrid.MaxHaste 	= set_combine(sets.engaged, sets.acc.low, sets.dw.MAX, sets.Hybrid, {})
 	sets.engaged.DW.MidAcc.Hybrid.MaxHaste 	= set_combine(sets.engaged, sets.acc.mid, sets.dw.MAX, sets.Hybrid, {})
-	sets.engaged.DW.HighAcc.Hybrid.MaxHaste 	= set_combine(sets.engaged, sets.acc.high,sets.dw.MAX, sets.Hybrid, {})	 
+	sets.engaged.DW.HighAcc.Hybrid.MaxHaste = set_combine(sets.engaged, sets.acc.high,sets.dw.MAX, sets.Hybrid, {})	 
 	
-	sets.engaged.DW.Sakpata.MaxHaste 			= set_combine(sets.engaged, sets.dw.MAX,  sets.Sakpata, {right_ring="Moonlight Ring",})	
-	sets.engaged.DW.LowAcc.Sakpata.MaxHaste 	= set_combine(sets.engaged, sets.acc.low, sets.dw.MAX, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.MidAcc.Sakpata.MaxHaste 	= set_combine(sets.engaged, sets.acc.mid, sets.dw.MAX, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.HighAcc.Sakpata.MaxHaste 	= set_combine(sets.engaged, sets.acc.high,sets.dw.MAX,sets.Sakpata, {right_ring="Moonlight Ring",})	
-	 
- 
+	sets.engaged.DW.Sakpata.MaxHaste 		= set_combine(sets.engaged, sets.dw.MAX,  sets.Sakpata, {})	
+	sets.engaged.DW.LowAcc.Sakpata.MaxHaste = set_combine(sets.engaged, sets.acc.low, sets.dw.MAX, sets.Sakpata, {})
+	sets.engaged.DW.MidAcc.Sakpata.MaxHaste = set_combine(sets.engaged, sets.acc.mid, sets.dw.MAX, sets.Sakpata, {})
+	sets.engaged.DW.HighAcc.Sakpata.MaxHaste= set_combine(sets.engaged, sets.acc.high,sets.dw.MAX,sets.Sakpata, {})	
+	  
 	----------------------------------
     -- 35% Haste (~10-12%DW Needed)
 	----------------------------------
@@ -615,15 +509,15 @@ function init_gear_sets()
 	sets.engaged.DW.MidAcc.Haste_35 		= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H30, 	{})
 	sets.engaged.DW.HighAcc.Haste_35 		= set_combine(sets.engaged, sets.acc.high,	sets.dw.H30, 	{})
 
-	sets.engaged.DW.Hybrid.Haste_35 			= set_combine(sets.engaged, sets.dw.H30,	sets.Hybrid, 	{})
+	sets.engaged.DW.Hybrid.Haste_35 		= set_combine(sets.engaged, sets.dw.H30,	sets.Hybrid, 	{})
 	sets.engaged.DW.LowAcc.Hybrid.Haste_35 	= set_combine(sets.engaged, sets.acc.low, 	sets.dw.H30, sets.Hybrid, {})
 	sets.engaged.DW.MidAcc.Hybrid.Haste_35 	= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H30, sets.Hybrid, {})
-	sets.engaged.DW.HighAcc.Hybrid.Haste_35 	= set_combine(sets.engaged, sets.acc.high, sets.dw.H30, sets.Hybrid, {})
+	sets.engaged.DW.HighAcc.Hybrid.Haste_35 = set_combine(sets.engaged, sets.acc.high, sets.dw.H30, sets.Hybrid, {})
 	
-	sets.engaged.DW.Sakpata.Haste_35 			= set_combine(sets.engaged, sets.dw.H30,	sets.Sakpata, 	{right_ring="Moonlight Ring",})
-	sets.engaged.DW.LowAcc.Sakpata.Haste_35 	= set_combine(sets.engaged, sets.acc.low, 	sets.dw.H30, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.MidAcc.Sakpata.Haste_35 	= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H30, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.HighAcc.Sakpata.Haste_35 	= set_combine(sets.engaged, sets.acc.high, sets.dw.H30, sets.Sakpata, {right_ring="Moonlight Ring",})
+	sets.engaged.DW.Sakpata.Haste_35 		= set_combine(sets.engaged, sets.dw.H30,	sets.Sakpata, 	{})
+	sets.engaged.DW.LowAcc.Sakpata.Haste_35 = set_combine(sets.engaged, sets.acc.low, 	sets.dw.H30, sets.Sakpata, {})
+	sets.engaged.DW.MidAcc.Sakpata.Haste_35 = set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H30, sets.Sakpata, {})
+	sets.engaged.DW.HighAcc.Sakpata.Haste_35= set_combine(sets.engaged, sets.acc.high, sets.dw.H30, sets.Sakpata, {})
 
 
 	----------------------------------
@@ -637,15 +531,15 @@ function init_gear_sets()
 	sets.engaged.DW.MidAcc.Haste_30			= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H15, {})
 	sets.engaged.DW.HighAcc.Haste_30 		= set_combine(sets.engaged, sets.acc.high, sets.dw.H15, {})
 
-	sets.engaged.DW.Hybrid.Haste_30 			= set_combine(sets.engaged, sets.dw.H15,	sets.Hybrid, 	{})
+	sets.engaged.DW.Hybrid.Haste_30 		= set_combine(sets.engaged, sets.dw.H15,	sets.Hybrid, 	{})
 	sets.engaged.DW.LowAcc.Hybrid.Haste_30 	= set_combine(sets.engaged, sets.acc.low, 	sets.dw.H15, sets.Hybrid, {})
 	sets.engaged.DW.MidAcc.Hybrid.Haste_30 	= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H15, sets.Hybrid, {})
-	sets.engaged.DW.HighAcc.Hybrid.Haste_30 	= set_combine(sets.engaged, sets.acc.high, sets.dw.H15, sets.Hybrid, {})	
+	sets.engaged.DW.HighAcc.Hybrid.Haste_30 = set_combine(sets.engaged, sets.acc.high, sets.dw.H15, sets.Hybrid, {})	
 	
-	sets.engaged.DW.Sakpata.Haste_30 			= set_combine(sets.engaged, sets.dw.H15,	sets.Sakpata, 	{right_ring="Moonlight Ring",})
-	sets.engaged.DW.LowAcc.Sakpata.Haste_30 	= set_combine(sets.engaged, sets.acc.low, 	sets.dw.H15, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.MidAcc.Sakpata.Haste_30 	= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H15, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.HighAcc.Sakpata.Haste_30 	= set_combine(sets.engaged, sets.acc.high, sets.dw.H15, sets.Sakpata, {right_ring="Moonlight Ring",})	
+	sets.engaged.DW.Sakpata.Haste_30 		= set_combine(sets.engaged, sets.dw.H15,	sets.Sakpata, 	{})
+	sets.engaged.DW.LowAcc.Sakpata.Haste_30 = set_combine(sets.engaged, sets.acc.low, 	sets.dw.H15, sets.Sakpata, {})
+	sets.engaged.DW.MidAcc.Sakpata.Haste_30 = set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H15, sets.Sakpata, {})
+	sets.engaged.DW.HighAcc.Sakpata.Haste_30= set_combine(sets.engaged, sets.acc.high, sets.dw.H15, sets.Sakpata, {})	
 
 	----------------------------------
 	-- 15% Haste (~32%DW Needed)
@@ -656,71 +550,57 @@ function init_gear_sets()
 	sets.engaged.DW.MidAcc.Haste_15 		= set_combine(sets.engaged, sets.acc.mid, 	sets.dw.H10, 	{})
 	sets.engaged.DW.HighAcc.Haste_15 		= set_combine(sets.engaged, sets.acc.high,	sets.dw.H10,	{})
 
-	sets.engaged.DW.Hybrid.Haste_15 			= set_combine(sets.engaged, sets.dw.H10,	sets.Hybrid, {})
+	sets.engaged.DW.Hybrid.Haste_15 		= set_combine(sets.engaged, sets.dw.H10,	sets.Hybrid, {})
 	sets.engaged.DW.LowAcc.Hybrid.Haste_15 	= set_combine(sets.engaged, sets.acc.low,	sets.dw.H10, sets.Hybrid, {})
 	sets.engaged.DW.MidAcc.Hybrid.Haste_15 	= set_combine(sets.engaged, sets.acc.mid,	sets.dw.H10, sets.Hybrid, {})
-	sets.engaged.DW.HighAcc.Hybrid.Haste_15 	= set_combine(sets.engaged, sets.acc.high,	sets.dw.H10, sets.Hybrid, {})	
+	sets.engaged.DW.HighAcc.Hybrid.Haste_15 = set_combine(sets.engaged, sets.acc.high,	sets.dw.H10, sets.Hybrid, {})	
 	
-	sets.engaged.DW.Sakpata.Haste_15 			= set_combine(sets.engaged, sets.dw.H10,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.LowAcc.Sakpata.Haste_15 	= set_combine(sets.engaged, sets.acc.low,	sets.dw.H10, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.MidAcc.Sakpata.Haste_15 	= set_combine(sets.engaged, sets.acc.mid,	sets.dw.H10, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.DW.HighAcc.Sakpata.Haste_15 	= set_combine(sets.engaged, sets.acc.high,	sets.dw.H10, sets.Sakpata, {right_ring="Moonlight Ring",})	
+	sets.engaged.DW.Sakpata.Haste_15 		= set_combine(sets.engaged, sets.dw.H10,	sets.Sakpata, {})
+	sets.engaged.DW.LowAcc.Sakpata.Haste_15 = set_combine(sets.engaged, sets.acc.low,	sets.dw.H10, sets.Sakpata, {})
+	sets.engaged.DW.MidAcc.Sakpata.Haste_15 = set_combine(sets.engaged, sets.acc.mid,	sets.dw.H10, sets.Sakpata, {})
+	sets.engaged.DW.HighAcc.Sakpata.Haste_15= set_combine(sets.engaged, sets.acc.high,	sets.dw.H10, sets.Sakpata, {})	
 
-	
+--[[IGNORE END]]	
+--[[UPDATE START]]	
 	----------------------------------
 	--Sword And Board
 	----------------------------------	
 	
 	sets.engaged.SNB = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Flam. Zucchetto +2",
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Telos Earring",
-		right_ear="Dedition Earring",
-		left_ring="Niqmaddu Ring",
-		right_ring="Chirich Ring +1",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.DA,
 	}
-	
+--[[UPDATE END]]
+--[[IGNORE START]]	
+	----------------------------------
+	-- Sword And Board Variants (Dont need to alter these unless you need to specifically change the combined set)
+	----------------------------------		
 	sets.engaged.SNB.LowAcc 		= set_combine(sets.engaged.SNB, sets.acc.low,	{})
 	sets.engaged.SNB.MidAcc 		= set_combine(sets.engaged.SNB, sets.acc.mid,	{})
 	sets.engaged.SNB.HighAcc 		= set_combine(sets.engaged.SNB, sets.acc.high, {})
 
-	sets.engaged.SNB.Hybrid 			= set_combine(sets.engaged.SNB, sets.Hybrid, {})
+	sets.engaged.SNB.Hybrid 		= set_combine(sets.engaged.SNB, sets.Hybrid, {})
 	sets.engaged.SNB.LowAcc.Hybrid	= set_combine(sets.engaged.SNB, sets.acc.low,	sets.Hybrid, {})
 	sets.engaged.SNB.MidAcc.Hybrid 	= set_combine(sets.engaged.SNB, sets.acc.mid,	sets.Hybrid, {})
-	sets.engaged.SNB.HighAcc.Hybrid 	= set_combine(sets.engaged.SNB, sets.acc.high,sets.Hybrid, {})
+	sets.engaged.SNB.HighAcc.Hybrid = set_combine(sets.engaged.SNB, sets.acc.high,sets.Hybrid, {})
 	
-	sets.engaged.SNB.Sakpata 			= set_combine(sets.engaged.SNB, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.SNB.LowAcc.Sakpata	= set_combine(sets.engaged.SNB, sets.acc.low,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.SNB.MidAcc.Sakpata 	= set_combine(sets.engaged.SNB, sets.acc.mid,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.SNB.HighAcc.Sakpata 	= set_combine(sets.engaged.SNB, sets.acc.high,sets.Sakpata, {right_ring="Moonlight Ring",})
-	
+	sets.engaged.SNB.Sakpata 		= set_combine(sets.engaged.SNB, sets.Sakpata, {})
+	sets.engaged.SNB.LowAcc.Sakpata	= set_combine(sets.engaged.SNB, sets.acc.low,	sets.Sakpata, {})
+	sets.engaged.SNB.MidAcc.Sakpata = set_combine(sets.engaged.SNB, sets.acc.mid,	sets.Sakpata, {})
+	sets.engaged.SNB.HighAcc.Sakpata= set_combine(sets.engaged.SNB, sets.acc.high,sets.Sakpata, {})
+--[[IGNORE END]]
+--[[UPDATE START]]	
 	----------------------------------
 	-- TwoHanded
 	----------------------------------
 
 	sets.engaged.Twohanded = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Flam. Zucchetto +2",
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Telos Earring",
-		right_ear="Dedition Earring",
-		left_ring="Niqmaddu Ring",
-		right_ring="Chirich Ring +1",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.DA,	
 	}
-	
+--[[UPDATE END]]
+--[[IGNORE START]]		
+	----------------------------------
+	-- TwoHanded Variants (Dont need to alter these unless you need to specifically change the combined set)
+	----------------------------------		
 	sets.engaged.Twohanded.LowAcc 		= set_combine(sets.engaged.Twohanded, sets.acc.low,	{})
 	sets.engaged.Twohanded.MidAcc 		= set_combine(sets.engaged.Twohanded, sets.acc.mid,	{})
 	sets.engaged.Twohanded.HighAcc 		= set_combine(sets.engaged.Twohanded, sets.acc.high, {})
@@ -730,45 +610,39 @@ function init_gear_sets()
 	sets.engaged.Twohanded.MidAcc.Hybrid 	= set_combine(sets.engaged.Twohanded, sets.acc.mid,	sets.Hybrid, {})
 	sets.engaged.Twohanded.HighAcc.Hybrid = set_combine(sets.engaged.Twohanded, sets.acc.high,sets.Hybrid, {})
 	
-	sets.engaged.Twohanded.Sakpata 		= set_combine(sets.engaged.Twohanded, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.Twohanded.LowAcc.Sakpata	= set_combine(sets.engaged.Twohanded, sets.acc.low,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.Twohanded.MidAcc.Sakpata 	= set_combine(sets.engaged.Twohanded, sets.acc.mid,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.Twohanded.HighAcc.Sakpata = set_combine(sets.engaged.Twohanded, sets.acc.high,sets.Sakpata, {right_ring="Moonlight Ring",})
-		
+	sets.engaged.Twohanded.Sakpata 		= set_combine(sets.engaged.Twohanded, sets.Sakpata, {})
+	sets.engaged.Twohanded.LowAcc.Sakpata	= set_combine(sets.engaged.Twohanded, sets.acc.low,	sets.Sakpata, {})
+	sets.engaged.Twohanded.MidAcc.Sakpata 	= set_combine(sets.engaged.Twohanded, sets.acc.mid,	sets.Sakpata, {})
+	sets.engaged.Twohanded.HighAcc.Sakpata = set_combine(sets.engaged.Twohanded, sets.acc.high,sets.Sakpata, {})
+--[[IGNORE END]]
+--[[UPDATE START]]			
 	----------------------------------
 	-- Hand to Hand
 	----------------------------------	
 	
 	sets.engaged.H2H = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Flam. Zucchetto +2",
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Telos Earring",
-		right_ear="Dedition Earring",
-		left_ring="Niqmaddu Ring",
-		right_ring="Chirich Ring +1",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},		
+		back = cape.DA,	
 	}
-	
+--[[UPDATE END]]
+--[[IGNORE START]]
+	----------------------------------
+	-- Hand to Hand Variants (Dont need to alter these unless you need to specifically change the combined set)
+	----------------------------------		
 	sets.engaged.H2H.LowAcc 		= set_combine(sets.engaged.H2H, sets.acc.low,	{})
 	sets.engaged.H2H.MidAcc 		= set_combine(sets.engaged.H2H, sets.acc.mid,	{})
 	sets.engaged.H2H.HighAcc 		= set_combine(sets.engaged.H2H, sets.acc.high, {})
 
-	sets.engaged.H2H.Hybrid 		= set_combine(sets.engaged.H2H, sets.Hybrid, {})
+	sets.engaged.H2H.Hybrid 			= set_combine(sets.engaged.H2H, sets.Hybrid, {})
 	sets.engaged.H2H.LowAcc.Hybrid	= set_combine(sets.engaged.H2H, sets.acc.low,	sets.Hybrid, {})
 	sets.engaged.H2H.MidAcc.Hybrid 	= set_combine(sets.engaged.H2H, sets.acc.mid,	sets.Hybrid, {})
-	sets.engaged.H2H.HighAcc.Hybrid = set_combine(sets.engaged.H2H, sets.acc.high,sets.Hybrid, {})
+	sets.engaged.H2H.HighAcc.Hybrid 	= set_combine(sets.engaged.H2H, sets.acc.high,sets.Hybrid, {})
 	
-	sets.engaged.H2H.Sakpata 		= set_combine(sets.engaged.H2H, sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.H2H.LowAcc.Sakpata	= set_combine(sets.engaged.H2H, sets.acc.low,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.H2H.MidAcc.Sakpata = set_combine(sets.engaged.H2H, sets.acc.mid,	sets.Sakpata, {right_ring="Moonlight Ring",})
-	sets.engaged.H2H.HighAcc.Sakpata= set_combine(sets.engaged.H2H, sets.acc.high,sets.Sakpata, {right_ring="Moonlight Ring",})
-
+	sets.engaged.H2H.Sakpata 			= set_combine(sets.engaged.H2H, sets.Sakpata, {})
+	sets.engaged.H2H.LowAcc.Sakpata	= set_combine(sets.engaged.H2H, sets.acc.low,	sets.Sakpata, {})
+	sets.engaged.H2H.MidAcc.Sakpata 	= set_combine(sets.engaged.H2H, sets.acc.mid,	sets.Sakpata, {})
+	sets.engaged.H2H.HighAcc.Sakpata 	= set_combine(sets.engaged.H2H, sets.acc.high,sets.Sakpata, {})
+--[[IGNORE END]]
+--[[UPDATE START]]
 	----------------------------------
 	-- Weaponskills (General)
 	----------------------------------
@@ -779,190 +653,137 @@ function init_gear_sets()
 	
 	--Generic Catch all set, for any WS not specifically declared. Use full Weaponskill Damage in this set, and use set combines to swap out unneeded gear
 	sets.precast.WS = {
-		ammo="Knobkierrie",
-		head="Nyame Helm",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Ishvara Earring",
-		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		left_ring="Niqmaddu Ring",
-		right_ring="Regal Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},		
+		back = cape.STRWSD,		
 	}
-	sets.precast.WS.MAXBUFF = set_combine(sets.precast.WS, {})
+	sets.precast.WS.MAXBUFF = set_combine(sets.precast.WS, {
+	
+	})
 
   	-- Generic Set for Attack Damage to serve as the base for any Attack WS you might use. Does not Catch Undeclared Attack WS. This is used as a join set only.   
 	sets.precast.WS.ATK={
-		ammo="Knobkierrie",
-		head="Sakpata's Helm",
-		body="Sakpata's Plate",
-		hands="Sakpata's Gauntlets",
-		legs="Sakpata's Cuisses",
-		feet="Sakpata's Leggings",
-		neck="Asperity Necklace",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear="Telos Earring",
-		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		left_ring="Niqmaddu Ring",
-		right_ring="Regal Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.STRDA,	
 	}
-	sets.precast.WS.ATK.MAXBUFF = set_combine(sets.precast.WS.ATK,{})	
+	sets.precast.WS.ATK.MAXBUFF = set_combine(sets.precast.WS.ATK,{
+	
+	})	
 
  	-- Generic Set for Critcal Damage to serve as the base for any Critcal WS you might use. Does not Catch Undeclared Critcal WS. This is used as a join set only.   
 	sets.precast.WS.CRIT={
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Blistering Sallet +1", augments={'Path: A',}},
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Zoar Subligar +1", augments={'Path: A',}},
-		feet="Thereoid Greaves",
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		left_ring="Niqmaddu Ring",
-		right_ring="Regal Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},
+		back = cape.Crit
 	}
-	sets.precast.WS.CRIT.MAXBUFF = set_combine(sets.precast.WS.CRIT,{})	
+	sets.precast.WS.CRIT.MAXBUFF = set_combine(sets.precast.WS.CRIT,{
+	
+	})	
 
 	-- Generic Set for Hybrid Damage to serve as the base for any Hybrid WS you might use. Does not Catch Undeclared Hybrid WS. This is used as a join set only.
 	sets.precast.WS.HYBRID={
-		ammo="Knobkierrie",
-		head="Nyame Helm",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
-		neck="Asperity Necklace",
-		waist="Orpheus's Sash",
-		left_ear="Friomisi Earring",
-		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		left_ring="Niqmaddu Ring",
-		right_ring="Regal Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.STRWSD	
 	}
-	sets.precast.WS.HYBRID.MAXBUFF = set_combine(sets.precast.WS.HYBRID,{})
+	sets.precast.WS.HYBRID.MAXBUFF = set_combine(sets.precast.WS.HYBRID,{
+	
+	})
 	
 	-- Generic Set for magic Damage to serve as the base for any magic WS you might use. Does not Catch Undeclared magic WS. This is used as a join set only.
 	sets.precast.WS.MAB={
-		ammo="Knobkierrie",
-		head={ name="Nyame Helm", augments={'Path: B',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Baetyl Pendant",
-		waist="Orpheus's Sash",
-		left_ear="Friomisi Earring",
-		right_ear="Hecate's Earring",
-		left_ring="Epaminondas's Ring",
-		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.INTWSD
 	}
-	sets.precast.WS.MAB.MAXBUFF = set_combine(sets.precast.WS.MAB,{})
+	sets.precast.WS.MAB.MAXBUFF = set_combine(sets.precast.WS.MAB,{
+	
+	})
 		
 	-- Generic Set for magic Damage to serve as the base for any magic WS you might use. Does not Catch Undeclared magic WS. This is used as a join set only.
 	sets.precast.WS.MACC={
-		ammo="Knobkierrie",
-		head={ name="Nyame Helm", augments={'Path: B',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Baetyl Pendant",
-		waist="Orpheus's Sash",
-		left_ear="Friomisi Earring",
-		right_ear="Hecate's Earring",
-		left_ring="Epaminondas's Ring",
-		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},	
+		back = cape.INTWSD
 	}
-	sets.precast.WS.MACC.MAXBUFF = set_combine(sets.precast.WS.MACC,{})
-
+	sets.precast.WS.MACC.MAXBUFF = set_combine(sets.precast.WS.MACC,{
+	
+	})
+--[[UPDATE END]]
+--[[IGNORE START]]
+	-------------------
+	--[SPECIFIC WEAPONSKILL SETS]
+	--These do not need to be changed unless you want to override the default sets gear
+	--If a weapon skill is not included in the below Weaponskills list, it will default to the sets.precast.WS Set. Be sure to declare any other WS's you want to use that arent listed here. 
+	-------------------
 	--[Great Axe Weaponskills]
-	sets.precast.WS["Ukko's Fury"] = set_combine(sets.precast.WS.CRIT, {})
-	sets.precast.WS["Ukko's Fury"].MAXBUFF = set_combine(sets.precast.WS.CRIT.MAXBUFF, {})	
-	
-	sets.precast.WS['Metatron Torment'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Metatron Torment'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})	
-	
-	sets.precast.WS['Upheaval'] = set_combine(sets.precast.WS.ATK, {})
-	sets.precast.WS['Upheaval'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {})	
-	
-	sets.precast.WS['Fell Cleave'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Fell Cleave'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})	
+		sets.precast.WS["Ukko's Fury"] = set_combine(sets.precast.WS.CRIT, {})
+		sets.precast.WS["Ukko's Fury"].MAXBUFF = set_combine(sets.precast.WS.CRIT.MAXBUFF, {})	
+		
+		sets.precast.WS['Metatron Torment'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Metatron Torment'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})	
+		
+		sets.precast.WS['Upheaval'] = set_combine(sets.precast.WS.ATK, {})
+		sets.precast.WS['Upheaval'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {})	
+		
+		sets.precast.WS['Fell Cleave'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Fell Cleave'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})	
 
-	sets.precast.WS['Full Break'] = set_combine(sets.precast.WS.MACC, {})
-	sets.precast.WS['Full Break'].MAXBUFF = set_combine(sets.precast.WS.MACC.MAXBUFF, {})		
+		sets.precast.WS['Full Break'] = set_combine(sets.precast.WS.MACC, {})
+		sets.precast.WS['Full Break'].MAXBUFF = set_combine(sets.precast.WS.MACC.MAXBUFF, {})		
 	
 	--[Great Sword Weaponskills]
-	sets.precast.WS['Resolution'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Resolution'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})		
+		sets.precast.WS['Resolution'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Resolution'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})		
 	
 	--[Polearm Weaponskills]
-	sets.precast.WS['Impulse Drive'] = set_combine(sets.precast.WS.CRIT, {})
-	sets.precast.WS['Impulse Drive'].MAXBUFF = set_combine(sets.precast.WS.CRIT.MAXBUFF, {})		
+		sets.precast.WS['Impulse Drive'] = set_combine(sets.precast.WS.CRIT, {})
+		sets.precast.WS['Impulse Drive'].MAXBUFF = set_combine(sets.precast.WS.CRIT.MAXBUFF, {})		
 	
 	--[Scythe Weaponskills]
-	sets.precast.WS['Entropy'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Entropy'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
+		sets.precast.WS['Entropy'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Entropy'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
 	
 	--[Staff Weaponskills]
-	sets.precast.WS['Shell Crusher'] = set_combine(sets.precast.WS.MACC, {})
-	sets.precast.WS['Shell Crusher'].MAXBUFF = set_combine(sets.precast.WS.MACC.MAXBUFF, {})	
+		sets.precast.WS['Shell Crusher'] = set_combine(sets.precast.WS.MACC, {})
+		sets.precast.WS['Shell Crusher'].MAXBUFF = set_combine(sets.precast.WS.MACC.MAXBUFF, {})	
 	
 	--[Great Katana Weaponskills]
-	sets.precast.WS['Tachi: Koki'] = set_combine(sets.precast.WS.HYBRID, {})
-	sets.precast.WS['Tachi: Koki'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
+		sets.precast.WS['Tachi: Koki'] = set_combine(sets.precast.WS.HYBRID, {})
+		sets.precast.WS['Tachi: Koki'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
 	
-	sets.precast.WS['Tachi: Jinpu'] = set_combine(sets.precast.WS.HYBRID, {})
-	sets.precast.WS['Tachi: Jinpu'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
-	
-	sets.precast.WS['Tachi: Kagero'] = set_combine(sets.precast.WS.HYBRID, {})
-	sets.precast.WS['Tachi: Kagero'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
-	
-	sets.precast.WS['Tachi: Goten'] = set_combine(sets.precast.WS.HYBRID, {})
-	sets.precast.WS['Tachi: Goten'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
+		sets.precast.WS['Tachi: Jinpu'] = set_combine(sets.precast.WS.HYBRID, {})
+		sets.precast.WS['Tachi: Jinpu'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
+		
+		sets.precast.WS['Tachi: Kagero'] = set_combine(sets.precast.WS.HYBRID, {})
+		sets.precast.WS['Tachi: Kagero'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
+		
+		sets.precast.WS['Tachi: Goten'] = set_combine(sets.precast.WS.HYBRID, {})
+		sets.precast.WS['Tachi: Goten'].MAXBUFF = set_combine(sets.precast.WS.HYBRID.MAXBUFF, {})	
 	
 	--[Axe Weaponskills]
-	sets.precast.WS['Decimation'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Decimation'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})		
+		sets.precast.WS['Decimation'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Decimation'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})		
 	
 	--[Sword Weaponskills]
-	sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Savage Blade'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
-	
- 	sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS.MAB, {head="Pixie Hairpin +1"})
+		sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Savage Blade'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
+		
+		sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS.MAB, {head="Pixie Hairpin +1"})
 
 	--[Dagger Weaponskills]
-	sets.precast.WS['Aeolian Edge'] = set_combine(sets.precast.WS.MAB, {})
-	sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS.CRIT,{neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Aeolian Edge'] = set_combine(sets.precast.WS.MAB, {})
+		sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS.CRIT,{neck="Fotia Gorget", waist="Fotia Belt"})
 
 	--[Club Weaponskills]
-	sets.precast.WS['Realmrazer'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Realmrazer'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
+		sets.precast.WS['Realmrazer'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Realmrazer'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
 	
-	sets.precast.WS['Black Halo'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Black Halo'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
+		sets.precast.WS['Black Halo'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Black Halo'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
 
-	sets.precast.WS['Judgment'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Judgment'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
+		sets.precast.WS['Judgment'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Judgment'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
 		
 	--[Hand To Hand]
-	sets.precast.WS['Raging Fists'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Raging Fists'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
-	
-	sets.precast.WS['Tornado Kick'] = set_combine(sets.precast.WS, {})
-	sets.precast.WS['Tornado Kick'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
-	
-	sets.precast.WS['Asuran Fists'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
-	sets.precast.WS['Asuran Fists'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
+		sets.precast.WS['Raging Fists'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Raging Fists'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
+		
+		sets.precast.WS['Tornado Kick'] = set_combine(sets.precast.WS, {})
+		sets.precast.WS['Tornado Kick'].MAXBUFF = set_combine(sets.precast.WS.MAXBUFF, {})		
+		
+		sets.precast.WS['Asuran Fists'] = set_combine(sets.precast.WS.ATK, {neck="Fotia Gorget", waist="Fotia Belt"})
+		sets.precast.WS['Asuran Fists'].MAXBUFF = set_combine(sets.precast.WS.ATK.MAXBUFF, {neck="Fotia Gorget", waist="Fotia Belt"})	
+--[[IGNORE END]]
 
 end
 

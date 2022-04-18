@@ -93,7 +93,7 @@ function get_sets()
 	Ammo.Bullet.WS 		= "Eminent Bullet"		-- Physical Weaponskills
 	Ammo.Bullet.MAB 	= "Eminent Bullet"		-- Magical Weaponskills
 	Ammo.Bullet.MACC	= "Eminent Bullet"		-- Magic Accuracy
-	Ammo.Bullet.QD 		= "Eminent Bullet"		-- Quick Draw
+	Ammo.Bullet.QD 		= "Animikii Bullet"		-- Quick Draw
 	Ammo.Bullet.MAG_WS 	= "Eminent Bullet"	-- Magic Weapon Skills
 
 	-- Standard Idle set with -DT,Refresh,Regen with NO movement gear
@@ -259,8 +259,8 @@ function get_sets()
 	sets.QuickDraw = {}
 
 	sets.QuickDraw.ACC = {
-			ammo = Ammo.Bullet.QD,
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
+		ammo = Ammo.Bullet.QD,
+		head="Nyame Helm",
 		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
 		hands={ name="Herculean Gloves", augments={'Mag. Acc.+13 "Mag.Atk.Bns."+13','Magic burst dmg.+7%','"Mag.Atk.Bns."+15',}},
 		legs={ name="Herculean Trousers", augments={'Mag. Acc.+14 "Mag.Atk.Bns."+14','Magic burst dmg.+4%','STR+1','Mag. Acc.+7','"Mag.Atk.Bns."+7',}},
@@ -365,10 +365,10 @@ function get_sets()
 
 	sets.WS = {
 		ammo=Ammo.Bullet.WS,
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
+		head="Nyame Helm",
 		body="Laksa. Frac +3",
 		hands="Meg. Gloves +2",
-		legs={ name="Herculean Trousers", augments={'Weapon skill damage +5%','CHR+3','Accuracy+7',}},
+		legs="Nyame Flanchard",
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck={ name="Comm. Charm +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
@@ -405,10 +405,10 @@ function get_sets()
 
 	sets.WS.WSD = {
 		ammo=Ammo.Bullet.WS,
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
+		head="Nyame Helm",
 		body="Laksa. Frac +3",
 		hands="Meg. Gloves +2",
-		legs={"Nyame Flanchard"},
+		legs="Nyame Flanchard",
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck={ name="Comm. Charm +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
@@ -434,7 +434,7 @@ function get_sets()
 		right_ear="Ishvara Earring",
 		left_ring="Epaminondas's Ring",
 		right_ring="Regal Ring",
-		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
+		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+8','Weapon skill damage +10%',}},
 	}
 
 	-- Accuracy set used in OffenseMode.ACC
@@ -460,7 +460,7 @@ function get_sets()
 		head="Ikenga's Hat",
 		body="Ikenga's Vest",
 		hands="Meg. Gloves +2",
-		legs={ name="Herculean Trousers", augments={'Weapon skill damage +5%','CHR+3','Accuracy+7',}},
+		legs="Nyame Flanchard",
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
@@ -485,15 +485,15 @@ function get_sets()
 		right_ring="Paqichikaji Ring",
 		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
 	}
-	sets.WS["Slug Shot"] = {}
-	sets.WS["Numbing Shot"] = {}
-	sets.WS["Fast Blade"] = {}
-	sets.WS["Burning Blade"] = {}
-	sets.WS["Flat Blade"] = {}
-	sets.WS["Shining Blade"] = {}
-	sets.WS["Circle Blade"] = {}
-	sets.WS["Spirits Within"] = {}
-	sets.WS["Requiescat"] = {}
+	sets.WS["Slug Shot"] = sets.WS
+	sets.WS["Numbing Shot"] = sets.WS
+	sets.WS["Fast Blade"] = sets.WS
+	sets.WS["Burning Blade"] = sets.WS
+	sets.WS["Flat Blade"] = sets.WS
+	sets.WS["Shining Blade"] = sets.WS
+	sets.WS["Circle Blade"] = sets.WS
+	sets.WS["Spirits Within"] = sets.WS
+	sets.WS["Requiescat"] = sets.WS
 
 	--Custom sets for each jobsetup
 	sets.Custom = {}

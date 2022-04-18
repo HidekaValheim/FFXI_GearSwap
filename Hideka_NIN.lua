@@ -119,7 +119,7 @@ function user_setup()
 	hud_x_pos = 1515    --important to update these if you have a smaller screen
 	hud_y_pos = 300     --important to update these if you have a smaller screen
 	hud_draggable = true
-	hud_font_size = 10
+	hud_font_size = 9
 	hud_transparency = 200 -- a value of 0 (invisible) to 255 (no transparency at all)
 	hud_font = 'Impact'
 	setupTextWindow()
@@ -181,7 +181,7 @@ function init_gear_sets()
 		head="Nyame Helm",
 		body="Emet Harness",
 		hands="Kurys Gloves",
-		legs="Zoar Subligar",
+		legs="Zoar Subligar +1",
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
 		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
 		waist="Carrier's Sash",
@@ -783,28 +783,35 @@ function init_gear_sets()
     
 	-- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
 	sets.precast.WS['Blade: Hi'] 		= set_combine(sets.precast.WS, {
-		ammo="Yetshila",
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Mpaca's Doublet",
-		hands="Mpaca's Gloves",
-		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Nyame Sollerets",
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear="Mache Earring +1",
-		left_ring="Gere Ring",
-		right_ring="Begrudging Ring",
-		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
-	})
-	sets.precast.WS['Blade: Hi'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Hi'], {
-		head="Hachiya Hatsu. +3",
+		ammo="Yetshila +1",
+		head="Blistering Sallet +1",
+		neck="Ninja Nodowa +2",
+		ear1="Moonshade Earring",
+		ear2="Lugra Earring +1",
 		body="Nyame Mail",
-		hands="Malignance Gloves",
-		right_ring="Epaminondas's Ring",
-		legs="Mpaca's Hose",
-
+		hands="Nyame Gauntlets",
+		ring1="Begrudging Ring",
+		ring2="Regal Ring",
+		waist="Sailfi Belt +1",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		back={ name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%','Damage taken-5%',}}
 	})
+	sets.precast.WS['Blade: Hi'].MAXBUFF 	= {
+		ammo="Yetshila +1",
+		head="Hachiya Hatsu. +3",
+		neck="Ninja Nodowa +2",
+		ear1="Odr Earring",
+		ear2="Ishvara Earring",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		ring1="Epaminondas's Ring",
+		ring2="Regal Ring",
+		back={ name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%','Damage taken-5%',}},
+		waist="Sailfi Belt +1",
+		legs="Mpaca's Hose",
+		feet="Nyame Sollerets"
+	}
 	
 	sets.precast.WS['Blade: Ten'] 		={
 		ammo="Seething Bomblet +1",
@@ -836,7 +843,7 @@ function init_gear_sets()
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear="Mache Earring +1",
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Regal Ring",
 		right_ring="Ilabrat Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
@@ -886,7 +893,7 @@ function init_gear_sets()
 		legs="Jokushu Haidate",
 		feet="Nyame Sollerets",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		right_ear="Mache Earring +1",
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		body="Malignance Tabard",
 	})
 	
@@ -900,7 +907,7 @@ function init_gear_sets()
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear="Mache Earring +1",
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Regal Ring",
 		right_ring="Gere Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
@@ -916,18 +923,20 @@ function init_gear_sets()
 	})	
 
 	sets.precast.WS['Blade: Yu'] = {
-		ammo="Seething Bomblet +1",
-		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
+		main="Tauret",
+		sub="Kunimitsu",
+		ammo="Ghastly Tathlum +1",
+		head="Mochi. Hatsuburi +3",
+		neck="Fotia Gorget",
+		ear1="Moonshade Earring",
+		ear2="Lugra Earring +1",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
+		ring1="Epaminondas's Ring",
+		ring2="Metamor. Ring +1",
+		waist="Orpheus's Sash",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Baetyl Pendant",
-		waist="Orpheus's Sash",
-		left_ear="Friomisi Earring",
-		right_ear="Hecate's Earring",
-		left_ring="Dingir Ring",
-		right_ring="Shiva Ring +1",
 		back=Andartia.MAB--DEXWS(alt needs testing)
 	}
 
@@ -940,11 +949,11 @@ function init_gear_sets()
 		feet="Nyame Sollerets",
 		neck="Fotia Gorget",
 		waist="Orpheus's Sash",
-		left_ear="Friomisi Earring",
+		left_ear="Lugra Earring +1",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Gere Ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+		back=Andartia.STRWS,
 	})
 	sets.precast.WS['Blade: To'] = sets.precast.WS['Blade: Chi']
 	sets.precast.WS['Blade: Teki'] = sets.precast.WS['Blade: Chi']
@@ -967,7 +976,7 @@ function init_gear_sets()
 	sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS['Blade: Hi'], {})
 	-- USE MACC FOR AGEHA TO STICK DEBUFF. NOT USED FOR DAMAGE EVER.
 	sets.precast.WS['Tachi: Ageha'] = set_combine(sets.precast.WS,{
-		Ammo="Yetshila",
+		Ammo="Yetshila +1",
 		head="Malignance Chapeau",
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
@@ -995,7 +1004,7 @@ function init_gear_sets()
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Lugra Earring +1",
-		right_ear="Mache Earring +1",
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Ilabrat Ring",
 		right_ring="Gere Ring",
 		back=Andartia.DA
@@ -1010,7 +1019,7 @@ function init_gear_sets()
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Lugra Earring +1",
-		right_ear="Mache Earring +1",
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Ilabrat Ring",
 		right_ring="Gere Ring",
 		back=Andartia.DEXWS

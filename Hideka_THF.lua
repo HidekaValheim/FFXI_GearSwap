@@ -276,7 +276,7 @@ function init_gear_sets()
 		head="Halitus Helm",			--+8
 		body="Emet Harness",			--+9
 		hands="Kurys Gloves",			--+9
-		legs="Zoar Subligar",			--+5	
+		legs="Zoar Subligar +1",		--+5	
 		feet="Ahosi leggings",			--+7	
 		neck="Unmoving Collar",			--+8
 		waist="Carrier's Sash",			--+0
@@ -354,45 +354,43 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.precast.WS = {
-		main="Tauret",
-		sub={ name="Sandung", augments={'Accuracy+50','Crit. hit rate+5%','"Triple Atk."+3',}},
-		ammo="Sapience Orb",
-		head="Gleti's Mask",
-		body="Gleti's Cuirass",
-		hands="Gleti's Gauntlets",
-		legs="Gleti's Breeches",
-		feet="Gleti's Boots",
-		neck="Anu Torque",
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Fotia Gorget",
+		waist="Fotia Belt",
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring="Gere Ring",
+		left_ring="Ilabrat Ring",
 		right_ring="Regal Ring",
 		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
 	} -- default set
 	
     sets.precast.WS['Mandalic Stab'] = {
 		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
-		head="Malignance Chapeau",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands="Meg. Gloves +2",
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
 		neck="Anu Torque",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring="Ilabrat Ring",
+		left_ring="Epaminondas's Ring",
 		right_ring="Regal Ring",
 		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
 	}
     sets.precast.WS['Shark Bite'] = {
 		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
-		head="Gleti's Mask",
-		body="Gleti's Cuirass",
-		hands="Meg. Gloves +2",
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
 		neck="Anu Torque",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
@@ -403,18 +401,18 @@ function init_gear_sets()
 	}
     sets.precast.WS['Rudra\'s Storm'] = set_combine(sets.precast.WS, {
 		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
-		head="Malignance Chapeau",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands="Meg. Gloves +2",
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
 		neck="Anu Torque",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring="Ilabrat Ring",
+		left_ring="Epaminondas's Ring",
 		right_ring="Regal Ring",
-		back={ name="Toutatis's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%',}},
+		back="Sacro Mantle",
 	})
 	
     sets.precast.WS['Exenterator'] = set_combine(sets.precast.WS, {
@@ -436,10 +434,10 @@ function init_gear_sets()
     sets.precast.WS['Dancing Edge'] = set_combine(sets.precast.WS, {
 		ammo="C. Palug Stone",
 		head="Nyame Helm",
-		body={ name="Nyame Mail", augments={'Path: B',}},
+		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		feet="Nyame Sollerets",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Sherida Earring",
@@ -468,10 +466,10 @@ function init_gear_sets()
     sets.precast.WS['Aeolian Edge'] =  set_combine(sets.precast.WS, {
 		ammo={ name="Seeth. Bomblet +1", augments={'Path: A',}},
 		head="Nyame Helm",
-		body={ name="Nyame Mail", augments={'Path: B',}},
+		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		feet="Nyame Sollerets",
 		neck="Baetyl Pendant",
 		waist="Orpheus's Sash",
 		left_ear="Hermetic Earring",

@@ -238,27 +238,40 @@ function get_sets()
     
 	-- Combat Related Sets
     sets.me.melee = {
-		main="Malignance Pole",
-		sub="Kaja Grip",
 		ammo="Amar Cluster",
 		head={ name="Blistering Sallet +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Asperity Necklace",
-		waist="Windbuffet Belt +1",
-		left_ear="Brutal Earring",
+		neck="Sanctity necklace",
+		waist="Grunfeld Rope",
+		left_ear="Crep. Earring",
 		right_ear="Telos Earring",
-		left_ring="Petrov Ring",
-		right_ring="Hetairoi Ring",
-		back="Moonbeam Cape",
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
+		back="Aurist's Cape +1",
     }
       
     -- Weapon Skills sets just add them by name.
     sets.me["Shattersoul"] = {}
 	sets.me["Myrkr"] = {}
-	sets.me["Cataclysm"] = {}
+	sets.me["Cataclysm"] = {
+		ammo		= "Ghastly Tathlum +1",
+		head		= "C. Palug Crown",
+		body		= {name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		feet		= {name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		hands		= "Jhakri Cuffs +2",
+		legs		= "Amalric Slops +1",
+		neck		= "Baetyl Pendant",
+		waist		= "Orpheus's Sash",
+		left_ear	= "Regal Earring",
+		right_ear	= "Moonshade Earring",
+		left_ring	= "Metamorph Ring +1",
+		right_ring	= "Freke Ring",
+		back		={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},	
+	}
+	sets.me["Aeolian Edge"] = set_combine(sets.me["Cataclysm"],{})
 	sets.me["Omniscience"] = {}
 	sets.me["Flash Nova"] = {}
 	sets.me["Shining Strike"] = set_combine(sets.me["Flash Nova"],{})
@@ -811,47 +824,53 @@ function get_sets()
  	sets.midcast.cure = {} -- Leave This Empty
 	
     sets.midcast.cure.normal = {
-		main="Daybreak",
-		sub="Sors Shield",
+		main="Malignance Pole",
+		sub="Kaja Grip",
 		ammo="Esper Stone +1",
 		head={ name="Kaykaus Mitra +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
 		body={ name="Kaykaus Bliaut +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
 		hands={ name="Peda. Bracers +3", augments={'Enh. "Tranquility" and "Equanimity"',}},
 		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
 		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
-		neck="Reti Pendant",
+		neck="Nodens Gorget",
 		waist="Austerity Belt",
-		left_ear="Gifted Earring",
-		right_ear="Calamitous Earring",
-		left_ring="Lebeche Ring",
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
-		back="Aurist's Cape +1",
+		left_ear="Mendi. Earring",
+		right_ear="Tuisto Earring",
+		left_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
+		right_ring="Defending Ring",
+		back={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','"Cure" potency +10%','Phys. dmg. taken-10%',}},
 	}
     sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{
 		main="Iridal Staff",
-		sub="Giuoco Grip",
-		waist="Hachirin-no-Obi",	
+		sub="Kaja Grip",
+		ammo="Staunch Tathlum",
+		waist="Hachirin-no-Obi",
+		neck="Loricate Torque +1",
+		left_ear="Genmei Earring",		
 	})     
 	sets.midcast.cure.normal.self={
-		main="Daybreak",
-		sub="Sors Shield",
+		main="Malignance Pole",
+		sub="Kaja Grip",
 		ammo="Esper Stone +1",
 		head={ name="Kaykaus Mitra +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
 		body={ name="Kaykaus Bliaut +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		hands="Agwu's Gages",
+		hands={ name="Peda. Bracers +3", augments={'Enh. "Tranquility" and "Equanimity"',}},
 		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
 		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		neck="Nodens Gorget",
 		waist="Gishdubar Sash",
-		left_ear="Etiolation Earring",
-		right_ear="Regal Earring",
-		left_ring="Lebeche Ring",
-		right_ring="Meridian Ring",
-		back={ name="Lugh's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		left_ear="Mendi. Earring",
+		right_ear="Tuisto Earring",
+		left_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
+		right_ring="Defending Ring",
+		back={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','"Cure" potency +10%','Phys. dmg. taken-10%',}},
 	}
 	sets.midcast.cure.weather.self = set_combine(sets.midcast.cure.normal.self,{
 		main="Iridal Staff",
-		sub="Giuoco Grip",	
+		sub="Kaja Grip",
+		ammo="Staunch Tathlum",
+		left_ear="Genmei Earring",
+		neck="Loricate Torque +1",
 		waist="Hachirin-no-Obi",
 	}) 
 	

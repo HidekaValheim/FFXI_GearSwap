@@ -16,9 +16,9 @@ organizer_items = {
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 if PortTowns:contains(world.area) then
-	send_command('wait 3;input //gs org') 
-else
-	send_command('wait 3;input //gs org') 
+	-- send_command('wait 3;input //gs org') 
+-- else
+	-- send_command('wait 3;input //gs org') 
 end
 
 -- Define your modes: 
@@ -264,8 +264,8 @@ function get_sets()
 		feet="Sakpata's Leggings",
 		neck="Creed Collar",
 		waist="Fucho-no-Obi",
-		left_ear="Tuisto Earring",
-		right_ear="Eabani Earring",
+		left_ear="Eabani Earring",
+		right_ear="Tuisto Earring",
 		left_ring="Stikini Ring +1",
 		right_ring="Stikini Ring +1",
 		back="Moonbeam Cape",
@@ -279,14 +279,15 @@ function get_sets()
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
 		legs="Sakpata's Cuisses",
-		feet="Sakpata's Leggings",
+		-- feet="Sakpata's Leggings",
+		feet="Souveran Schuhs +1",
 		neck="Unmoving Collar +1",
 		waist="Asklepian Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Eabani Earring",
+		left_ear="Eabani Earring",
+		right_ear="Tuisto Earring",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
 		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}) 
 ---------------
 --[IDLE]-[REGAIN]
@@ -306,11 +307,11 @@ function get_sets()
 		feet="Rev. Leggings +3",
 		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
 		waist="Flume Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Ethereal Earring",
+		left_ear="Ethereal Earring",
+		right_ear="Tuisto Earring",
 		left_ring="Moonlight Ring",
 		right_ring="Moonlight Ring",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}		
 
 	sets.me.idle.resist = {
@@ -326,7 +327,7 @@ function get_sets()
 		right_ear="Eabani Earring",
 		left_ring="Moonlight Ring",
 		right_ring="Moonlight Ring",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}			
 
 ---------------
@@ -384,7 +385,7 @@ function get_sets()
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Moonlight Ring",bag="wardrobe2"},
 		right_ring={name="Moonlight Ring",bag="wardrobe7"},
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
     }
 	
 ---------------
@@ -437,7 +438,7 @@ function get_sets()
 		right_ear="Eabani Earring",
 		left_ring="Moonlight Ring",
 		right_ring="Moonlight Ring",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}
 ---------------	
 --[MELEE]-[DUALWIELD]-[NORMAL]
@@ -693,7 +694,7 @@ function get_sets()
 		right_ear="Cryptic Earring",
 		left_ring="Apeile Ring",
 		right_ring="Apeile Ring +1",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}
 		
     sets.me['Invincible'] 	= set_combine(sets.enmity, {Legs=REL.LEG})
@@ -1006,7 +1007,7 @@ function get_sets()
 		right_ear="Tuisto Earring",
 		left_ring="Apeile Ring",
 		right_ring="Apeile Ring +1",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},	
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},	
     }
 ---------------
 --[MIDCASTING]-[NON-FLASH]
@@ -1024,7 +1025,7 @@ function get_sets()
 		right_ear="Tuisto Earring",
 		left_ring="Apeile Ring",
 		right_ring="Apeile Ring +1",
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},	
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},	
     }
 ---------------
 --[MIDCASTING]-[CRUSADE]
@@ -1042,7 +1043,7 @@ function get_sets()
 		right_ear="Odnowa Earring +1",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
 		right_ring	= {name="Moonlight Ring", bag="wardrobe7"},
-		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Phys. dmg. taken-6%',}},
+		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
 	}  
 ---------------
 --[MIDCASTING]-[Reprisal]

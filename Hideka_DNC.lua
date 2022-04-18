@@ -85,7 +85,7 @@ PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 function get_gear()
 	--[[Disable code in this sub if you dont have organizer or porter packer]]
-    send_command('wait 3;input //gs org')
+    -- send_command('wait 3;input //gs org')
 	-- if PortTowns:contains(world.area) then
 		-- send_command('wait 3;input //gs org') 
 		-- send_command('wait 6;input //po repack') 
@@ -250,10 +250,9 @@ function init_gear_sets()
 		head="Halitus Helm",			--+8
 		body="Emet Harness",			--+9
 		hands="Kurys Gloves",			--+9
-		legs="Zoar Subligar",			--+5	
+		legs="Zoar Subligar +1",		--+5	
 		feet="Ahosi Leggings",			--+7	
-		neck="Warder's Charm",			--+8
-		waist="Trance Belt",			--+4
+		neck="Unmoving Collar +1",		--+10
 		left_ear="Friomisi Earring",	--+2
 		right_ear="Cryptic Earring",	--+4
 		left_ring="Provocare Ring",		--+5
@@ -269,22 +268,21 @@ function init_gear_sets()
 		ammo="Yamarang",
 		head="Anwig Salade", 
 		body="Maxixi Casaque +3",
-		hands="Maxixi Bangles +3",
+		hands="Regal Gloves",
 		legs="Dashing Subligar",
 		feet="Maxixi Toe Shoes +3",
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Chaac Belt",
 		left_ear="Handler's Earring +1",
-		right_ear="Odnowa Earring +1",
+		right_ear="Tuisto Earring",
 		left_ring="Metamorph Ring +1",
-		right_ring="Meridian Ring",
+		right_ring="Gelatinous Ring +1",
 		back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Waltz" potency +10%',}},
 	} -- Waltz Potency/CHR
     sets.precast.WaltzEnmity = set_combine(sets.precast.Waltz, {
 		head="Halitus Helm",
 		hands={ name="Horos Bangles +3", augments={'Enhances "Fan Dance" effect',}},
 		feet="Ahosi Leggings",
-		waist="Trance Belt",
 		left_ear="Cryptic Earring",
 		left_ring="Provocare Ring",
 	}) 
@@ -312,11 +310,11 @@ function init_gear_sets()
 		legs="Maxixi Tights +2",
 		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
+		waist="Eschan Stone",
+		left_ear={name="Mache Earring +1",bag="wardrobe2"},
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+		left_ring="Regal Ring",
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
     }
 
@@ -349,10 +347,10 @@ function init_gear_sets()
 		feet="Malignance Boots",
 		neck="Etoile Gorget +1",
 		waist="Reiki Yotai",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
+		left_ear={name="Mache Earring +1",bag="wardrobe2"},
+		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10',}}
         } -- Accuracy
 
@@ -363,58 +361,57 @@ function init_gear_sets()
     sets.precast.Flourish3['Climactic Flourish'] = {head="Maculele Tiara +1",}
 
     sets.precast.FC = {
-		ammo="Impatiens",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
-		body="Malignance Tabard",
+		ammo="Sapience Orb",
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
+		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
-		feet="Malignance Boots",
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
+		feet={ name="Herculean Boots", augments={'Mag. Acc.+23','"Fast Cast"+6','MND+1',}},
 		neck="Orunmila's Torque",
-		waist="Reiki Yotai",
+		waist="Carrier's Sash",
 		left_ear="Etiolation Earring",
 		right_ear="Loquac. Earring",
 		left_ring="Rahab Ring",
-		right_ring="Moonlight Ring",
-		back="Moonbeam Cape"
+		right_ring="Weather. Ring",
+		back={ name="Senuna's Mantle", augments={'CHR+20','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
         }
     sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {
         ammo="Impatiens",
         body="Passion Jacket",
-        ring1="Lebeche Ring",
         })
     ------------------------------------------------------------------------------------------------
     ------------------------------------- Weapon Skill Sets ----------------------------------------
     ------------------------------------------------------------------------------------------------
 
     sets.precast.WS = {
-		ammo = "Coiste Bodhar",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},	
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Maxixi Bangles +3",
 		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
-		waist="Grunfeld Rope",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		right_ear="Ishvara Earring",
 		left_ring="Regal Ring",
 		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}}
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
 	} -- default set
     sets.precast.WS['Exenterator'] = set_combine(sets.precast.WS, {
 		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
 		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
 		hands="Maxixi Bangles +3",
-		legs="Meg. Chausses +2",
-		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
+		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
-		left_ear="Brutal Earring",
-		right_ear="Sherida Earring",
-		left_ring="Petrov Ring",
-		right_ring="Gere Ring",
-		back="Sacro Mantle",
+		left_ear="Sherida Earring",
+		right_ear="Telos Earring",
+		left_ring="Regal Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
 	})
     sets.precast.WS['Pyrrhic Kleos'] = set_combine(sets.precast.WS, {
 		ammo="C. Palug Stone",
@@ -425,79 +422,111 @@ function init_gear_sets()
 		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
+		left_ear={name="Mache Earring +1",bag="wardrobe2"},
 		right_ear="Sherida Earring",
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
 	})
+    sets.precast.WS['Pyrrhic Kleos'].Acc = {
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head={ name="Gleti's Mask", augments={'Path: A',}},
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},
+		hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
+		legs={ name="Gleti's Breeches", augments={'Path: A',}},
+		feet={ name="Gleti's Boots", augments={'Path: A',}},
+		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
+		waist="Fotia Belt",
+		left_ear="Sherida Earring",
+		right_ear="Mache Earring +1",
+		left_ring="Regal Ring",
+		right_ring="Gere Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},	
+	}
+	
     sets.precast.WS['Dancing Edge'] = set_combine(sets.precast.WS, {
 		ammo="C. Palug Stone",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands={ name="Lustr. Mittens +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		neck="Fotia Gorget",
+		head={ name="Gleti's Mask", augments={'Path: A',}},
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},
+		hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
+		legs={ name="Gleti's Breeches", augments={'Path: A',}},
+		feet={ name="Gleti's Boots", augments={'Path: A',}},
+		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Epona's Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
+		left_ear="Sherida Earring",
+		right_ear="Mache Earring +1",
+		left_ring="Regal Ring",
+		right_ring="Gere Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},	
 	})
     sets.precast.WS['Shark Bite'] = set_combine(sets.precast.WS, {
 		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Maxixi Bangles +3",
 		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Grunfeld Rope",
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Regal Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
+		right_ear="Ishvara Earring",
+		left_ring="Regal Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},	
     })
     sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS, {
 		ammo="Charis Feather",
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
 		body="Meg. Cuirie +2",
 		hands="Mummu Wrists +2",
-		legs={ name="Lustr. Subligar +1", augments={'Accuracy+20','DEX+8','Crit. hit rate+3%',}},
-		feet="Mummu Gamash. +2",
+		legs={ name="Gleti's Breeches", augments={'Path: A',}},
+		feet={ name="Gleti's Boots", augments={'Path: A',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Sherida Earring",
-		left_ring="Gere Ring",
-		right_ring="Begrudging Ring",
+		left_ear="Sherida Earring",
+		right_ear="Mache Earring +1",
+		left_ring="Regal Ring",
+		right_ring="Ilabrat Ring",
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10',}},
 	})
-    sets.precast.WS['Rudra\'s Storm'] = set_combine(sets.precast.WS, {
+    sets.precast.WS['Rudra\'s Storm'] = {
 		ammo="C. Palug Stone",
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},	
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Maxixi Bangles +3",
 		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Grunfeld Rope",
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		right_ear="Ishvara Earring",
 		left_ring="Regal Ring",
-		right_ring="Gere Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
-        })
-    sets.precast.WS['Aeolian Edge'] = {
-		ammo="Pemphredo Tathlum",
-		head={ name="Herculean Helm", augments={'"Fast Cast"+4','CHR+5','Mag. Acc.+8','"Mag.Atk.Bns."+10',}},
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
+		right_ring="Ilabrat Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},	
+	}
+	sets.precast.WS['Rudra\'s Storm'].Acc = {
+		ammo="C. Palug Stone",
+		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Maxixi Bangles +3",
 		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
-		neck="Fotia Gorget",
+		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
+		waist="Grunfeld Rope",
+		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		right_ear="Ishvara Earring",
+		left_ring="Regal Ring",
+		right_ring="Epaminondas's Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},	
+	}
+    sets.precast.WS['Aeolian Edge'] = {
+		ammo="Ghastly Tathlum +1",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
 		waist="Orpheus's Sash",
 		left_ear="Hecate's Earring",
 		right_ear="Friomisi Earring",
@@ -507,39 +536,36 @@ function init_gear_sets()
 	}
     sets.precast.WS['Asuran Fists'] = {
 		ammo="C. Palug Stone",
-		head={ name="Herculean Helm", augments={'Accuracy+23 Attack+23','Weapon skill damage +5%','STR+5','Accuracy+15',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
-		feet={ name="Horos T. Shoes +3", augments={'Enhances "Closed Position" effect',}},
-		neck="Fotia Gorget",
+		head={ name="Gleti's Mask", augments={'Path: A',}},
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},
+		hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
+		legs={ name="Gleti's Breeches", augments={'Path: A',}},
+		feet={ name="Gleti's Boots", augments={'Path: A',}},
+		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
+		left_ear="Sherida Earring",
 		right_ear="Mache Earring +1",
-		left_ring="Shukuyu Ring",
-		right_ring="Regal Ring",
-		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+1','Weapon skill damage +10%',}},
+		left_ring="Regal Ring",
+		right_ring="Gere Ring",
+		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},	
 	}
     sets.precast.WS['Raging Fists'] = {
 		ammo="C. Palug Stone",
 		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		body={ name="Horos Casaque +3", augments={'Enhances "No Foot Rise" effect',}},
-		hands="Maxixi Bangles +3",
-		legs={ name="Horos Tights +3", augments={'Enhances "Saber Dance" effect',}},
+		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
+		hands="Adhemar Wrist. +1",
+		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
 		feet={ name="Lustra. Leggings +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
-		neck="Fotia Gorget",
+		neck={ name="Etoile Gorget +1", augments={'Path: A',}},
 		waist="Fotia Belt",
-		left_ear="Mache Earring +1",
-		right_ear="Mache Earring +1",
-		left_ring="Shukuyu Ring",
-		right_ring="Regal Ring",
+		left_ear={name="Mache Earring +1",bag="wardrobe2"},
+		right_ear="Sherida Earring",
+		left_ring="Gere Ring",
+		right_ring="Epona's Ring",
 		back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
 	}
-    sets.precast.WS['Rudra\'s Storm'].Acc = set_combine(sets.precast.WS['Rudra\'s Storm'],{neck="Etoile Gorget +1", ammo="Yamarang"})
-	sets.precast.WS['Evisceration'].Acc = set_combine(sets.precast.WS['Evisceration'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS['Pyrrhic Kleos'].Acc = set_combine(sets.precast.WS['Pyrrhic Kleos'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS['Exenterator'].Acc = set_combine(sets.precast.WS['Exenterator'], {neck="Etoile Gorget +1", ammo="Yamarang"})
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {neck="Etoile Gorget +1", ammo="Yamarang"})
+
+
     sets.precast.WS.Critical = {body="Meg. Cuirie +2"}
     
 	sets.precast.Skillchain = {hands="Macu. Bangles +1"}
@@ -574,44 +600,72 @@ function init_gear_sets()
 		waist="Flume Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back="Moonbeam Cape",	
 	}
 
     sets.idle = {
-		ammo="Staunch Tathlum",
-		head="Meghanada Visor +2",
-		body="Meg. Cuirie +2",
-		hands="Meg. Gloves +2",
-		legs="Meg. Chausses +2",
-		feet="Meg. Jam. +2",
-		neck="Loricate Torque +1",
-		waist="Flume Belt",
-		left_ear="Tuisto Earring",
-		right_ear="Odnowa Earring +1",
-		left_ring="Moonlight Ring",
-		right_ring="Defending Ring",
-		back="Moonbeam Cape",
-    }
-
-    sets.idle.DT = set_combine(sets.idle, {		
 		ammo="Staunch Tathlum",
 		head="Malignance Chapeau",
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
 		legs="Malignance Tights",
 		feet="Malignance Boots",
-		neck="Loricate Torque +1",
-		waist="Flume Belt",
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
+		left_ear="Infused Earring",
+		right_ear="Eabani Earring",
+		left_ring="Chirich Ring +1",
+		right_ring="Defending Ring",
+		back="Moonbeam Cape",
+    }
+
+    sets.idle.DT = set_combine(sets.idle, {		
+		ammo="Staunch Tathlum",
+		head="Gleti's Mask",
+		body="Gleti's Cuirass",
+		hands="Gleti's Gauntlets",
+		legs="Gleti's Breeches",
+		feet="Gleti's Boots",
+		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Moonlight Ring",
+		left_ring="Warden's Ring",
+		right_ring="Defending Ring",
+		back="Moonbeam Cape",
+		})
+    sets.idle.Town = {
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Reiki Yotai",
+		left_ear="Telos Earring",
+		right_ear="Sherida Earring",
+		left_ring="Regal Ring",
+		right_ring="Ilabrat Ring",
+		back="Sacro Mantle",
+	}
+    sets.idle.Weak = {
+		ammo="Staunch Tathlum",
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
+		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
+		left_ear="Odnowa Earring +1",
+		right_ear="Tuisto Earring",
+		left_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
 		right_ring="Moonlight Ring",
-		back="Moonbeam Cape"}
-		)
-    sets.idle.Town = set_combine(sets.idle, {})
-    sets.idle.Weak = sets.idle.DT
+		back="Moonbeam Cape",	
+	}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Defense Sets ------------------------------------------
@@ -777,8 +831,8 @@ function init_gear_sets()
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Telos Earring",
 		right_ear="Sherida Earring",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Senuna's Mantle", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+1','"Store TP"+10','Phys. dmg. taken-10%',}}
 	} -- 0%
 
@@ -797,8 +851,7 @@ function init_gear_sets()
 		hands="Malignance Gloves",
 		legs="Malignance Tights",
 		feet="Malignance Boots",
-		neck="Loricate Torque +1",
-		left_ring="Defending Ring",
+		left_ring={name="Moonlight Ring", bag="wardrobe2"},
 		right_ring={name="Moonlight Ring", bag="wardrobe7"},
     }
 
@@ -1001,7 +1054,10 @@ function customize_idle_set(idleSet)
     else
         enable('back')
     end
-
+	if buffactive['Quickening'] then 
+		idleSet=set_combine(idleSet, sets.Kiting)
+	end
+	
     return idleSet
 end
 
@@ -1177,15 +1233,15 @@ function select_default_macro_book()
     if player.sub_job == 'WAR' then
         set_macro_page(1, 7)
     elseif player.sub_job == 'THF' then
-        set_macro_page(2, 2)
+        set_macro_page(1, 7)
     elseif player.sub_job == 'NIN' then
-        set_macro_page(3, 2)
+        set_macro_page(1, 7)
     elseif player.sub_job == 'RUN' then
-        set_macro_page(4, 2)
+        set_macro_page(1, 7)
     elseif player.sub_job == 'SAM' then
-        set_macro_page(5, 2)
+        set_macro_page(1, 7)
     else
-        set_macro_page(1, 2)
+        set_macro_page(1, 7)
     end
 end
 

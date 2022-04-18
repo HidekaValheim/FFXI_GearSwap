@@ -5,11 +5,11 @@ require('coroutine')
 --Basic hud Settings - styles are full or lite; 
 hud_style = 'full'
 use_UI = true
-hud_x_pos = 1595
-hud_x_pos_lite = 1737 
-hud_y_pos = 300     
+hud_x_pos = 1495
+hud_x_pos_lite = 1550 
+hud_y_pos = 400     
 hud_draggable = true
-hud_font_size = 9
+hud_font_size = 8
 hud_transparency = 200 
 --Must use true fixed-width text formats any other text format will misalign horridly
 hud_font = 'Lucida Sans Typewriter'
@@ -1034,7 +1034,7 @@ function init_gear_sets()
 		head={ name="Ankusa Helm +3", augments={'Enhances "Killer Instinct" effect',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Totemic Gloves +2",
-		legs="Gleti's Breeches",
+		legs="Nyame Flanchard",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck={ name="Bst. Collar +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
@@ -2559,17 +2559,15 @@ function init_HUD()
 			\cs${Header1}Familiar Information
 			\cs${Header2} Pet Name: \cs${Body2}${PI_NM}
 			\cs${Header2} Pet Job:  \cs${Body2}${PI_PJ} 
-			\cs${Header2} Pet Info: \cs${Body2}${PI_PI}
-				 			   
-			\cs${Header3}KeyBinds   \cs${Header1}WS Name   \cs${Header1}crg \cs${Header1}Type   \cs${Header1}Element \cs${Header1}Effect
-			\cs${Hotkey} ${KB_RD_1}  \cs${Info}${PI_R1_N} \cs${Info} ${PI_R1_C} \cs${Info} ${PI_R1_T}  \cs${Info}${PI_R1_L}\cs${Info} ${PI_R1_E}
-			\cs${Hotkey} ${KB_RD_2}  \cs${Info}${PI_R2_N} \cs${Info} ${PI_R2_C} \cs${Info} ${PI_R2_T}  \cs${Info}${PI_R2_L}\cs${Info} ${PI_R2_E}
-			\cs${Hotkey} ${KB_RD_3}  \cs${Info}${PI_R3_N} \cs${Info} ${PI_R3_C} \cs${Info} ${PI_R3_T}  \cs${Info}${PI_R3_L}\cs${Info} ${PI_R3_E}
-			\cs${Hotkey} ${KB_RD_4}  \cs${Info}${PI_R4_N} \cs${Info} ${PI_R4_C} \cs${Info} ${PI_R4_T}  \cs${Info}${PI_R4_L}\cs${Info} ${PI_R4_E}
-			\cs${Hotkey} ${KB_RD_5}  \cs${Info}${PI_R5_N} \cs${Info} ${PI_R5_C} \cs${Info} ${PI_R5_T}  \cs${Info}${PI_R5_L}\cs${Info} ${PI_R5_E}
-			\cs${Hotkey} ${KB_RD_6}  \cs${Info}${PI_R6_N} \cs${Info} ${PI_R6_C} \cs${Info} ${PI_R6_T}  \cs${Info}${PI_R6_L}\cs${Info} ${PI_R6_E}
-			\cs${Hotkey} ${KB_RD_7}  \cs${Info}${PI_R7_N} \cs${Info} ${PI_R7_C} \cs${Info} ${PI_R7_T}  \cs${Info}${PI_R7_L}\cs${Info} ${PI_R7_E}			
-	]]
+			\cs${Header2} Pet Info: \cs${Body2}${PI_PI}]]
+	-- \cs${Header3}KeyBinds   \cs${Header1}WS Name   \cs${Header1}crg \cs${Header1}Type   \cs${Header1}Element \cs${Header1}Effect
+	-- \cs${Hotkey} ${KB_RD_1}  \cs${Info}${PI_R1_N} \cs${Info} ${PI_R1_C} \cs${Info} ${PI_R1_T}  \cs${Info}${PI_R1_L}\cs${Info} ${PI_R1_E}
+	-- \cs${Hotkey} ${KB_RD_2}  \cs${Info}${PI_R2_N} \cs${Info} ${PI_R2_C} \cs${Info} ${PI_R2_T}  \cs${Info}${PI_R2_L}\cs${Info} ${PI_R2_E}
+	-- \cs${Hotkey} ${KB_RD_3}  \cs${Info}${PI_R3_N} \cs${Info} ${PI_R3_C} \cs${Info} ${PI_R3_T}  \cs${Info}${PI_R3_L}\cs${Info} ${PI_R3_E}
+	-- \cs${Hotkey} ${KB_RD_4}  \cs${Info}${PI_R4_N} \cs${Info} ${PI_R4_C} \cs${Info} ${PI_R4_T}  \cs${Info}${PI_R4_L}\cs${Info} ${PI_R4_E}
+	-- \cs${Hotkey} ${KB_RD_5}  \cs${Info}${PI_R5_N} \cs${Info} ${PI_R5_C} \cs${Info} ${PI_R5_T}  \cs${Info}${PI_R5_L}\cs${Info} ${PI_R5_E}
+	-- \cs${Hotkey} ${KB_RD_6}  \cs${Info}${PI_R6_N} \cs${Info} ${PI_R6_C} \cs${Info} ${PI_R6_T}  \cs${Info}${PI_R6_L}\cs${Info} ${PI_R6_E}
+	-- \cs${Hotkey} ${KB_RD_7}  \cs${Info}${PI_R7_N} \cs${Info} ${PI_R7_C} \cs${Info} ${PI_R7_T}  \cs${Info}${PI_R7_L}\cs${Info} ${PI_R7_E}	
 	elseif hud_style=='lite' then
 	hud_x_pos_og = hud_x_pos_lite
 	
@@ -2580,17 +2578,15 @@ function init_HUD()
 			\cs${Hotkey} ${KB_ID_M} \cs${Header2} Id Md: \cs${Body1} ${player_current_Idle}
 			\cs${Hotkey} ${KB_AX_M} \cs${Header2} WP Md: \cs${Body1} ${player_current_AxeMode}
 			\cs${Hotkey} ${KB_MC_M} \cs${Header2} CO Md: \cs${Body1} ${player_current_CorrelationMode}
-			\cs${Hotkey} ${KB_AF_M} \cs${Header2} AF Md: \cs${Body1} ${player_current_AutoFightMode}
-					   
-			\cs${Header3}KeyBinds   \cs${Header1}WS Name   \cs${Header1}Element
-			\cs${Hotkey} ${KB_RD_1}  \cs${Info}${PI_R1_N} \cs${Info}${PI_R1_L}
-			\cs${Hotkey} ${KB_RD_2}  \cs${Info}${PI_R2_N} \cs${Info}${PI_R2_L}
-			\cs${Hotkey} ${KB_RD_3}  \cs${Info}${PI_R3_N} \cs${Info}${PI_R3_L}
-			\cs${Hotkey} ${KB_RD_4}  \cs${Info}${PI_R4_N} \cs${Info}${PI_R4_L}
-			\cs${Hotkey} ${KB_RD_5}  \cs${Info}${PI_R5_N} \cs${Info}${PI_R5_L}
-			\cs${Hotkey} ${KB_RD_6}  \cs${Info}${PI_R6_N} \cs${Info}${PI_R6_L}
-			\cs${Hotkey} ${KB_RD_7}  \cs${Info}${PI_R7_N} \cs${Info}${PI_R7_L}	
-		]]	
+			\cs${Hotkey} ${KB_AF_M} \cs${Header2} AF Md: \cs${Body1} ${player_current_AutoFightMode}]]	
+	-- \cs${Header3}KeyBinds   \cs${Header1}WS Name  \cs${Header1}Element
+	-- \cs${Hotkey} ${KB_RD_1}  \cs${Info}${PI_R1_N} \cs${Info}${PI_R1_L}
+	-- \cs${Hotkey} ${KB_RD_2}  \cs${Info}${PI_R2_N} \cs${Info}${PI_R2_L}
+	-- \cs${Hotkey} ${KB_RD_3}  \cs${Info}${PI_R3_N} \cs${Info}${PI_R3_L}
+	-- \cs${Hotkey} ${KB_RD_4}  \cs${Info}${PI_R4_N} \cs${Info}${PI_R4_L}
+	-- \cs${Hotkey} ${KB_RD_5}  \cs${Info}${PI_R5_N} \cs${Info}${PI_R5_L}
+	-- \cs${Hotkey} ${KB_RD_6}  \cs${Info}${PI_R6_N} \cs${Info}${PI_R6_L}
+	-- \cs${Hotkey} ${KB_RD_7}  \cs${Info}${PI_R7_N} \cs${Info}${PI_R7_L}	
 	end
 
 	-- init style
@@ -2639,47 +2635,47 @@ function validateTextInformation()
 	main_text_hub.PI_PJ = PetJob
 	main_text_hub.PI_PI = PetInfo
 	if hud_style=='full' then
-		main_text_hub.PI_R1_N = ReadyMoveOne.Name
-		main_text_hub.PI_R1_C = ReadyMoveOne.Cost
-		main_text_hub.PI_R1_T = ReadyMoveOne.Type
-		main_text_hub.PI_R1_L = ReadyMoveOne.Element
-		main_text_hub.PI_R1_E = ReadyMoveOne.Effect
+		-- main_text_hub.PI_R1_N = ReadyMoveOne.Name
+		-- main_text_hub.PI_R1_C = ReadyMoveOne.Cost
+		-- main_text_hub.PI_R1_T = ReadyMoveOne.Type
+		-- main_text_hub.PI_R1_L = ReadyMoveOne.Element
+		-- main_text_hub.PI_R1_E = ReadyMoveOne.Effect
 
-		main_text_hub.PI_R2_N = ReadyMoveTwo.Name
-		main_text_hub.PI_R2_C = ReadyMoveTwo.Cost
-		main_text_hub.PI_R2_T = ReadyMoveTwo.Type
-		main_text_hub.PI_R2_L = ReadyMoveTwo.Element
-		main_text_hub.PI_R2_E = ReadyMoveTwo.Effect
+		-- main_text_hub.PI_R2_N = ReadyMoveTwo.Name
+		-- main_text_hub.PI_R2_C = ReadyMoveTwo.Cost
+		-- main_text_hub.PI_R2_T = ReadyMoveTwo.Type
+		-- main_text_hub.PI_R2_L = ReadyMoveTwo.Element
+		-- main_text_hub.PI_R2_E = ReadyMoveTwo.Effect
 
-		main_text_hub.PI_R3_N = ReadyMoveThree.Name	
-		main_text_hub.PI_R3_C = ReadyMoveThree.Cost
-		main_text_hub.PI_R3_T = ReadyMoveThree.Type
-		main_text_hub.PI_R3_L = ReadyMoveThree.Element
-		main_text_hub.PI_R3_E = ReadyMoveThree.Effect
+		-- main_text_hub.PI_R3_N = ReadyMoveThree.Name	
+		-- main_text_hub.PI_R3_C = ReadyMoveThree.Cost
+		-- main_text_hub.PI_R3_T = ReadyMoveThree.Type
+		-- main_text_hub.PI_R3_L = ReadyMoveThree.Element
+		-- main_text_hub.PI_R3_E = ReadyMoveThree.Effect
 
-		main_text_hub.PI_R4_N = ReadyMoveFour.Name
-		main_text_hub.PI_R4_C = ReadyMoveFour.Cost
-		main_text_hub.PI_R4_T = ReadyMoveFour.Type
-		main_text_hub.PI_R4_L = ReadyMoveFour.Element
-		main_text_hub.PI_R4_E = ReadyMoveFour.Effect
+		-- main_text_hub.PI_R4_N = ReadyMoveFour.Name
+		-- main_text_hub.PI_R4_C = ReadyMoveFour.Cost
+		-- main_text_hub.PI_R4_T = ReadyMoveFour.Type
+		-- main_text_hub.PI_R4_L = ReadyMoveFour.Element
+		-- main_text_hub.PI_R4_E = ReadyMoveFour.Effect
 
-		main_text_hub.PI_R5_N = ReadyMoveFive.Name
-		main_text_hub.PI_R5_C = ReadyMoveFive.Cost
-		main_text_hub.PI_R5_T = ReadyMoveFive.Type
-		main_text_hub.PI_R5_L = ReadyMoveFive.Element
-		main_text_hub.PI_R5_E = ReadyMoveFive.Effect
+		-- main_text_hub.PI_R5_N = ReadyMoveFive.Name
+		-- main_text_hub.PI_R5_C = ReadyMoveFive.Cost
+		-- main_text_hub.PI_R5_T = ReadyMoveFive.Type
+		-- main_text_hub.PI_R5_L = ReadyMoveFive.Element
+		-- main_text_hub.PI_R5_E = ReadyMoveFive.Effect
 
-		main_text_hub.PI_R6_N = ReadyMoveSix.Name
-		main_text_hub.PI_R6_C = ReadyMoveSix.Cost
-		main_text_hub.PI_R6_T = ReadyMoveSix.Type
-		main_text_hub.PI_R6_L = ReadyMoveSix.Element
-		main_text_hub.PI_R6_E = ReadyMoveSix.Effect
+		-- main_text_hub.PI_R6_N = ReadyMoveSix.Name
+		-- main_text_hub.PI_R6_C = ReadyMoveSix.Cost
+		-- main_text_hub.PI_R6_T = ReadyMoveSix.Type
+		-- main_text_hub.PI_R6_L = ReadyMoveSix.Element
+		-- main_text_hub.PI_R6_E = ReadyMoveSix.Effect
 
-		main_text_hub.PI_R7_N = ReadyMoveSeven.Name
-		main_text_hub.PI_R7_C = ReadyMoveSeven.Cost
-		main_text_hub.PI_R7_T = ReadyMoveSeven.Type 
-		main_text_hub.PI_R7_L = ReadyMoveSeven.Element
-		main_text_hub.PI_R7_E = ReadyMoveSeven.Effect	
+		-- main_text_hub.PI_R7_N = ReadyMoveSeven.Name
+		-- main_text_hub.PI_R7_C = ReadyMoveSeven.Cost
+		-- main_text_hub.PI_R7_T = ReadyMoveSeven.Type 
+		-- main_text_hub.PI_R7_L = ReadyMoveSeven.Element
+		-- main_text_hub.PI_R7_E = ReadyMoveSeven.Effect	
     elseif hud_style=='lite' then
 		main_text_hub.PI_R1_N = ReadyMoveOne.Name
 		main_text_hub.PI_R1_L = ReadyMoveOne.Element

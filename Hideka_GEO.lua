@@ -61,11 +61,11 @@ organizer_items = {
 }
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
-if PortTowns:contains(world.area) then
-	send_command('wait 3;input //gs org') 
-else
-	send_command('wait 3;input //gs org') 
-end
+-- if PortTowns:contains(world.area) then
+	-- send_command('wait 3;input //gs org') 
+-- else
+	-- send_command('wait 3;input //gs org') 
+-- end
 
 --------------------------------------------------------------------------------------------------------------
 res = require('resources')      -- leave this as is    
@@ -170,11 +170,11 @@ function get_sets()
 		main="Malignance Pole",
 		sub="Kaja Grip",
 		range="Dunna",
-		head="Befouled Crown",
-		body="Jhakri Robe +2",
-		hands={ name="Bagua Mitaines", augments={'Enhances "Curative Recantation" effect',}},
-		legs="Assid. Pants +1",
-		feet={ name="Merlinic Crackows", augments={'DEX+8','Crit. hit damage +1%','"Refresh"+1','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body="Agwu's Robe",
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Loricate Torque +1",
 		waist="Fucho-no-Obi",
 		left_ear="Odnowa Earring +1",
@@ -188,12 +188,8 @@ function get_sets()
 	sets.me.movespeed = {feet="Geomancy Sandals"}	
 	
     -- Your idle MasterDT set (Notice the sets.me, means no Luopan is out)
-    sets.me.idle.dt = set_combine(sets.me.idle.normal,{
-		hands="Jhakri Cuffs +2",
-    })
-    sets.me.idle.mdt = set_combine(sets.me.idle.normal,{
-
-    })	
+    sets.me.idle.dt = set_combine(sets.me.idle.normal,{})
+    sets.me.idle.mdt = set_combine(sets.me.idle.normal,{})	
     -- Your MP Recovered Whilst Resting Set
     sets.me.resting = { 
 
@@ -212,27 +208,23 @@ function get_sets()
 		main="Malignance Pole",
 		sub="Kaja Grip",
 		range="Dunna",
-		head="Azimuth Hood +1",
-		body="Jhakri Robe +2",
-		hands="Geo. Mitaines +1",
-		legs="Assid. Pants +1",
-		feet={ name="Bagua Sandals", augments={'Enhances "Radial Arcana" effect',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body="Agwu's Robe",
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Loricate Torque +1",
 		waist="Fucho-no-Obi",
-		left_ear="Handler's Earring +1",
-		right_ear="Handler's Earring",
-		left_ring="Meridian Ring",
+		left_ear="Odnowa Earring +1",
+		right_ear="Etiolation Earring",
+		left_ring="Warden's Ring",
 		right_ring="Defending Ring",
 		back="Moonbeam Cape",
     }
 	
 	-- This is when you have a Luopan out but want to sacrifice some slot for master DT, put those slots in.
-    sets.pan.idle.dt = set_combine(sets.pan.idle.normal,{
-		hands="Jhakri Cuffs +2",
-    })   
-    sets.pan.idle.mdt = set_combine(sets.pan.idle.normal,{
-
-    })   
+    sets.pan.idle.dt = set_combine(sets.pan.idle.normal,{})   
+    sets.pan.idle.mdt = set_combine(sets.pan.idle.normal,{})   
     -- Combat Related Sets
       
     -- Melee
@@ -340,39 +332,33 @@ function get_sets()
     -- Generic Casting Set that all others take off of. Here you should add all your fast cast  
     sets.precast.casting = {
 		main="C. Palug Hammer",
-		sub="Genbu's Shield",
+		sub="Culminus",
 		range="Dunna",
-		head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','Magic burst dmg.+5%','"Mag.Atk.Bns."+10',}},
-		body="Zendik Robe",
-		hands="Jhakri Cuffs +2",
-		legs={ name="Psycloth Lappas", augments={'MP+75','Mag. Acc.+14','"Fast Cast"+7',}},
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		head="Agwu's Cap",
+		body="Agwu's Robe",
+		hands="Agwu's Gages",
+		legs="Agwu's Slops",
+		feet="Agwu's Pigaches",
 		neck="Orunmila's Torque",
-		waist="Channeler's Stone",
-		left_ear="Malignance Earring",
-		right_ear="Etiolation Earring",
-		left_ring="Rahab Ring",
-		right_ring="Jhakri Ring",
+		waist="Embla Sash",
+		left_ear="Tuisto Earring",
+		right_ear="Malignance Earring",
+		left_ring="Kishar Ring",
+		right_ring="Defending Ring",
 		back="Moonbeam Cape",
 	}   
 
-    sets.precast.geomancy = set_combine(sets.precast.casting,{
-
-    })
+    sets.precast.geomancy = set_combine(sets.precast.casting,{})
     -- Enhancing Magic, eg. Siegal Sash, etc
-    sets.precast.enhancing = set_combine(sets.precast.casting,{
-
-    })
+    sets.precast.enhancing = set_combine(sets.precast.casting,{})
   
     -- Stoneskin casting time -, works off of enhancing -
-    sets.precast.stoneskin = set_combine(sets.precast.enhancing,{
-
-    })
+    sets.precast.stoneskin = set_combine(sets.precast.enhancing,{})
       
     -- Curing Precast, Cure Spell Casting time -
     sets.precast.cure = set_combine(sets.precast.casting,{
-		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
-    })
+
+	})
     sets.precast.regen = set_combine(sets.precast.casting,{
 
     })     
@@ -396,19 +382,19 @@ function get_sets()
             
     -- Whatever you want to equip mid-cast as a catch all for all spells, and we'll overwrite later for individual spells
     sets.midcast.casting = {
-		main="Solstice",
-		sub="Genbu's Shield",
+		main="C. Palug Hammer",
+		sub="Culminus",
 		range="Dunna",
-		head={ name="Vanya Hood", augments={'MP+49','"Cure" potency +7%','Enmity-5',}},
-		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		hands={ name="Telchine Gloves", augments={'"Conserve MP"+1',}},
-		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		feet={ name="Merlinic Crackows", augments={'DEX+8','Crit. hit damage +1%','"Refresh"+1','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
-		neck="Incanter's Torque",
-		waist="Austerity Belt",
-		left_ear="Gifted Earring",
-		right_ear="Etiolation Earring",
-		left_ring="Meridian Ring",
+		head="Agwu's Cap",
+		body="Agwu's Robe",
+		hands="Agwu's Gages",
+		legs="Agwu's Slops",
+		feet="Agwu's Pigaches",
+		neck="Orunmila's Torque",
+		waist="Embla Sash",
+		left_ear="Tuisto Earring",
+		right_ear="Malignance Earring",
+		left_ring="Kishar Ring",
 		right_ring="Defending Ring",
 		back="Moonbeam Cape",
     }
@@ -420,8 +406,8 @@ function get_sets()
 		hands="Geo. Mitaines +1",
 		legs={ name="Bagua Pants", augments={'Enhances "Mending Halation" effect',}},
 		feet="Azimuth Gaiters",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back={ name="Lifestream Cape", augments={'Geomancy Skill +9','Indi. eff. dur. +17','Pet: Damage taken -3%',}},
 	})
 	-- For Indi Spells
@@ -437,7 +423,7 @@ function get_sets()
     sets.midcast.nuking.normal = {
 		main="Daybreak",
 		sub="Ammurapi Shield",
-		ammo="Pemphredo Tathlum",
+		ammo="Ghastly Tathlum +1",
 		head="C. Palug Crown",
 		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
@@ -448,7 +434,7 @@ function get_sets()
 		left_ear="Malignance Earring",
 		right_ear="Barkaro. Earring",
 		left_ring="Freke Ring",
-		right_ring="Shiva Ring +1",
+		right_ring="Metamorph Ring +1",
 		back="Toro Cape",
 	}
 	sets.midcast.MB.normal = set_combine(sets.midcast.nuking.normal, {

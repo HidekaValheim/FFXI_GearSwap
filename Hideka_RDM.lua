@@ -198,10 +198,12 @@ function get_sets()
 --------------------
 --[SUCCELLOS CAPES]-[JSE]
 --------------------  
+
 	JSE = {}		--Leave This Empty
 		JSE.WSD = {}
 			JSE.WSD.MNDMAG 	= {name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%',}}
-			JSE.WSD.STRATK 	= {name="Sucellos's Cape", augments={'STR+20','Accuracy+19 Attack+19','STR+10','Weapon skill damage +10%',}}
+			JSE.WSD.INTMAG  = {name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+8','Weapon skill damage +10%',}}
+			JSE.WSD.STRATK 	= {name="Sucellos's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}}
 			JSE.WSD.DEXMAG 	= {name="Sucellos's Cape", augments={'DEX+20','Mag. Acc+20 /Mag. Dmg.+20','DEX+8','Weapon skill damage +10%',}}
 			JSE.WSD.AGIATK 	= {name="Sucellos's Cape", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Atk.+10','Weapon skill damage +10%',}}
 		JSE.MAG = {}
@@ -212,7 +214,7 @@ function get_sets()
 			JSE.MAG.INT 	= {name="Sucellos's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Fast Cast"+10',}}
 		JSE.MELEE = {}
 			JSE.MELEE.STP 	= {name="Sucellos's Cape", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Damage taken-5%',}}
-			JSE.MELEE.DW 	= {name="Sucellos's Cape", augments={'DEX+15','Accuracy+20 Attack+20','"Dual Wield"+10',}}
+			JSE.MELEE.DW 	= {name="Sucellos's Cape", augments={'HP+60','Accuracy+20 Attack+20','"Dual Wield"+10','Phys. dmg. taken-2%',}}
 			JSE.MELEE.CRIT 	= {name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10',}}
 
 --------------------
@@ -463,8 +465,8 @@ function get_sets()
 		feet="Malignance Boots",
 		neck="Sanctity Necklace",
 		waist="Reiki Yotai",
-		left_ear="Telos Earring",
-		right_ear="Sherida Earring",
+		left_ear="Sherida Earring",
+		right_ear="Telos Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
 		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back=JSE.MELEE.STP
@@ -481,8 +483,8 @@ function get_sets()
 		feet="Malignance Boots",
 		neck="Anu Torque",
 		waist="Reiki Yotai",
-		left_ear="Eabani Earring",				
-		right_ear="Sherida Earring",
+		left_ear="Sherida Earring",				
+		right_ear="Eabani Earring",
 		left_ring="Petrov Ring",
 		right_ring="Hetairoi Ring",
 		back=JSE.MELEE.STP 
@@ -523,7 +525,7 @@ function get_sets()
 		right_ear="Telos Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
 		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
-		back={ name="Sucellos's Cape", augments={'DEX+15','Accuracy+20 Attack+20','"Dual Wield"+10',}},
+		back = JSE.MELEE.DW
 
 	}
     sets.me.melee.Enspellsw ={
@@ -585,11 +587,11 @@ function get_sets()
 ---------------
 	sets.me.STRWSD = {
 		ammo		= "Coiste Bodhar",
-		head		= {name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+		head		= "Nyame Helm",
 		body		= "Nyame Mail",
-		hands		= "Atrophy Gloves +3",
-		legs		= "Malignance Tights",
-		feet		= {name="Chironic Slippers", augments={'"Conserve MP"+2','Pet: "Mag.Atk.Bns."+2','Weapon skill damage +8%','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
+		hands		= "Nyame Gauntlets",
+		legs		= "Nyame Flanchard",
+		feet		= "Nyame Sollerets",
 		neck		= REL.NEK,
 		waist		= "Sailfi Belt +1",
 		left_ear	= {name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -605,18 +607,18 @@ function get_sets()
 
 
 	sets.me.MAGWS = {
-		ammo		= "Regal Gem",
-		head		= "C. Palug Crown",
-		body		= {name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		feet		= {name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		ammo		= "Ghastly Tathlum +1",
+		head		= "Nyame Helm",
+		body		= "Nyame Mail",
 		hands		= JHA.HND,
-		legs		= AMA.LEG,
+		legs		= "Nyame Flanchard",
+		feet		= "Nyame Sollerets",
 		neck		= "Baetyl Pendant",
 		waist		= "Orpheus's Sash",
 		left_ear	= "Regal Earring",
 		right_ear	= "Moonshade Earring",
 		left_ring	= "Metamorph Ring +1",
-		right_ring	= "Freke Ring",
+		right_ring	= "Epaminondas's Ring",
 		back		= JSE.WSD.MNDMAG,
 	
 	}
@@ -628,14 +630,14 @@ function get_sets()
 		right_ear	= "Malignance Earring",
 		left_ring	= "Metamorph Ring +1",
 		right_ring	= "Freke Ring",
-		back		= JSE.MAG.NUKE
+		back		= JSE.WSD.MNDMAG,
     })
 ---------------
 --[WEAPONSKILL]-[SWORD]-[RED LOTUS BLADE]-[MOD:40%STR/40%INT/M.ATTK]-[ELEMENT:Liquefaction]
 ---------------
-    sets.me["Red Lotus Blade"] = set_combine(sets.me.MAGWS, {})
-    sets.me["Seraph Blade"] = set_combine(sets.me.MAGWS, {})
-    sets.me["Aeolian Edge"] = set_combine(sets.me.MAGWS, {ammo="Pemphredo Tathlum", back={ name="Sucellos's Cape", augments={'DEX+20','Mag. Acc+20 /Mag. Dmg.+20','DEX+8','Weapon skill damage +10%',}}})
+    sets.me["Red Lotus Blade"] = set_combine(sets.me.MAGWS, {back=JSE.WSD.INTMAG})
+    sets.me["Seraph Blade"] = set_combine(sets.me.MAGWS, {ammo= "Regal Gem", left_ring="Weather. Ring", right_ring= "Freke Ring",})
+    sets.me["Aeolian Edge"] = set_combine(sets.me.MAGWS, {ammo="Pemphredo Tathlum", left_ring= "Freke Ring",back=JSE.WSD.INTMAG})
 
     sets.me["Asuran Fists"] = {
 		ammo		= "Coiste Bodhar",
@@ -650,7 +652,7 @@ function get_sets()
 		right_ear	= "Sherida Earring",
 		left_ring	= "Ilabrat Ring",
 		right_ring	= "Petrov Ring",
-		back		= { name="Sucellos's Cape", augments={'STR+20','Accuracy+19 Attack+19','STR+10','Weapon skill damage +10%',}}
+		back		= JSE.WSD.STRATK
 	}
 
     sets.me["Raging Fists"] = {
@@ -666,7 +668,7 @@ function get_sets()
 		right_ear	= "Sherida Earring",
 		left_ring	= "Ilabrat Ring",
 		right_ring	= "Petrov Ring",
-		back		= { name="Sucellos's Cape", augments={'STR+20','Accuracy+19 Attack+19','STR+10','Weapon skill damage +10%',}}
+		back		= JSE.WSD.STRATK
 	}
 
 ---------------
@@ -676,26 +678,26 @@ function get_sets()
 		ammo="Regal Gem",
 		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
 		body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
+		hands={ name="Viti. Gloves +3", augments={'Enhancing Magic duration',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
-		left_ear="Malignance Earring",
-		right_ear="Regal Earring",
+		left_ear="Regal Earring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Ilabrat Ring",
-		right_ring="Stikini Ring +1",
-		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%',}},
+		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		back=JSE.WSD.MNDMAG
     }
 ---------------
 --[WEAPONSKILL]-[SWORD]-[CHANT DU CYGNE]-[MOD:80%DEX/P.ATTK/Gorget]-[ELEMENT:Light/Distortion]
 ---------------
     sets.me["Chant du Cygne"] = {
-		ammo="Yetshila",
+		ammo="Yetshila +1",
 		head={ name="Blistering Sallet +1", augments={'Path: A',}},
 		body="Ayanmo Corazza +2",
-		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
+		hands="Bunzi's Gloves",
+		legs="Zoar Subligar +1",
 		feet="Thereoid Greaves",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
@@ -703,7 +705,7 @@ function get_sets()
 		right_ear="Sherida Earring",
 		left_ring="Begrudging Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10',}},
+		back=JSE.MELEE.CRIT
     }
 
 ---------------
@@ -711,43 +713,43 @@ function get_sets()
 ---------------
     sets.me["Death Blossom"] = {
 		ammo="Regal Gem",
-		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
-		body="Nyame Mail",
-		hands="Atrophy Gloves +3",
-		legs="Nyame Flanchard",
-		feet={ name="Chironic Slippers", augments={'"Conserve MP"+2','Pet: "Mag.Atk.Bns."+2','Weapon skill damage +8%','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
+		head= "Nyame Helm",
+		body= "Nyame Mail",
+		hands= "Nyame Gauntlets",
+		legs= "Nyame Flanchard",
+		feet= "Nyame Sollerets",
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Regal Earring",
 		right_ear="Sherida Earring",
 		left_ring="Epaminondas's Ring",
 		right_ring="Metamorph Ring +1",
-		back={ name="Sucellos's Cape", augments={'STR+20','Accuracy+19 Attack+19','STR+10','Weapon skill damage +10%',}},
+		back=JSE.WSD.STRATK
     }
 ---------------
 --[WEAPONSKILL]-[SWORD]-[SWIFT BLADE]-[MOD:50%MND/50%STR/P.ATTK/GORGET]-[ELEMENT:GRAVITATION] -[REQUIRES HOMINILARY SWORD]
 ---------------
     sets.me["Circle Blade"] = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
-		body="Nyame Mail",
-		hands="Atrophy Gloves +3",
-		legs="Nyame Flanchard",
-		feet={ name="Chironic Slippers", augments={'"Conserve MP"+2','Pet: "Mag.Atk.Bns."+2','Weapon skill damage +8%','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
+		head= "Nyame Helm",
+		body= "Nyame Mail",
+		hands= "Nyame Gauntlets",
+		legs= "Nyame Flanchard",
+		feet= "Nyame Sollerets",
 		neck="Fotia Gorget",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Ishvara Earring",
 		right_ear="Sherida Earring",
 		left_ring="Petrov ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Sucellos's Cape", augments={'STR+20','Accuracy+19 Attack+19','STR+10','Weapon skill damage +10%',}},
+		back=JSE.WSD.STRATK
     }
 
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[EVISCERATION]-[MOD:50%DEX/P.ATTK/GORGET]-[ELEMENT:GRAVITATION/TRANSFIXION]
 ---------------
     sets.me["Evisceration"] = {
-		ammo="Yetshila",
+		ammo="Yetshila +1",
 		head={ name="Blistering Sallet +1", augments={'Path: A',}},
 		body="Ayanmo Corazza +2",
 		hands="Nyame Gauntlets",
@@ -759,7 +761,7 @@ function get_sets()
 		right_ear="Sherida Earring",
 		left_ring="Begrudging Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Crit.hit rate+10',}},
+		back=JSE.MELEE.CRIT,
     }
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[EXTENERATOR]-[MOD:85%AGI/P.ATTK/GORGET]-[ELEMENT:FRAGMENTATION/SCISSION]
@@ -777,7 +779,7 @@ function get_sets()
 		right_ear="Sherida Earring",
 		left_ring="Petrov Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Sucellos's Cape", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Atk.+10','Weapon skill damage +10%',}},
+		back= JSE.WSD.AGIATK,
     }
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[ENERGY DRAIN]-[MOD:100%MND/NO ATTK MOD]-[ELEMENT:DARK (NO SC ELEMENT)]
@@ -795,8 +797,22 @@ function get_sets()
 		right_ear="Regal Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
 		right_ring="Stikini Ring +1",
-		back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%',}},
+		back=JSE.WSD.MNDMAG,
     }
+	sets.me["Empyreal Arrow"]={
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck="Marked Gorget",
+		waist="Yemaya Belt",
+		left_ear="Enervating Earring",
+		right_ear="Telos Earring",
+		left_ring="Hajduk Ring",
+		right_ring="Paqichikaji Ring",
+		back={ name="Sucellos's Cape", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Atk.+10','Weapon skill damage +10%',}},	
+	}
 
 --////////////////
 --Spellcasting sets
@@ -818,7 +834,7 @@ function get_sets()
 	    head="Halitus Helm", 		--+8
 		body="Emet Harness",		--+9
 		hands="Malignance Gloves",	--+0
-		legs="Zoar Subligar",		--+5
+		legs="Zoar Subligar +1",		--+5
 		feet="Nyame Sollerets",		
 		neck="Warder's Charm",		--+9
 		left_ear="Friomisi Earring",--+2	
@@ -832,7 +848,7 @@ function get_sets()
 	    head="Halitus Helm", 		--+8
 		body="Emet Harness",		--+9
 		hands="Malignance Gloves",	--+0
-		legs="Zoar Subligar",		--+5
+		legs="Zoar Subligar +1",		--+5
 		feet="Nyame Sollerets",		
 		neck="Warder's Charm",		--+9
 		left_ear="Friomisi Earring",--+2	
@@ -846,7 +862,7 @@ function get_sets()
 	    head="Halitus Helm", 		--+8
 		body="Emet Harness",		--+9
 		hands="Malignance Gloves",	--+0
-		legs="Zoar Subligar",		--+5
+		legs="Zoar Subligar +1",		--+5
 		feet="Nyame Sollerets",		
 		neck="Warder's Charm",		--+9
 		left_ear="Friomisi Earring",--+2	
@@ -860,7 +876,7 @@ function get_sets()
 	    head="Halitus Helm", 		--+8
 		body="Emet Harness",		--+9
 		hands="Malignance Gloves",	--+0
-		legs="Zoar Subligar",		--+5
+		legs="Zoar Subligar +1",		--+5
 		feet="Nyame Sollerets",		
 		neck="Warder's Charm",		--+9
 		left_ear="Friomisi Earring",--+2	
@@ -1260,7 +1276,7 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Acuity Belt +1",
+		waist="Obstinate Sash",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
@@ -1277,7 +1293,7 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Acuity Belt +1",
+		waist="Obstinate Sash",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring="Stikini Ring +1",
@@ -1296,7 +1312,7 @@ function get_sets()
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
 		feet={ name="Vitiation Boots +3", augments={'Immunobreak Chance',}},
 		neck={ name="Dls. Torque +2", augments={'Path: A',}},
-		waist="Acuity Belt +1",
+		waist="Obstin. Sash",
 		left_ear="Regal Earring",
 		right_ear="Snotra Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
