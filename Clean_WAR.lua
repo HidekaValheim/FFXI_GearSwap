@@ -133,13 +133,14 @@ function user_setup()
 	state.PhysicalDefenseMode:options('PDT')
 	state.MagicalDefenseMode:options('MDT')
 	-- Binds
-
+	send_command('bind numpad1 gs c SlashingMode')
+	send_command('bind numpad2 gs c PiercingMode')
+	send_command('bind numpad3 gs c BluntMode')
 	send_command('bind numpad7 gs c cycle OffenseMode')
 	send_command('bind numpad5 gs c cycle WeaponskillMode')
 	send_command('bind numpad9 gs c cycle IdleMode')
 	send_command('bind numpad6 gs c cycle SchereMode')
 	send_command('bind numpad8 gs c cycle HybridMode')
-	send_command('bind numpad4 gs c cycle CastingMode')
 	send_command('bind numpad/ gs c StyleShift')
 	send_command('bind numpad* gs c SubShift')
 	send_command('bind numpad- gs c cycle HasteMode')
@@ -163,6 +164,30 @@ function user_setup()
 	stance = "No Stance"
 	stance_status()
 	
+end
+
+function file_unload()
+	send_command('unbind ^[')
+	send_command('unbind ![')
+	send_command('unbind ^=')
+	send_command('unbind !=')
+	send_command('unbind @f9')
+	send_command('unbind @[')
+	send_command('unbind `')
+	send_command('unbind numpad1')
+	send_command('unbind numpad2')
+	send_command('unbind numpad3')
+	send_command('unbind numpad7')
+	send_command('unbind numpad9')
+	send_command('unbind numpad5')
+	send_command('unbind numpad8')
+	send_command('unbind numpad6')
+	send_command('unbind numpad/')
+	send_command('unbind numpad*')
+	send_command('unbind numpad-')
+	send_command('unbind numpad+')
+	send_command('unbind numpad0')
+	send_command('unbind numpad3')
 end
 
 function file_unload()
@@ -1253,7 +1278,19 @@ function job_self_command(cmdParams, eventArgs)
 		end
 	select_weapons()	
 	end
-
+	if cmdParams[1] == 'SlashingMode' then
+		state.Style:set{"Sword n' Board")
+		state.SingleWield:set("Naegling")
+	select_weapons()
+	elseif cmdParams[1] == 'PiercingMode' then
+		state.Style:set{"Two-Handed")
+		state.TwoHanded:set("Shining One")
+	select_weapons()
+	elseif cmdParams[1] == 'BluntMode' then
+		state.Style:set{"Sword n' Board")
+		state.SingleWield:set("Loxotic")
+	select_weapons()
+	end
 end
 	
 function update_combat_form()
@@ -1339,23 +1376,33 @@ time_start = 0
 hud_padding = 10
 
 -- Standard Mode
-hub_mode_std = [[\cs(204, 0, 0)KeyBinds    \cs(255, 115, 0)GS Info: \cr              
-		\cs(175, 125, 225)${KB_C_MH}\cs(0, 150, 175)Combat:\cr \cs(125,255,125)${player_current_mainweapon}
-		\cs(175, 125, 225)${KB_C_OH}\cs(0, 150, 175)Main:\cr \cs(125,255,125)  ${player_current_subweapon}
-		\cs(175, 125, 225)${KB_Melee_M}\cs(0, 150, 175)Melee Mode:\cr     ${player_current_melee}
-		\cs(175, 125, 225)${KB_WS_M}\cs(0, 150, 175)WS Mode:\cr            ${player_current_ws}
-		\cs(175, 125, 225)${KB_PDT_M}\cs(0, 150, 175)Hybrid Mode:\cr    ${player_current_Hybrid}
-		\cs(175, 125, 225)${KB_ID_M}\cs(0, 150, 175)Idle Mode:\cr           ${player_current_Idle}
-		\cs(175, 125, 225)${KB_SC_M}\cs(0, 150, 175)Schere Mode:\cr   ${player_current_Schere}
-		\cs(175, 125, 225)${KB_Haste_M}\cs(0, 150, 175)Haste Mode:\cr       ${player_current_Haste}
-		\cs(175, 125, 225)${KB_March_M}\cs(0, 150, 175)March Mode:\cr      ${player_current_March}
-		\cs(204, 0, 0)Item    \cs(255, 115, 0)                                Count: \cr 	
-		\cs(255, 150, 0)   Shihei:\cr \cs${shihei_color}                                    ${Shihei_Left}
-		\cs(204, 0, 0)Job Info\cs(255, 115, 0)                              Detail: \cr 	
-		\cs(255, 150, 200)   Shadows:\cr ${shadow_color}                       ${shadow_value}
-]]
-
-
+if player.sub_job == 'NIN' then
+	hub_mode_std = [[\cs(204, 0, 0)KeyBinds    \cs(255, 115, 0)GS Info: \cr              
+			\cs(175, 125, 225)${KB_C_MH}\cs(0, 150, 175)Combat:\cr \cs(125,255,125)${player_current_mainweapon}
+			\cs(175, 125, 225)${KB_C_OH}\cs(0, 150, 175)Main:\cr \cs(125,255,125)  ${player_current_subweapon}
+			\cs(175, 125, 225)${KB_Melee_M}\cs(0, 150, 175)Melee Mode:\cr     ${player_current_melee}
+			\cs(175, 125, 225)${KB_WS_M}\cs(0, 150, 175)WS Mode:\cr            ${player_current_ws}
+			\cs(175, 125, 225)${KB_PDT_M}\cs(0, 150, 175)Hybrid Mode:\cr    ${player_current_Hybrid}
+			\cs(175, 125, 225)${KB_ID_M}\cs(0, 150, 175)Idle Mode:\cr           ${player_current_Idle}
+			\cs(175, 125, 225)${KB_SC_M}\cs(0, 150, 175)Schere Mode:\cr   ${player_current_Schere}
+			\cs(175, 125, 225)${KB_Haste_M}\cs(0, 150, 175)Haste Mode:\cr       ${player_current_Haste}
+			\cs(175, 125, 225)${KB_March_M}\cs(0, 150, 175)March Mode:\cr      ${player_current_March}
+			\cs(204, 0, 0)Item    \cs(255, 115, 0)                                Count: \cr 	
+			\cs(255, 150, 0)   Shihei:\cr \cs${shihei_color}                                    ${Shihei_Left}
+			\cs(204, 0, 0)Job Info\cs(255, 115, 0)                              Detail: \cr 	
+			\cs(255, 150, 200)   Shadows:\cr ${shadow_color}                       ${shadow_value}]]
+else
+	hub_mode_std = [[\cs(204, 0, 0)KeyBinds    \cs(255, 115, 0)GS Info: \cr              
+			\cs(175, 125, 225)${KB_C_MH}\cs(0, 150, 175)Combat:\cr \cs(125,255,125)${player_current_mainweapon}
+			\cs(175, 125, 225)${KB_C_OH}\cs(0, 150, 175)Main:\cr \cs(125,255,125)  ${player_current_subweapon}
+			\cs(175, 125, 225)${KB_Melee_M}\cs(0, 150, 175)Melee Mode:\cr     ${player_current_melee}
+			\cs(175, 125, 225)${KB_WS_M}\cs(0, 150, 175)WS Mode:\cr            ${player_current_ws}
+			\cs(175, 125, 225)${KB_PDT_M}\cs(0, 150, 175)Hybrid Mode:\cr    ${player_current_Hybrid}
+			\cs(175, 125, 225)${KB_ID_M}\cs(0, 150, 175)Idle Mode:\cr           ${player_current_Idle}
+			\cs(175, 125, 225)${KB_SC_M}\cs(0, 150, 175)Schere Mode:\cr   ${player_current_Schere}
+			\cs(175, 125, 225)${KB_Haste_M}\cs(0, 150, 175)Haste Mode:\cr       ${player_current_Haste}
+			\cs(175, 125, 225)${KB_March_M}\cs(0, 150, 175)March Mode:\cr      ${player_current_March}]]
+end
 
 -- init style
 hub_mode = hub_mode_std
