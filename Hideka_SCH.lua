@@ -19,6 +19,7 @@ organizer_items = {
     Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
     NinjaTools={"Shihei"},
 	Food={"Grape Daifuku","Rolanberry Daifuku","Miso Ramen"},
+	Odyssey={"Tumult's Blood","Hidhaegg's Scale","Sovereign's Hide","Sarama's Hide"},
 }
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
@@ -137,26 +138,6 @@ send_command('wait 10;input /lockstyleset 6')
 -- Setup your Gear Sets below:
 function get_sets()
 
-	af={}
-		af.head = "Acad. Mortar. +3"
-		af.body = "Acad. Gown +2"
-		af.hand = "Acad. Bracers +2"
-		af.legs = "Acad. Pants +2"
-		af.feet = "Acad. Loafers +2"
-		
-	rl={}
-		rl.head = "Peda. M.Board +3"
-		rl.body = "Peda. Gown +3"
-		rl.hand = "Peda. Bracers +3"
-		rl.legs = "Peda. Pants +3"
-		rl.feet = "Peda. Loafers +3"
-		
-	em={}
-		em.head = "Arbatel Bonnet +1"
-		em.body = "Arbatel Gown +1"
-		em.hand = "Arbatel Bracers +1"
-		em.legs = "Arbatel Pants +1"
-		em.feet = "Arbatel Loafers +1"
 	
     -- My formatting is very easy to follow. All sets that pertain to my character doing things are under 'me'.
     -- All sets that are equipped to faciliate my avatar's behaviour or abilities are under 'avatar', eg, Perpetuation, Blood Pacts, etc
@@ -166,21 +147,21 @@ function get_sets()
     sets.me.idle = {}			-- leave this empty
 	sets.movement={feet="Herald's Gaiters"}
 	sets.sublimationgear={		
-		head= af.head,
-		body= rl.body,
+		head= "Acad. Mortar. +3",
+		body= "Peda. Gown +3",
 		waist="Embla Sash",
 	}
     -- Your idle set
     sets.me.idle.Refresh = {
-		main="Daybreak",
-		sub="Ammurapi Shield",
+		main="Mpaca's Staff",
+		sub="Kaja Grip",
 		ammo="Homiliary",
 		head="Befouled Crown",
-		body="Agwu's Robe",
+		body="Arbatel Gown +2",
 		hands={ name="Chironic Gloves", augments={'Pet: Haste+3','Rng.Atk.+16','"Refresh"+1','Accuracy+2 Attack+2',}},
 		legs="Assid. Pants +1",
-		feet={ name="Merlinic Crackows", augments={'DEX+8','Crit. hit damage +1%','"Refresh"+1','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		feet={ name="Merlinic Crackows", augments={'AGI+7','"Refresh"+2','Accuracy+11 Attack+11',}},
+		neck="Elite Royal Collar",
 		waist="Fucho-no-Obi",
 		left_ear="Etiolation Earring",
 		right_ear="Eabani Earring",
@@ -192,12 +173,9 @@ function get_sets()
 	sets.me.idle.Refresh.sublimation=set_combine(sets.me.idle.Refresh,sets.sublimationgear,{})
     -- Your idle DT set
     sets.me.idle.DT = set_combine(sets.me.idle.Refresh,{
-		main="Malignance Pole",
-		sub="Kaja Grip",
 		head="Nyame Helm",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
-		feet="Mallquis Clogs +2",
 		back={ name="Lugh's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 		left_ear = "Ethereal Earring",
 		waist="Carrier's Sash",
@@ -215,10 +193,10 @@ function get_sets()
 	
 	sets.me.idle.Crisis={
 		main="Malignance Pole",
-		sub="Enki Strap",
-		ammo="Staunch Tathlum",
+		sub="Kaja Grip",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
-		body={ name="Nyame Mail", augments={'Path: B',}},
+		body="Arbatel Gown +2",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}},
@@ -227,7 +205,7 @@ function get_sets()
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring="Warden's Ring",
-		right_ring="Meridian Ring",
+		right_ring="Gelatinous Ring +1",
 		--right_ring="Gelatinous Ring +1",
 		back="Moonbeam Cape",	
 	}
@@ -245,7 +223,7 @@ function get_sets()
 		legs="Nyame Flanchard",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Sanctity necklace",
-		waist="Grunfeld Rope",
+		waist="Windbuffet Belt +1",
 		left_ear="Crep. Earring",
 		right_ear="Telos Earring",
 		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
@@ -258,7 +236,7 @@ function get_sets()
 	sets.me["Myrkr"] = {}
 	sets.me["Cataclysm"] = {
 		ammo		= "Ghastly Tathlum +1",
-		head		= "C. Palug Crown",
+		head		= "Peda. M.Board +3",
 		body		= {name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		feet		= {name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		hands		= "Jhakri Cuffs +2",
@@ -284,14 +262,14 @@ function get_sets()
     ------------	
     -- Gear that needs to be worn to **actively** enhance a current player buff.
     -- Fill up following with your avaible pieces.
-    sets.buff['Rapture'] 	= {head=em.head}
-    sets.buff['Perpetuance']= {hands=em.hand}
-    sets.buff['Immanence'] 	= {hands=em.hand}
-    sets.buff['Penury'] 	= {legs=em.legs}
-    sets.buff['Parsimony']	= {legs=em.legs}
-    sets.buff['Celerity'] 	= {feet=rl.feet}
-    sets.buff['Alacrity'] 	= {feet=rl.feet}
-    sets.buff['Klimaform'] 	= {feet=em.feet}
+    sets.buff['Rapture'] 	= {head="Arbatel Bonnet +2"}
+    sets.buff['Perpetuance']= {hands="Arbatel Bracers +2"}
+    sets.buff['Immanence'] 	= {hands="Arbatel Bracers +2"}
+    sets.buff['Penury'] 	= {legs="Arbatel Pants +2"}
+    sets.buff['Parsimony']	= {legs="Arbatel Pants +2"}
+    sets.buff['Celerity'] 	= {feet="Peda. Loafers +3"}
+    sets.buff['Alacrity'] 	= {feet="Peda. Loafers +3"}
+    sets.buff['Klimaform'] 	= {feet="Arbatel Loafers +2"}
     sets.buff['Ebullience'] = {} -- I left it there still if it becomes needed so the SCH.lua file won't need modification should you want to use this set
    
     ---------------
@@ -312,9 +290,9 @@ function get_sets()
 		main="Marin Staff +1", --3/0%
 		sub="Kaja Grip", --0/0%		
 		ammo="Sapience Orb",--2/0%
-		head=rl.head, --0/11%
+		head="Peda. M.Board +3", --0/11%
 		body="Zendik Robe", --13%/0
-		hands=af.hand, --5%/0
+		hands="Acad. Bracers +2", --5%/0
 		legs="Agwu's Slops",--7%/0%
 		feet="Amalric Nails +1",--0%/0%
 		neck="Orunmila's Torque",--5%/0%
@@ -351,7 +329,7 @@ function get_sets()
     -- When spell school is aligned with grimoire, swap relevent pieces -- Can also use Arbatel +1 set here if you value 1% quickcast procs per piece. (2+ pieces)  
     -- Dont set_combine here, as this is the last step of the precast, it will have sorted all the needed pieces already based on type of spell.
     -- Then only swap in what under this set after everything else. 
-    sets.precast.grimoire = {head = rl.head} --13% (Job Ability FC)
+    sets.precast.grimoire = {head = "Peda. M.Board +3"} --13% (Job Ability FC)
 	
     -- Enhancing Magic, eg. Siegal Sash, etc
     sets.precast.enhancing = set_combine(sets.precast.casting,{})
@@ -390,9 +368,9 @@ function get_sets()
     -- Ability Precasting
     ---------------------
 
-    sets.precast["Tabula Rasa"] = {legs= rl.legs}
-    sets.precast["Enlightenment"] = {body=rl.body}	 
-    sets.precast["Sublimation"] = {head=af.head, body=rl.body}	 
+    sets.precast["Tabula Rasa"] = {legs= "Peda. Pants +3"}
+    sets.precast["Enlightenment"] = {body="Peda. Gown +3"}	 
+    sets.precast["Sublimation"] = {head="Acad. Mortar. +3", body="Peda. Gown +3"}	 
 	
 	----------
     -- Midcast
@@ -408,33 +386,33 @@ function get_sets()
 	-----------------------------------------------------------------------------------------------
     -- Make sure you have a non weather obi in this set. Helix get bonus naturally no need Obi.	
     sets.midcast.DarkHelix = {
-		main="Bunzi's Rod",
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
 		sub="Culminus",
-		ammo="Ghastly Tathlum +1",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
 		head="Pixie Hairpin +1",
-		body="Agwu's Robe",
-		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		body={ name="Agwu's Robe", augments={'Path: A',}},
+		hands="Agwu's Gages",
 		legs="Agwu's Slops",
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Argute Stole +2",
-		waist="Acuity Belt +1",
+		feet="Arbatel Loafers +2",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
+		waist={ name="Acuity Belt +1", augments={'Path: A',}},
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring="Freke Ring",
-		right_ring="Shiva Ring +1",
+		right_ring="Archon Ring",
 		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
 	}
     sets.midcast.LightHelix = {
 		main="Daybreak",
 		sub="Culminus",
-		ammo="Ghastly Tathlum +1",
-		head="Agwu's Cap",
-		body="Agwu's Robe",
-		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+		head={ name="Peda. M.Board +3", augments={'Enh. "Altruism" and "Focalization"',}},
+		body={ name="Agwu's Robe", augments={'Path: A',}},
+		hands="Agwu's Gages",
 		legs="Agwu's Slops",
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Argute Stole +2",
-		waist="Acuity Belt +1",
+		feet="Arbatel Loafers +2",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
+		waist={ name="Acuity Belt +1", augments={'Path: A',}},
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring="Freke Ring",
@@ -443,31 +421,50 @@ function get_sets()
 	}	
     -- Make sure you have a non weather obi in this set. Helix get bonus naturally no need Obi.	
     sets.midcast.Helix = {
-		main="Bunzi's Rod",
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
 		sub="Culminus",
-		ammo="Ghastly Tathlum +1",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
 		head="Agwu's Cap",
-		body="Agwu's Robe",
+		body={ name="Agwu's Robe", augments={'Path: A',}},
 		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		legs="Agwu's Slops",
 		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Argute Stole +2",
-		waist="Acuity Belt +1",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
+		waist={ name="Acuity Belt +1", augments={'Path: A',}},
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring="Freke Ring",
-		right_ring="Mallquis Ring",
+		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
 		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
     }	
-    sets.midcast.Helix.MB = set_combine(sets.midcast.Helix,{left_ring="Mujin Band",})	
+    sets.midcast.Helix.MB = {
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
+		sub="Culminus",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+		head={ name="Peda. M.Board +3", augments={'Enh. "Altruism" and "Focalization"',}},
+		body={ name="Agwu's Robe", augments={'Path: A',}},
+		hands="Agwu's Gages",
+		legs="Agwu's Slops",
+		feet="Arbatel Loafers +2",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
+		waist={ name="Acuity Belt +1", augments={'Path: A',}},
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring="Freke Ring",
+		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
+	}
+
+	sets.midcast.LightHelix.MB = set_combine(sets.midcast.LightHelix,{})	
+	sets.midcast.DarkHelix.MB = set_combine(sets.midcast.DarkHelix,{})	
     -- Whatever you want to equip mid-cast as a catch all for all spells, and we'll overwrite later for individual spells
     sets.midcast.casting = {
 		main="Marin Staff +1",
 		sub="Kaja Grip",
 		ammo="Sapience Orb",
-		head=rl.head,
+		head="Peda. M.Board +3",
 		body="Zendik Robe",
-		hands=af.hand,
+		hands="Acad. Bracers +2",
 		legs="Agwu's Slops",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck="Orunmila's Torque",
@@ -479,41 +476,57 @@ function get_sets()
 		back={ name="Lugh's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
     }
 
-	sets.midcast["Sublimation"] = {head=af.head, body=rl.body}
+	sets.midcast["Sublimation"] = {head="Acad. Mortar. +3", body="Peda. Gown +3"}
     
     sets.midcast.nuking.normal = {
-		main="Akademos",
-		sub="Enki Strap",
-		ammo="Pemphredo Tathlum",
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
+		sub="Ammurapi Shield",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
 		head={ name="Peda. M.Board +3", augments={'Enh. "Altruism" and "Focalization"',}},
-		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Argute Stole +2",
+		body="Arbatel Gown +2",
+		hands="Arbatel Bracers +2",
+		legs="Arbatel Pants +2",
+		feet="Arbatel Loafers +2",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Eschan Stone",
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring="Freke Ring",
-		right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+		right_ring="Mujin Band",
 		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
 	}
 		
 	sets.midcast.nuking.Seidr = set_combine(sets.midcast.nuking.normal,{body="Seidr Cotehardie"})
 	
-	sets.midcast.Kaustra = set_combine(sets.midcast.nuking.normal, {head="Pixie Hairpin +1"})
+	sets.midcast.Kaustra = {
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
+		sub="Ammurapi Shield",
+		ammo="Pemphredo Tathlum",
+		head="Pixie Hairpin +1",
+		body={ name="Agwu's Robe", augments={'Path: A',}},
+		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		feet="Agwu's Pigaches",
+		neck={ name="Argute Stole +2", augments={'Path: A',}},
+		waist="Hachirin-no-Obi",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring="Freke Ring",
+		right_ring="Archon Ring",
+		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},	
+	}
 	
     -- used with toggle, default: F10
     -- Pieces to swap from freen nuke to Magic Burst
     sets.midcast.MB.normal = set_combine(sets.midcast.nuking.normal, {
-		main="Bunzi's Rod",
+		main={ name="Bunzi's Rod", augments={'Path: A',}},
 		sub="Ammurapi Shield",
-		ammo="Pemphredo Tathlum",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
 		head={ name="Peda. M.Board +3", augments={'Enh. "Altruism" and "Focalization"',}},
-		body="Agwu's Robe",
-		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		body="Arbatel Gown +2",
+		hands="Arbatel Bracers +2",
+		legs="Arbatel Pants +2",
+		feet="Arbatel Loafers +2",
 		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Eschan Stone",
 		left_ear="Regal Earring",
@@ -538,7 +551,7 @@ function get_sets()
 		main="Malignance Pole",
 		sub="Kaja Grip",
 		ammo="Sapience Orb",
-		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		body="Zendik Robe",
 		hands="Agwu's Gages",
 		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
@@ -555,7 +568,7 @@ function get_sets()
     sets.midcast["Drain"] = {
 		main={ name="Rubicundity", augments={'Mag. Acc.+9','"Mag.Atk.Bns."+8','Dark magic skill +9','"Conserve MP"+5',}},
 		sub="Ammurapi Shield",
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Pixie Hairpin +1",
 		body={ name="Merlinic Jubbah", augments={'Mag. Acc.+13','"Drain" and "Aspir" potency +11','"Mag.Atk.Bns."+13',}},
 		hands={ name="Merlinic Dastanas", augments={'"Drain" and "Aspir" potency +10','Mag. Acc.+2','"Mag.Atk.Bns."+13',}},
@@ -565,7 +578,7 @@ function get_sets()
 		waist="Fucho-no-Obi",
 		left_ear="Hirudinea Earring",
 		right_ear="Regal Earring",
-		left_ring="Defending Ring",
+		left_ring="Archon Ring",
 		right_ring="Evanescence Ring",
 		back={ name="Bookworm's Cape", augments={'INT+1','MND+1','Helix eff. dur. +15','"Regen" potency+10',}},	
 	}
@@ -576,13 +589,13 @@ function get_sets()
 		main={ name="Contemplator +1", augments={'Path: A',}},
 		sub="Kaja Grip",
 		ammo="Pemphredo Tathlum",
-		head=af.head,
-		body=af.body,
-		hands=af.hand,
-		legs=af.legs,
-		feet=rl.feet,
+		head="Acad. Mortar. +3",
+		body="Acad. Gown +2",
+		hands="Acad. Bracers +2",
+		legs="Arbatel Pants +2",
+		feet="Peda. Loafers +3",
 		neck="Argute Stole +2",
-		waist="Witful Belt",
+		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
@@ -600,7 +613,7 @@ function get_sets()
 		main="Bunzi's Rod",
 		sub="Ammurapi Shield",
 		ammo="Pemphredo Tathlum",
-		head="C. Palug Crown",
+		head="Peda. M.Board +3",
 		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
@@ -620,10 +633,10 @@ function get_sets()
 		main={ name="Contemplator +1", augments={'Path: A',}},
 		sub="Enki Strap",
 		ammo="Pemphredo Tathlum",
-		head="C. Palug Crown",
-		body="Agwu's Robe",
+		head="Acad. Mortar. +3",
+		body="Acad. Gown +2",
 		hands="Regal Cuffs",
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
+		legs="Arbatel Pants +2",
 		feet="Agwu's Pigaches",
 		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Acuity Belt +1",
@@ -641,8 +654,8 @@ function get_sets()
 		head="Befouled Crown",
 		body="Acad. Gown +2",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
-		feet={ name="Merlinic Crackows", augments={'DEX+8','Crit. hit damage +1%','"Refresh"+1','Mag. Acc.+6 "Mag.Atk.Bns."+6',}},
+		legs="Arbatel Pants +2",
+		feet={ name="Merlinic Crackows", augments={'AGI+7','"Refresh"+2','Accuracy+11 Attack+11',}},
 		neck="Incanter's Torque",
 		waist="Acuity Belt +1",
 		left_ear="Regal Earring",
@@ -656,10 +669,10 @@ function get_sets()
 		main={ name="Contemplator +1", augments={'Path: A',}},
 		sub="Kaja Grip",
 		ammo="Pemphredo Tathlum",
-		head="Agwu's Cap",
+		head="Acad. Mortar. +3",
 		body="Acad. Gown +2",
 		hands="Regal Cuffs",
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
+		legs="Arbatel Pants +2",
 		feet={ name="Peda. Loafers +3", augments={'Enhances "Stormsurge" effect',}},
 		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Obstin. Sash",
@@ -681,7 +694,7 @@ function get_sets()
 		head="Agwu's Cap",
 		body="Agwu's Robe",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
+		legs="Arbatel Pants +2",
 		feet={ name="Peda. Loafers +3", augments={'Enhances "Stormsurge" effect',}},
 		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Acuity Belt +1",
@@ -703,7 +716,7 @@ function get_sets()
 		head="Agwu's Cap",
 		body="Agwu's Robe",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs={ name="Chironic Hose", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','Spell interruption rate down -9%','MND+14','Mag. Acc.+11',}},
+		legs="Arbatel Pants +2",
 		feet={ name="Peda. Loafers +3", augments={'Enhances "Stormsurge" effect',}},
 		neck={ name="Argute Stole +2", augments={'Path: A',}},
 		waist="Acuity Belt +1",
@@ -719,7 +732,7 @@ function get_sets()
 		ammo="Pemphredo Tathlum",
 		body="Twilight Cloak",
 		hands="Agwu's Gages",
-		legs="Agwu's Slops",
+		legs="Arbatel Pants +2",
 		feet="Agwu's Pigaches",
 		neck="Argute Stole +2",
 		waist="Acuity Belt +1",
@@ -735,11 +748,11 @@ function get_sets()
 		main="Daybreak",
 		sub="Ammurapi Shield",
 		ammo="Pemphredo Tathlum",
-		head=af.head,
-		body=af.body,
+		head="Acad. Mortar. +3",
+		body="Acad. Gown +2",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs="Chironic Hose",
-		feet=af.feet,
+		legs="Arbatel Pants +2",
+		feet="Acad. Loafers +2",
 		neck="Argute Stole +2",
 		waist="Luminary Sash",
 		left_ear="Regal Earring",
@@ -760,7 +773,7 @@ function get_sets()
 		main="Bolelabunga",
 		sub="Ammurapi Shield",
 		ammo="Pemphredo Tathlum",
-		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		body={ name="Peda. Gown +3", augments={'Enhances "Enlightenment" effect',}},
 		hands="Acad. Bracers +2",
 		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
@@ -778,7 +791,7 @@ function get_sets()
 		main="Grioavolr", --15
 		sub="Giuoco Grip", --4
 		ammo="Pemphredo Tathlum", --4
-		head={ name="Vanya Hood", augments={'MP+49','"Cure" potency +7%','Enmity-5',}}, --6
+		head={ name="Vanya Hood", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
 		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},--7
 		hands="Acad. Bracers +2",--4
 		legs={ name="Lengo Pants", augments={'INT+10','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Refresh"+1',}},--5
@@ -795,8 +808,8 @@ function get_sets()
 		main="Pedagogy Staff",
 		sub="Giuoco Grip",
 		ammo="Pemphredo Tathlum",
-		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
-		body=rl.body,
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
+		body="Peda. Gown +3",
 		hands="Acad. Bracers +2",
 		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		feet={ name="Telchine Pigaches", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
@@ -808,7 +821,7 @@ function get_sets()
 		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back="Aurist's Cape +1",
 	}
-    sets.midcast.Storm 		= set_combine(sets.midcast.ConserveMpDuration,{feet = rl.feet})       
+    sets.midcast.Storm 		= set_combine(sets.midcast.ConserveMpDuration,{feet = "Peda. Loafers +3"})       
 	sets.midcast.BarElement	= set_combine(sets.midcast.ConserveMpDuration,{})
 	sets.midcast.BarStatus	= set_combine(sets.midcast.ConserveMpDuration,{})
     sets.midcast.Stoneskin 	= set_combine(sets.midcast.ConserveMpDuration,{neck="Nodens Gorget",left_ear="Earthcry Earring",waist="Siegel Sash",})
@@ -822,6 +835,24 @@ function get_sets()
 	sets.midcast.Phalanx	= set_combine(sets.midcast.ConserveMpDuration,{})
 	
  	sets.midcast.cure = {} -- Leave This Empty
+
+    sets.midcast.Cursna= {
+		main={ name="Pedagogy Staff", augments={'Path: C',}},
+		sub="Kaja Grip",
+		ammo="Sapience Orb",
+		head={ name="Vanya Hood", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
+		body={ name="Peda. Gown +3", augments={'Enhances "Enlightenment" effect',}},
+		hands={ name="Peda. Bracers +3", augments={'Enh. "Tranquility" and "Equanimity"',}},
+		legs="Acad. Pants +2",
+		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
+		neck="Debilis Medallion",
+		waist="Gishdubar Sash",
+		left_ear="Malignance Earring",
+		right_ear="Etiolation Earring",
+		left_ring="Haoma's Ring",
+		right_ring="Menelaus's Ring",
+		back="Oretan. Cape +1",
+	}
 	
     sets.midcast.cure.normal = {
 		main="Malignance Pole",
@@ -840,10 +871,11 @@ function get_sets()
 		right_ring="Defending Ring",
 		back={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','"Cure" potency +10%','Phys. dmg. taken-10%',}},
 	}
+
     sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{
 		main="Iridal Staff",
 		sub="Kaja Grip",
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		waist="Hachirin-no-Obi",
 		neck="Loricate Torque +1",
 		left_ear="Genmei Earring",		
@@ -857,18 +889,23 @@ function get_sets()
 		hands={ name="Peda. Bracers +3", augments={'Enh. "Tranquility" and "Equanimity"',}},
 		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
 		feet={ name="Kaykaus Boots +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
-		neck="Nodens Gorget",
 		waist="Gishdubar Sash",
-		left_ear="Mendi. Earring",
-		right_ear="Tuisto Earring",
-		left_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
-		right_ring="Defending Ring",
+		-- neck="Nodens Gorget",
+		-- left_ear="Mendi. Earring",
+		-- right_ear="Tuisto Earring",
+		-- left_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
+		-- right_ring="Defending Ring",
+		neck="Incanter's Torque",
+		left_ear="Regal Earring",
+		right_ear="Malignance Earring",
+		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','"Cure" potency +10%','Phys. dmg. taken-10%',}},
 	}
 	sets.midcast.cure.weather.self = set_combine(sets.midcast.cure.normal.self,{
 		main="Iridal Staff",
 		sub="Kaja Grip",
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		left_ear="Genmei Earring",
 		neck="Loricate Torque +1",
 		waist="Hachirin-no-Obi",
@@ -877,39 +914,39 @@ function get_sets()
 	sets.midcast.cure.nuke = {
 		main="Daybreak",
 		sub="Ammurapi Shield",
-		ammo="Pemphredo Tathlum",
-		head="C. Palug Crown",
-		body={ name="Amalric Doublet +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+		head="Peda. M.Board +3",
+		body="Arbatel Gown +2",
 		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+		legs={ name="Amalric Slops +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
 		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Sanctity Necklace",
-		waist="Eschan Stone",
+		neck="Baetyl Pendant",
+		waist="Orpheus's Sash",
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
-		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
-		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
-		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},	
+		left_ring="Weather. Ring",
+		right_ring="Freke Ring",
+		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.midcast.cure.nuke.weather=set_combine(sets.midcast.cure.nuke,{waist="Hachirin-no-Obi",})
 	sets.midcast.cure.nuke.MB = {
-		main="Bunzi's Rod",
+		main="Daybreak",
 		sub="Ammurapi Shield",
-		ammo="Pemphredo Tathlum",
-		head="Agwu's Cap",
+		ammo={ name="Ghastly Tathlum +1", augments={'Path: A',}},
+		head="Arbatel Bonnet +2",
 		body="Agwu's Robe",
 		hands={ name="Amalric Gages +1", augments={'INT+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		legs={ name="Kaykaus Tights +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		feet={ name="Amalric Nails +1", augments={'MP+80','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		neck="Mizu. Kubikazari",
-		waist="Eschan Stone",
+		legs="Agwu's Slops",
+		feet="Arbatel Loafers +2",
+		neck="Sibyl Scarf",
+		waist="Orpheus's Sash",
 		left_ear="Regal Earring",
 		right_ear="Malignance Earring",
-		left_ring="Locus Ring",
+		left_ring="Weather. Ring",
 		right_ring="Mujin Band",
-		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},	
+		back={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
 	}
-	sets.midcast.cure.nuke.MB.weather=set_combine(sets.midcast.cure.nuke,{waist="Hachirin-no-Obi",})
+	sets.midcast.cure.nuke.MB.weather=set_combine(sets.midcast.cure.nuke.MB,{waist="Hachirin-no-Obi",})
     ------------
     -- Regen
     ------------	
@@ -919,9 +956,9 @@ function get_sets()
 		main="Pedagogy Staff",
 		sub="Giuoco Grip",
 		ammo="Pemphredo Tathlum",
-		head=em.head,
+		head="Arbatel Bonnet +2",
 		body={ name="Telchine Chas.", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
-		hands="Arbatel Bracers +1",
+		hands="Arbatel Bracers +2",
 		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		feet={ name="Telchine Pigaches", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
 		neck="Reti Pendant",
@@ -930,16 +967,16 @@ function get_sets()
 		right_ear="Calamitous Earring",
 		left_ring="Defending Ring",
 		right_ring="Meridian Ring",
-		back={ name="Bookworm's Cape", augments={'INT+1','MND+1','Helix eff. dur. +15','"Regen" potency+10',}},
+		back={ name="Lugh's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
 	-- Focus on Regen Duration 	
     sets.midcast.regen.duration = {
 		main={ name="Pedagogy Staff", augments={'Path: C',}},
 		sub="Giuoco Grip",
 		ammo="Pemphredo Tathlum",
-		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
+		head={ name="Telchine Cap", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		body={ name="Telchine Chas.", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
-		hands="Arbatel Bracers +1",
+		hands="Arbatel Bracers +2",
 		legs={ name="Telchine Braconi", augments={'Mag. Acc.+6','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		feet={ name="Telchine Pigaches", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +9',}},
 		neck={ name="Argute Stole +2", augments={'Path: A',}},

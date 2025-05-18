@@ -78,14 +78,11 @@
 send_command('input //send @all lua l superwarp') 
 include('organizer-lib')
 include('Modes.lua')
-send_command('input //lua l porterpacker') 
-send_command('wait 3;input //gs org') 
-send_command('wait 6;input //po repack') 
-send_command('wait 30;input //gs validate')
+include('packets.lua')
 send_command('unbind ^r')
 organizer_items = {
     Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
-    NinjaTools={"Shihei"},
+    NinjaTools={"Shihei","Toolbag (Shihe)"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
@@ -99,14 +96,8 @@ function get_sets()
 end
 
 function get_gear()
-	--[[Disable code in this sub if you dont have organizer or porter packer]]
-    send_command('wait 3;input //gs org')
-	-- if PortTowns:contains(world.area) then
-		-- send_command('wait 3;input //gs org') 
-		-- send_command('wait 6;input //po repack') 
-    -- else
-		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    -- end
+	send_command('wait 3;input //gs org')
+	add_to_chat(8,'REMEMBER TO REPACK GEAR')
 end
 
 -- Setup vars that are user-independent.  state.Buff vars initialized here will automatically be tracked.
@@ -195,7 +186,7 @@ function user_setup()
     send_command('bind ^numpad5 input /ws "Rudra\'s Storm" <t>')
     send_command('bind ^numpad6 input /ws "Pyrrhic Kleos" <t>')
     send_command('bind ^numpad1 input /ws "Aeolian Edge" <t>')
-	send_command('bind ^numpad9 gs c cycle treasuremode')
+	send_command('bind numpad9 gs c cycle treasuremode')
 
     send_command('bind numpad0 gs c step t')
 
@@ -274,16 +265,16 @@ function init_gear_sets()
     sets.Enmity = {
 		ammo="Sapience Orb",			--+2	
 		head="Halitus Helm",			--+8
-		body="Emet Harness",			--+9
+		body="Emet Harness +1",			--+9
 		hands="Kurys Gloves",			--+9
 		legs="Zoar Subligar +1",		--+5	
 		feet="Ahosi leggings",			--+7	
-		neck="Unmoving Collar",			--+8
+		neck="Unmoving Collar +1",			--+8
 		waist="Carrier's Sash",			--+0
 		left_ear="Friomisi Earring",	--+2
 		right_ear="Cryptic Earring",	--+4
-		left_ring="Provocare Ring",		--+5
-		right_ring="Begrudging Ring",	--+5
+		left_ring="Supershear Ring",		--+5
+		right_ring="Eihwaz Ring",	--+5
 		back="Reiki Cloak",				--+6
     }
     sets.precast.Waltz 	= {
@@ -293,7 +284,7 @@ function init_gear_sets()
 		hands="Malignance Gloves",
 		legs="Dashing Subligar",
 		feet="Malignance Boots",
-		neck="Unmoving Collar",
+		neck="Unmoving Collar +1",
 		waist="Carrier's Sash",
 		left_ear="Roundel Earring",
 		right_ear="Handler's Earring +1",
@@ -376,7 +367,7 @@ function init_gear_sets()
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Anu Torque",
+		neck="Rep. Plat. Medal",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -391,7 +382,7 @@ function init_gear_sets()
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Anu Torque",
+		neck="Rep. Plat. Medal",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -406,7 +397,7 @@ function init_gear_sets()
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Anu Torque",
+		neck="Rep. Plat. Medal",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -448,7 +439,7 @@ function init_gear_sets()
 	})
 
     sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS, {
-		ammo="Yetshila",
+		ammo="Yetshila +1",
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
 		body="Gleti's Cuirass",
 		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
@@ -470,7 +461,7 @@ function init_gear_sets()
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Baetyl Pendant",
+		neck="Sibyl Scarf",
 		waist="Orpheus's Sash",
 		left_ear="Hermetic Earring",
 		right_ear="Friomisi Earring",
@@ -480,6 +471,8 @@ function init_gear_sets()
 	})
 		
     sets.precast.WS['Rudra\'s Storm'].Acc = set_combine(sets.precast.WS['Rudra\'s Storm'],{})
+	sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS['Rudra\'s Storm'],{})
+	sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS['Aeolian Edge'],{})
 	sets.precast.WS['Evisceration'].Acc = set_combine(sets.precast.WS['Evisceration'], {})
     sets.precast.WS['Exenterator'].Acc = set_combine(sets.precast.WS['Exenterator'], {})
     sets.precast.WS.Acc = set_combine(sets.precast.WS, {})
@@ -504,23 +497,23 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.resting = {
-		ammo="Staunch Tathlum",
-		head="Malignance Chapeau",
+		ammo="Staunch Tathlum +1",
+		head="Meghanada Visor +2",
 		body="Meg. Cuirie +2",
 		hands="Meg. Gloves +2",
 		legs="Meg. Chausses +2",
-		feet="Malignance Boots",
-		neck="Loricate Torque +1",
-		waist="Oneiros Belt",
-		left_ear="Odnowa Earring",
-		right_ear="Odnowa Earring +1",
-		left_ring="Meghanada Ring",
-		right_ring="Chirich Ring +1",
-		back="Moonbeam Cape",	
+		feet="Meg. Jam. +2",
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Carrier's Sash",
+		left_ear="Tuisto Earring",
+		right_ear="Etiolation Earring",
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
+		back="Moonbeam Cape",
 	}
 
     sets.idle = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Gleti's Mask",
 		body="Gleti's Cuirass",
 		hands="Gleti's Gauntlets",
@@ -536,7 +529,7 @@ function init_gear_sets()
     }
 
     sets.idle.DT = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -552,7 +545,7 @@ function init_gear_sets()
 	}
 	
     sets.idle.Town = set_combine(sets.idle, {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -588,9 +581,9 @@ function init_gear_sets()
     -- EG: sets.engaged.Dagger.Accuracy.Evasion
 
     sets.engaged = {
-		ammo="Ginsen",
+		ammo="Coiste Bodhar",
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
+		body="Malignance Tabard",
 		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
 		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
 		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
@@ -606,9 +599,9 @@ function init_gear_sets()
     sets.engaged.LowAcc = set_combine(sets.engaged, 
 		{ammo="Yamarang",})
     sets.engaged.MidAcc = set_combine(sets.engaged.LowAcc, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1", back="Sacro Mantle",})
     sets.engaged.HighAcc = set_combine(sets.engaged.MidAcc,
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
     sets.engaged.STP = set_combine(sets.engaged,{})
 		
 	--SET YOUR DW VALUES TO MATCH THIS TABLE. ALSO ADJUST DW SETTINGS IN determine_haste_group SUB
@@ -626,7 +619,7 @@ function init_gear_sets()
 	
     -- No Magic Haste 
     sets.engaged.DW = set_combine(sets.engaged,  {
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		body="Malignance Tabard", 							--+6
 		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
 		waist="Reiki Yotai",																					--+7
 		left_ear="Eabani Earring",																				--+4
@@ -636,14 +629,14 @@ function init_gear_sets()
     sets.engaged.DW.LowAcc = set_combine(sets.engaged.DW, 
 		{ammo="Yamarang",})
     sets.engaged.DW.MidAcc = set_combine(sets.engaged.DW.LowAcc, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1", back="Sacro Mantle",})
     sets.engaged.DW.HighAcc = set_combine(sets.engaged.DW.MidAcc, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
 	sets.engaged.DW.STP = set_combine(sets.engaged.DW, {})
 
     -- 15% Magic Haste 
     sets.engaged.DW.LowHaste = set_combine(sets.engaged, {
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		body="Malignance Tabard", 							--+6
 		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
 		waist="Reiki Yotai",																					--+7
 		left_ear="Eabani Earring",																				--+4
@@ -653,14 +646,14 @@ function init_gear_sets()
     sets.engaged.DW.LowAcc.LowHaste = set_combine(sets.engaged.DW.LowHaste, 
 		{ammo="Yamarang"})
 	sets.engaged.DW.MidAcc.LowHaste = set_combine(sets.engaged.DW.LowAcc.LowHaste, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1",  back="Sacro Mantle",})
 	sets.engaged.DW.HighAcc.LowHaste = set_combine(sets.engaged.DW.MidAcc.LowHaste, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
 	sets.engaged.DW.STP.LowHaste = set_combine(sets.engaged.DW.LowHaste, {})
 
     -- 30% Magic Haste
     sets.engaged.DW.MidHaste = set_combine(sets.engaged, {
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		body="Malignance Tabard", 							--+6
 		feet={ name="Taeon Boots", augments={'Accuracy+17 Attack+17','"Dual Wield"+5','Crit. hit damage +3%',}},--+9
 		waist="Reiki Yotai",																					--+7
 		left_ear="Eabani Earring",																				--+4
@@ -670,14 +663,14 @@ function init_gear_sets()
     sets.engaged.DW.LowAcc.MidHaste = set_combine(sets.engaged.DW.MidHaste, 
 		{ammo="Yamarang"})
 	sets.engaged.DW.MidAcc.MidHaste = set_combine(sets.engaged.DW.LowAcc.MidHaste, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1",  back="Sacro Mantle",})
 	sets.engaged.DW.HighAcc.MidHaste = set_combine(sets.engaged.DW.MidAcc.MidHaste, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
 	sets.engaged.DW.STP.MidHaste = set_combine(sets.engaged.DW.MidHaste, {})
 
     -- 35% Magic Haste
     sets.engaged.DW.HighHaste = set_combine(sets.engaged, {
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		body="Malignance Tabard", 							--+6
 		waist="Reiki Yotai",																					--+7
 		right_ear="Suppanomimi",																				--+5
 	})
@@ -685,23 +678,23 @@ function init_gear_sets()
     sets.engaged.DW.LowAcc.HighHaste = set_combine(sets.engaged.DW.HighHaste, 
 		{ammo="Yamarang"})
 	sets.engaged.DW.MidAcc.HighHaste = set_combine(sets.engaged.DW.LowAcc.HighHaste, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1",  back="Sacro Mantle",})
 	sets.engaged.DW.HighAcc.HighHaste = set_combine(sets.engaged.DW.MidAcc.HighHaste, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
 	sets.engaged.DW.STP.HighHaste = set_combine(sets.engaged.DW.HighHaste, {})
 
     -- 45% Magic Haste
     sets.engaged.DW.MaxHaste = set_combine(sets.engaged, {
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}}, 							--+6
+		body="Malignance Tabard", 							--+6
 		waist="Reiki Yotai",																					--+7
 	})
 
     sets.engaged.DW.LowAcc.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, 
 		{ammo="Yamarang"})
 	sets.engaged.DW.MidAcc.MaxHaste = set_combine(sets.engaged.DW.LowAcc.MaxHaste, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1",  back="Sacro Mantle",})
 	sets.engaged.DW.HighAcc.MaxHaste = set_combine(sets.engaged.DW.MidAcc.MaxHaste, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
 	sets.engaged.DW.STP.MaxHaste = set_combine(sets.engaged.DW.MaxHaste, {})
 
     sets.engaged.DW.Aftermath = {
@@ -711,9 +704,9 @@ function init_gear_sets()
     sets.engaged.DW.LowAcc.Aftermath = set_combine(sets.engaged.DW.Aftermath, 
 		{ammo="Yamarang"})
     sets.engaged.DW.MidAcc.Aftermath = set_combine(sets.engaged.DW.LowAcc.Aftermath, 
-		{ammo="Yamarang", waist="Grunfeld Rope", left_ear="Mache Earring +1",  back="Sacro Mantle",})
+		{ammo="Yamarang", waist="Sailfi Belt +1", left_ear="Mache Earring +1",  back="Sacro Mantle",})
     sets.engaged.DW.HighAcc.Aftermath = set_combine(sets.engaged.DW.MidAcc.Aftermath, 
-		{ammo="Yamarang", neck="Sanctity Necklace",waist="Grunfeld Rope", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
+		{ammo="Yamarang", neck="Sanctity Necklace",waist="Sailfi Belt +1", left_ear="Mache Earring +1", left_ring="Chirich Ring +1", right_ring="Chirich Ring +1", back="Sacro Mantle",})
     sets.engaged.DW.STP.Aftermath = set_combine(sets.engaged.DW.Aftermath, {})
 
     ------------------------------------------------------------------------------------------------
@@ -726,8 +719,7 @@ function init_gear_sets()
 		hands="Malignance Gloves",
 		legs="Malignance Tights",
 		feet="Malignance Boots",
-		neck="Loricate Torque +1",
-		left_ring="Defending Ring",
+		left_ring={name="Moonlight Ring", bag="wardrobe2"},
 		right_ring={name="Moonlight Ring", bag="wardrobe7"},
     }
 
@@ -777,18 +769,15 @@ function init_gear_sets()
     ---------------------------------------- Special Sets ------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.buff['Saber Dance'] = {legs="Horos Tights +3"}
-    sets.buff['Fan Dance'] = {body="Horos Bangles +3"}
-
     sets.buff.Doom = {
         neck="Nicander's Necklace", --20
-        ring1={name="Eshmun's Ring", bag="wardrobe3"}, --20
-        ring2={name="Eshmun's Ring", bag="wardrobe7"}, --20
+        ring1="Purity Ring",	--7
+        ring2="Blenmot's Ring +1", --10
         waist="Gishdubar Sash", --10
         }
 
     sets.CP = {back="Mecisto. Mantle"}
-	sets.Reive = {neck="Ygnas's Resolve +1"}
+	sets.Reive = {}
 
 end
 

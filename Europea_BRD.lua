@@ -22,7 +22,7 @@ nukeModes 	= M('normal', 'acc')
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
-mainWeapon = M('Carnwenhan','Kali','Naegling')
+mainWeapon = M('Kali','Carnwenhan','Naegling','Daybreak')
 subWeapon = M('Genbu\'s Shield','Blurred Knife +1')
 ------------------------------------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ hud_font = 'Impact'
 	windower.send_command('bind f4 input //send Europea //gs c WMAG STN')	
 	
 	windower.send_command('bind !q input //send Dekar /follow Europea') --FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND 
-	windower.send_command('bind !a input //send Theroon /follow Europea') --FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND
+	windower.send_command('bind !a input //send Zinthor /follow Europea') --FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND FOLLOW COMMAND
 	
 	
 function self_command(command)
@@ -167,11 +167,11 @@ include('BRD_Lib.lua')
 
 -- Optional. Swap to your sch macro sheet / book
 set_macros(4,1) -- Sheet, Book
-send_command('wait 10;input /lockstyleset 74')
+send_command('wait 10;input /lockstyleset 63')
 refreshType = idleModes[1] -- leave this as is  
    
 function sub_job_change(new,old)
-send_command('wait 10;input /lockstyleset 74')
+send_command('wait 10;input /lockstyleset 63')
 end
 
 -- Setup your Gear Sets below:
@@ -216,8 +216,8 @@ function get_sets()
 --------------------    
 	EMP = {}		--Leave This Empty
 		EMP.HED	= "Fili Calot"
-		EMP.BOD	= "Fili Hongreline +1"
-		EMP.HND	= "Fili Manchettes"
+		EMP.BOD	= "Fili Hongreline +2"
+		EMP.HND	= "Fili Manchettes +2"
 		EMP.LEG	= "Fili Rhingrave +1"
 		EMP.FEE	= "Fili Cothurnes +1"
 --------------------
@@ -273,11 +273,11 @@ function get_sets()
 --[AYANMO ARMOR]-[AYA]
 --------------------    
 	AYA = {}		--Leave This Empty
-		AYA.HED	= "Ayanmo Zucchetto +1"
-		AYA.BOD	= "Ayanmo Corazza +1"
-		AYA.HND	= "Ayanmo Manopolas +1"
+		AYA.HED	= "Ayanmo Zucchetto +2"
+		AYA.BOD	= "Ayanmo Corazza +2"
+		AYA.HND	= "Ayanmo Manopolas +2"
 		AYA.LEG	= "Ayanmo Cosciales +2"
-		AYA.FEE	= "Ayanmo Gambieras +1"
+		AYA.FEE	= "Ayanmo Gambieras +2"
 		AYA.RNG = "Ayanmo Ring"
 
 ---------------
@@ -335,7 +335,7 @@ function get_sets()
 		left_ear="Infused Earring",
 		right_ear="Etiolation Earring",
 		left_ring="Defending Ring",
-		right_ring="Ayanmo Ring",
+		right_ring="Shneddick Ring",
 		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}	-- ?? Refresh :: 50 PDT+ :: 50+ MDT :: 50 BDT 
 ---------------
@@ -355,7 +355,7 @@ function get_sets()
 		left_ear="Infused Earring",
 		right_ear="Etiolation Earring",
 		left_ring="Defending Ring",
-		right_ring="Inyanga Ring",
+		right_ring="Shneddick Ring",
 		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	} --26 PDT (36 w/ Genmei Shield) :: 41 MDT (w/o Shell V)
 	
@@ -393,89 +393,145 @@ function get_sets()
 -- E.G.  your "Normal" "Dualwield" set would be "normaldw"
 --Set combine flow is  NormalSW > NormalDW & NormalSWDT > NormalDWDT
     sets.me.melee.normalsw 		= {
-		range={ name="Terpander", augments={'HP+30','Mag. Acc.+10','Damage Taken -3%',}},
+		range={ name="Linos", augments={'Accuracy+15','"Dbl.Atk."+3','Quadruple Attack +3',}},
 		head="Aya. Zucchetto +2",
 		body="Ayanmo Corazza +2",
 		hands="Aya. Manopolas +2",
 		legs="Aya. Cosciales +2",
 		feet="Aya. Gambieras +2",
-		neck="Loricate Torque +1",
+		neck="Bard's Charm +1",
 		waist="Sarissapho. Belt",
-		left_ear="Telos Earring",
-		right_ear="Digni. Earring",
+		left_ear="Brutal Earring",
+		right_ear="Telos Earring",
 		left_ring="Hetairoi Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
 	}
-    sets.me.melee.normalswdt 	=set_combine(sets.me.melee.normalsw,{hands=AYA.HND,ring1="Defending Ring"}) --45 PDT :: 35 MDT
-    sets.me.melee.normaldw		=set_combine(sets.me.melee.normalsw, {ear2="Suppanomimi"})
-    sets.me.melee.normaldwdt 	=set_combine(sets.me.melee.normalswdt,{waist="Reiki Yotai",ear2="Suppanomimi"})
+	
+    sets.me.melee.normalswdt 	=set_combine(sets.me.melee.normalsw,{
+		ring1="Defending Ring"
+	}) --45 PDT :: 35 MDT
+	
+    sets.me.melee.normaldw		=set_combine(sets.me.melee.normalsw, {
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	})
+	
+    sets.me.melee.normaldwdt 	=set_combine(sets.me.melee.normalswdt,{
+		hands="Nyame Gauntlets",
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	})
 	
 ---------------
 --[MELEE]-[AFTERMATH]
 ---------------
     sets.me.melee.aftermathsw 	= {
-		range={ name="Linos", augments={'Accuracy+14','"Store TP"+4','Quadruple Attack +3',}},
-		head=AYA.HED,
-		neck=REL.NEK,
-		ear1="Telos Earring",
-		ear2="Dignitary's Earring",
-        body=AYA.BOD,
-		hands={ name="Chironic Gloves", augments={'Enmity+2','Pet: CHR+9','"Store TP"+9','Accuracy+13 Attack+13',}},
-		ring1="Chirich Ring +1",
-		ring2="Ilabrat Ring",
-		back=JSE.STP,
-		waist="Windbuffet Belt",
-		legs="Volte Tights",
-		feet={ name="Chironic Slippers", augments={'Pet: Phys. dmg. taken -1%','"Store TP"+4','Haste+2',}},
+		range={ name="Linos", augments={'Accuracy+15','"Store TP"+4','Quadruple Attack +3',}},
+		head="Aya. Zucchetto +2",
+		body="Ayanmo Corazza +2",
+		hands="Aya. Manopolas +2",
+		legs="Aya. Cosciales +2",
+		feet="Aya. Gambieras +2",
+		neck="Bard's Charm +1",
+		waist="Sarissapho. Belt",
+		left_ear="Brutal Earring",
+		right_ear="Telos Earring",
+		left_ring="Hetairoi Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
 	}
 	
-    sets.me.melee.aftermathswdt = set_combine(sets.me.melee.aftermathsw,{hands=AYA.HND,ring1="Defending Ring"})
-    sets.me.melee.aftermathdw 	= set_combine(sets.me.melee.aftermathsw,{waist="Reiki Yotai",ear2="Suppanomimi"})	
-    sets.me.melee.aftermathdwdt = set_combine(sets.me.melee.aftermathswdt, {waist="Reiki Yotai",ear2="Suppanomimi"})
+    sets.me.melee.aftermathswdt = set_combine(sets.me.melee.aftermathsw,{
+		ring1="Defending Ring"
+	})
+	
+    sets.me.melee.aftermathdw 	= set_combine(sets.me.melee.aftermathsw,{
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	})	
+	
+    sets.me.melee.aftermathdwdt = set_combine(sets.me.melee.aftermathswdt, {
+		hands="Nyame Gauntlets",
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	})
+	
 ---------------
 --[MELEE]-[ACC]
 ---------------
     sets.me.melee.ACCsw 	= {
 		range={ name="Linos", augments={'Accuracy+15','"Dbl.Atk."+3','Quadruple Attack +3',}},
-		head=AYA.HED,
-		body=REL.BOD,
-		hands=AYA.HND,
-		legs=AYA.LEG,
-		feet=AYA.FEE,
-		neck=REL.NEK,
-		waist="Anguinus Belt",
-		left_ear="Telos Earring",
-		right_ear="Digni. Earring",
-		left_ring="Chirich Ring +1",
-		right_ring="Chirich Ring +1",
-		back=JSE.DBL,	
+		head="Aya. Zucchetto +2",
+		body="Ayanmo Corazza +2",
+		hands={ name="Gazu Bracelet +1", augments={'Path: A',}},
+		legs="Aya. Cosciales +2",
+		feet="Aya. Gambieras +2",
+		neck="Bard's Charm +1",
+		waist="Grunfeld Rope",
+		left_ear="Digni. Earring",
+		right_ear="Telos Earring",
+		left_ring="Hetairoi Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
 	} --36 PDT :: 19 MDT (48 MDT w/ Shell V)
-	sets.me.melee.ACCswdt 	= set_combine(sets.me.melee.ACCsw, {ring1="Defending Ring",}) --35 PDT :: 35 MDT
-	sets.me.melee.ACCdw 	= set_combine(sets.me.melee.ACCsw, {waist="Reiki Yotai",ear2="Suppanomimi"}) --26 PDT :: 19 MDT (48 w/ Shell V)
-	sets.me.melee.ACCdwdt 	= set_combine(sets.me.melee.ACCswdt, {waist="Reiki Yotai",ear2="Suppanomimi"}) --35 PDT :: 35 MDT
+	
+	sets.me.melee.ACCswdt 	= set_combine(sets.me.melee.ACCsw, {
+		ring1="Defending Ring",
+	}) --35 PDT :: 35 MDT
+	
+	sets.me.melee.ACCdw 	= set_combine(sets.me.melee.ACCsw, {
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	}) --26 PDT :: 19 MDT (48 w/ Shell V)
+	
+	sets.me.melee.ACCdwdt 	= set_combine(sets.me.melee.ACCswdt, {
+		hands="Nyame Gauntlets",
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	}) --35 PDT :: 35 MDT
 ---------------
 --[MELEE]-[DT]
 ---------------
     sets.me.melee.dtsw 		= {
 		range={ name="Linos", augments={'Accuracy+15','"Dbl.Atk."+3','Quadruple Attack +3',}},
-		head=AYA.HED,
-		body=AYA.BOD,
-		hands="Volte Mittens",
-		legs=AYA.LEG,
-		feet=AYA.FEE,
-		neck="Loricate Torque +1",
-		waist="Windbuffet Belt",
-		left_ear="Genmei Earring",
-		right_ear="Digni. Earring",
+		head="Aya. Zucchetto +2",
+		body="Ayanmo Corazza +2",
+		hands="Aya. Manopolas +2",
+		legs="Aya. Cosciales +2",
+		feet="Aya. Gambieras +2",
+		neck="Bard's Charm +1",
+		waist="Sarissapho. Belt",
+		left_ear="Brutal Earring",
+		right_ear="Telos Earring",
 		left_ring="Defending Ring",
 		right_ring="Ilabrat Ring",
-		back=JSE.DBL,
-	} --50 PDT :: 38 MDT
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	} --50 PDT :: 30 MDT
 	
-	sets.me.melee.dtswdt 	= set_combine(sets.me.melee.dtsw, {})
-	sets.me.melee.dtdw 		= set_combine(sets.me.melee.dtsw, {waist="Reiki Yotai",ear2="Suppanomimi"}) --40 PDT :: 38 MDT
-	sets.me.melee.dtdwdt 	= set_combine(sets.me.melee.dtswdt, {waist="Reiki Yotai",ear2="Suppanomimi"}) --40 PDT :: 38 MDT
+	sets.me.melee.dtswdt 	= set_combine(sets.me.melee.dtsw, {
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands={ name="Gazu Bracelet +1", augments={'Path: A',}},
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		waist="Carrier's Sash",
+	})
+	
+	sets.me.melee.dtdw 		= set_combine(sets.me.melee.dtsw, {
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	}) --40 PDT :: 38 MDT
+	
+	sets.me.melee.dtdwdt 	= set_combine(sets.me.melee.dtswdt, {
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands={ name="Gazu Bracelet +1", augments={'Path: A',}},
+		legs="Nyame Flanchard",
+		feet={ name="Chironic Slippers", augments={'"Dual Wield"+1','Attack+2','Quadruple Attack +2','Accuracy+20 Attack+20',}},
+		waist="Carrier's Sash",
+		back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+	}) --40 PDT :: 38 MDT
 
 
 --/////////////////
@@ -488,73 +544,73 @@ function get_sets()
 --[WEAPONSKILL]-[SWORD]-[SAVAGE BLADE]-[MOD:50%MND/50%STR/P.ATTK]-[ELEMENT:Fragmentation/Scission]
 ---------------
     sets.me["Savage Blade"] = {
-		range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','Quadruple Attack +3',}},
-		head="Aya. Zucchetto +2",
-		body="Ayanmo Corazza +2",
-		hands="Aya. Manopolas +2",
-		legs="Aya. Cosciales +2",
-		feet="Aya. Gambieras +2",
-		neck="Sanctity Necklace",
-		waist="Sarissapho. Belt",
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands={ name="Chironic Gloves", augments={'"Mag.Atk.Bns."+11','"Store TP"+4','Weapon skill damage +9%','Accuracy+18 Attack+18',}},
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Bard's Charm +1",
+		waist="Grunfeld Rope",
 		left_ear="Ishvara Earring",
 		right_ear={ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
 		left_ring="Rufescent Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
 	}
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[]-[]
 ---------------
     sets.me["Mordant Rime"] = {
-		range="Gjallarhorn",
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
 		head="Nyame Helm",
 		body="Nyame Mail",
-		hands="Nyame Gauntlets",
+		hands={ name="Chironic Gloves", augments={'"Mag.Atk.Bns."+11','"Store TP"+4','Weapon skill damage +9%','Accuracy+18 Attack+18',}},
 		legs="Nyame Flanchard",
 		feet="Nyame Sollerets",
-		neck="Mnbw. Whistle +1",
+		neck="Bard's Charm +1",
 		waist="Grunfeld Rope",
 		left_ear="Ishvara Earring",
-		right_ear="Telos Earring",
-		left_ring="Hetairoi Ring",
+		right_ear="Regal Earring",
+		left_ring="Rajas Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
 	}
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[]-[MOD:80%DEX/P.ATTK]
 ---------------
     sets.me["Rudra's Storm"] = {
-		range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','Quadruple Attack +3',}},
-		head=AYA.HED,
-		body=REL.BOD,
-		hands="Volte Mittens",
-		legs="Jokushu Haidate",
-		feet=AYA.FEE,
-		neck=REL.NEK,
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands={ name="Chironic Gloves", augments={'"Mag.Atk.Bns."+11','"Store TP"+4','Weapon skill damage +9%','Accuracy+18 Attack+18',}},
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Bard's Charm +1",
 		waist="Grunfeld Rope",
 		left_ear="Ishvara Earring",
-		right_ear="Moonshade Earring",
+		right_ear="Telos Earring",
 		left_ring="Rajas Ring",
 		right_ring="Ilabrat Ring",
-		back=JSE.WSD.CHR, --THIS NEEDS TO BE A DEX BACK WITH WS DMG UPGRADE ASAP
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[EXTENERATOR]-[MOD:85%AGI/P.ATTK/GORGET]-[ELEMENT:FRAGMENTATION/SCISSION]
 ---------------
     sets.me["Exenterator"] = {
 		range={ name="Linos", augments={'Accuracy+15','"Dbl.Atk."+3','Quadruple Attack +3',}},
-		head=REL.HED,
-		body=REL.BOD,
-		hands="Volte Mittens",
-		legs="Volte Tights",
-		feet=REL.FEE,
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Brutal Earring",
-		right_ear="Digni. Earring",
-		left_ring="Garuda Ring",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Aya. Gambieras +2",
+		neck="Bard's Charm +1",
+		waist="Grunfeld Rope",
+		left_ear="Ishvara Earring",
+		right_ear="Telos Earring",
+		left_ring="Begrudging Ring",
 		right_ring="Ilabrat Ring",
-		back=JSE.DBL, --This needs to be... uh something? I dunno this ws sucks
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
 	
 ---------------
@@ -562,76 +618,160 @@ function get_sets()
 ---------------
     sets.me["Evisceration"] = {
 		range={ name="Linos", augments={'Accuracy+15','"Dbl.Atk."+3','Quadruple Attack +3',}},
-		head=AYA.HED,
-		body=REL.BOD,
-		hands="Volte Mittens",
-		legs="Jokushu Haidate",
-		feet=AYA.FEE,
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Brutal Earring",
-		right_ear="Moonshade Earring",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Aya. Manopolas +2",
+		legs="Nyame Flanchard",
+		feet="Aya. Gambieras +2",
+		neck="Bard's Charm +1",
+		waist="Grunfeld Rope",
+		left_ear="Ishvara Earring",
+		right_ear="Telos Earring",
 		left_ring="Begrudging Ring",
 		right_ring="Ilabrat Ring",
-		back=JSE.DBL, --I NEED TO GET A CRIT HIT RATE+ FOR THIS PIECE.
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
 	
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[AEOLIAN EDGE]-[MOD:40%DEX/40%INT/M.ATTK]-[ELEMENT: IMPACTION/SCISSION/DETONATION]
 ---------------
     sets.me["Aeolian Edge"] = {
-		range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','Quadruple Attack +3',}},
-		head={ name="Kaykaus Mitra +1", augments={'MND+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
-		body=REL.BOD,
-		hands={ name="Leyline Gloves", augments={'Accuracy+12','Mag. Acc.+14','"Mag.Atk.Bns."+15','"Fast Cast"+2',}},
-		legs={ name="Kaykaus Tights +1", augments={'MP+80','"Cure" spellcasting time -7%','Enmity-6',}},
-		feet=AYA.FEE,
-		neck="Sanctity Necklace",
-		waist="Eschan Stone",
-		left_ear="Ishvara Earring",
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
 		right_ear="Regal Earring",
-		left_ring="Acumen Ring",
+		left_ring="Apate Ring",
 		right_ring="Ilabrat Ring",
-		back=JSE.WSD.CHR,  --This needs to be MAB and WS DMG and INT
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
 
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[ENERGY DRAIN]-[MOD:100%MND/NO ATTK MOD]-[ELEMENT:DARK (NO SC ELEMENT)]
 ---------------
     sets.me["Energy Drain"] = {
-		range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','Quadruple Attack +3',}},
-		head=ART.HED,
-		body=REL.BOD,
-		hands=ART.HND,
-		legs=REL.LEG,
-		feet=INY.FEE,
-		neck="Mizu. Kubikazari",
-		waist="Luminary Sash",
-		left_ear={ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
 		right_ear="Regal Earring",
-		left_ring="Stikini Ring +1",
-		right_ring="Stikini Ring +1",
-		back=JSE.WSD.CHR, --This needs to be...MND and WSD?
+		left_ring="Apate Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
 	
 ---------------
 --[WEAPONSKILL]-[DAGGER]-[ENERGY STEAL]-[MOD:100%MND/NO ATTK MOD]-[ELEMENT:DARK (NO SC ELEMENT)]
 ---------------
     sets.me["Energy Steal"] = {
-		range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','Quadruple Attack +3',}},
-		head=ART.HED,
-		body=REL.BOD,
-		hands=ART.HND,
-		legs=REL.LEG,
-		feet=INY.FEE,
-		neck="Mizu. Kubikazari",
-		waist="Luminary Sash",
-		left_ear={ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
 		right_ear="Regal Earring",
-		left_ring="Stikini Ring +1",
-		right_ring="Stikini Ring +1",
-		back=JSE.WSD.CHR, --This needs to be..MND and WSD?
+		left_ring="Apate Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
     }
+	
+	---------------
+--[WEAPONSKILL]-[STAFF]-[SHELL CRUSHER]-[MOD:100%STR]-[DETONATION)]
+---------------
+    sets.me["Shell Crusher"] = {
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
+		right_ear="Regal Earring",
+		left_ring="Apate Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
+    }	
+	
+	
+---------------
+--[WEAPONSKILL]-[STAFF]-[SHATTERSOUL]-[MOD:73~85%INT]-[GRAVITATION/INDURATION)]
+---------------
+    sets.me["Shattersoul"] = {
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
+		right_ear="Regal Earring",
+		left_ring="Apate Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
+    }	
+	
+---------------
+--[WEAPONSKILL]-[STAFF]-[CATACLYSM]-[MOD:30% STR/30% INT]-[GRAVITATION/REVERBERATION)]
+---------------
+    sets.me["Cataclysm"] = {
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Pixie Hairpin +1",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
+		right_ear="Regal Earring",
+		left_ring="Apate Ring",
+		right_ring="Archon Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
+    }		
+
+---------------
+--[WEAPONSKILL]-[CLUB]-[FLASH NOVA]-[MOD:50% STR/50% MND]-[REVERBERATION/INDURATION)]
+---------------
+    sets.me["Flash Nova"] = {
+		range={ name="Linos", augments={'Accuracy+13 Attack+13','Weapon skill damage +3%','Quadruple Attack +3',}},
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Baetyl Pendant",
+		waist="Skrymir Cord",
+		left_ear="Friomisi Earring",
+		right_ear="Regal Earring",
+		left_ring="Apate Ring",
+		right_ring="Ilabrat Ring",
+		back={ name="Intarabus's Cape", augments={'CHR+20','Accuracy+20 Attack+20','CHR+10','Weapon skill damage +10%',}},
+    }
+
+	sets.me["Shining Strike"] = set_combine(sets.me["Flash Nova"],{	
+	})
+	
+	sets.me["Seraph Strike"] = set_combine(sets.me["Flash Nova"],{	
+	})
+	
 	
 --////////////////
 --Spellcasting sets
@@ -798,7 +938,7 @@ function get_sets()
 --[MIDCASTING]-[NUKING]
 ---------------
     sets.midcast.nuking.normal = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range={ name="Linos", augments={'Mag. Evasion+13','Phys. dmg. taken -4%','HP+15',}},
 		head={ name="Kaykaus Mitra +1", augments={'MND+12','Mag. Acc.+20','"Mag.Atk.Bns."+20',}},
@@ -846,7 +986,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING MAGIC ACCURACY]
 ---------------
     sets.midcast.Enfeebling.macc = {
-		main={ name="Kali", augments={'MP+60','Mag. Acc.+20','"Refresh"+1',}},
+		main="Carnwenhan",
 		sub="Genbu's Shield",
 		range="Eminent Flute",
 		head="Inyanga Tiara +2",
@@ -869,7 +1009,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING Raw Potency]
 ---------------
     sets.midcast.Enfeebling.potency = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range="Gjallarhorn",
 		head=ART.HED,
@@ -889,7 +1029,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING MIND]
 ---------------
     sets.midcast.Enfeebling.mndpot = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range="Gjallarhorn",
 		head=ART.HED,
@@ -909,7 +1049,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING MIND & SKILL]
 ---------------
     sets.midcast.Enfeebling.skillmndpot = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range="Gjallarhorn",
 		head=ART.HED,
@@ -929,7 +1069,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING INTELLIGENCE]
 ---------------
     sets.midcast.Enfeebling.intpot = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range="Gjallarhorn",
 		head=ART.HED,
@@ -949,7 +1089,7 @@ function get_sets()
 --[MIDCASTING]-[ENFEEBLING SKILL]
 ---------------
     sets.midcast.Enfeebling.skillpot = {
-		main={ name="Carnwenhan", augments={'Path: A',}},
+		main="Carnwenhan",
 		sub="Ammurapi Shield",
 		range="Gjallarhorn",
 		head=ART.HED,
@@ -977,15 +1117,15 @@ function get_sets()
     sets.midcast.enhancing.duration = {
 		main={ name="Kali", augments={'MP+60','Mag. Acc.+20','"Refresh"+1',}},
 		sub="Genbu's Shield",
-		range="Eminent Flute",
+		range={ name="Terpander", augments={'HP+30','Mag. Acc.+10','Damage Taken -3%',}},
 		head={ name="Telchine Cap", augments={'"Conserve MP"+2','Enh. Mag. eff. dur. +8',}},
-		body="Inyanga Jubbah +2",
-		hands="Inyan. Dastanas +2",
+		body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +8',}},
+		hands={ name="Telchine Gloves", augments={'"Cure" potency +3%','Enh. Mag. eff. dur. +10',}},
 		legs={ name="Telchine Braconi", augments={'"Cure" potency +6%','Enh. Mag. eff. dur. +10',}},
 		feet={ name="Telchine Pigaches", augments={'"Conserve MP"+4','Enh. Mag. eff. dur. +9',}},
-		neck="Moonbow Whistle +1",
+		neck="Loricate Torque +1",
 		waist="Embla Sash",
-		left_ear="Digni. Earring",
+		left_ear="Andoaa Earring",
 		right_ear="Regal Earring",
 		left_ring="Stikini Ring",
 		right_ring="Stikini Ring",
@@ -1073,22 +1213,22 @@ function get_sets()
 --BECAUSE CURE POT IS A % INCREASE, IT PERFORMS BETTER IF WE INCREASE ITS BASE VALUE THROUGH HEALING SKILL. 
 ---------------
     sets.midcast.cure.normal = set_combine(sets.midcast.casting,{
-		main={ name="Kali", augments={'MP+60','Mag. Acc.+20','"Refresh"+1',}},
+		main="Daybreak",
 		sub="Genbu's Shield",
-		range="Eminent Flute",
+		range={ name="Terpander", augments={'HP+30','Mag. Acc.+10','Damage Taken -3%',}},
 		head={ name="Kaykaus Mitra", augments={'MP+60','MND+10','Mag. Acc.+15',}},
-		body="Inyanga Jubbah +2",
+		body="Zendik Robe",
 		hands={ name="Kaykaus Cuffs", augments={'MP+60','"Cure" spellcasting time -5%','Enmity-5',}},
-		legs={ name="Telchine Braconi", augments={'"Cure" potency +6%','Enh. Mag. eff. dur. +10',}},
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','Enmity-4','MND+9','Mag. Acc.+14','"Mag.Atk.Bns."+15',}},
 		feet={ name="Vanya Clogs", augments={'MP+50','"Cure" potency +7%','Enmity-6',}},
-		neck="Moonbow Whistle +1",
-		waist="Embla Sash",
+		neck="Nodens Gorget",
+		waist="Luminary Sash",
 		left_ear="Mendi. Earring",
 		right_ear="Regal Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
+		left_ring="Kuchekula Ring",
+		right_ring="Sirona's Ring",
 		back={ name="Intarabus's Cape", augments={'CHR+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
-	}) --55 Cure Potency :: 14 Cure Potency II :: -30 Enmity :: 28 Fast Cast
+	}) --80 Cure Potency with Daybreak :: -40 Enmity :: 23 Fast Cast
 	
 ---------------
 --[MIDCASTING]-[CURE WEATHER]
@@ -1107,9 +1247,9 @@ function get_sets()
 --RDM CAN GET REGEN 2 UP TO 30 HP PER TIC, WHICH IS INCREDIBLY STRONG - ALMOST AS STRONG AS A FULL POWER REGEN 5  
 ---------------
 	sets.midcast.regen = set_combine(sets.midcast.enhancing.duration, {
-	main="Bolelabunga",
-	head=INY.HED,
-	body="Telchine Chasuble",
+		main="Bolelabunga",
+		head=INY.HED,
+		body="Telchine Chasuble",
 	})
 
 --------------
@@ -1121,8 +1261,8 @@ function get_sets()
 		sub="Genbu's Shield",
 		range="Gjallarhorn",
 		head="Fili Calot",
-		body="Fili Hongreline +1",
-		hands="Fili Manchettes",
+		body="Fili Hongreline +2",
+		hands="Fili Manchettes +2",
 		legs="Inyanga Shalwar +2",
 		feet="Brioso Slippers +3",
 		neck="Moonbow Whistle +1",
@@ -1135,14 +1275,14 @@ function get_sets()
 	}
 	
 	sets.midcast.songs.debuff = {
-		main={ name="Kali", augments={'DMG:+15','CHR+15','Mag. Acc.+15',}},
+		main="Carnwenhan",
 		sub="Genbu's Shield",
 		range="Gjallarhorn",
 		head="Inyanga Tiara +2",
 		body="Inyanga Jubbah +2",
 		hands="Inyan. Dastanas +2",
 		legs="Inyanga Shalwar +2",
-		feet="Inyan. Crackows +2",
+		feet="Brioso Slippers +3",
 		neck="Moonbow Whistle +1",
 		waist="Luminary Sash",
 		left_ear="Digni. Earring",
@@ -1153,13 +1293,13 @@ function get_sets()
 	}
 	
 	sets.midcast.songs.dummy = {
-		head=INY.HED,
-		body=INY.BOD,
-		hands=INY.HND,
-		legs=AYA.LEG,
-		feet=INY.FEE,
-		neck="Loricate Torque +1",
-		waist="Flume Belt +1",
+		head="Nyame Helm",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		neck="Warder's Charm +1",
+		waist="Carrier's Sash",
 		left_ear="Genmei Earring",
 		right_ear="Etiolation Earring",
 		left_ring="Defending Ring",
@@ -1184,7 +1324,7 @@ function get_sets()
 		range="Daurdabla",
 		--range="Marsyas", --Duration Instrument. Don't forget to disable the other instruments. 
 		--range="Gjallarhorn", --Magic Accuracy Instrument.  Don't forget to disable the other instruments.
-		hands=ART.HND,
+		hands="Inyan. Dastanas +2",
 		legs=INY.LEG, --(Duration +17% instead of the standard raw MACC of AF Legs)  Simply --the AF Hands to use this
 	}) 
 	--Marysas gives duration +50% for the longest sleep.  
@@ -1196,9 +1336,9 @@ function get_sets()
 		range="Daurdabla",
 		--range="Marsyas", --Duration Instrument. Don't forget to disable the other instruments. 
 		--range="Gjallarhorn", --Magic Accuracy Instrument.  Don't forget to disable the other instruments.
-		hands=ART.HND,
-	    legs={ name="Chironic Hose", augments={'Crit.hit rate+2','Pet: Attack+28 Pet: Rng.Atk.+28','"Treasure Hunter"+2','Accuracy+17 Attack+17','Mag. Acc.+10 "Mag.Atk.Bns."+10',}},
-		feet={ name="Chironic Slippers", augments={'DEX+4','AGI+5','"Treasure Hunter"+2','Mag. Acc.+13 "Mag.Atk.Bns."+13',}},
+		head="Wh. Rarab Cap +1",
+		hands={ name="Chironic Gloves", augments={'STR+6','Rng.Atk.+3','"Treasure Hunter"+1','Accuracy+14 Attack+14','Mag. Acc.+4 "Mag.Atk.Bns."+4',}},
+		legs={ name="Chironic Hose", augments={'Blood Pact Dmg.+9','Attack+16','"Treasure Hunter"+2','Accuracy+8 Attack+8','Mag. Acc.+3 "Mag.Atk.Bns."+3',}},
 	})
 		
 	sets.midcast.Threnody 	= set_combine(sets.midcast.songs.debuff, {range="Gjallarhorn",})
@@ -1217,10 +1357,10 @@ function get_sets()
 --------------
 
 -- Type Spell name between "" to have specific set for spell. will join any dummy song gear in by default. 	
-	sets.midcast["Army's Paeon"] 	= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",head=ART.HED,neck="Mnbw. Whistle +1",})
-	sets.midcast["Army's Paeon II"] = set_combine(sets.midcast.songs.dummy, {range="Daurdabla",head=ART.HED,neck="Mnbw. Whistle +1",})
-	sets.midcast["Army's Paeon III"]= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",head=ART.HED,neck="Mnbw. Whistle +1",})
-	sets.midcast["Army's Paeon IV"] = set_combine(sets.midcast.songs.dummy, {range="Daurdabla",head=ART.HED,neck="Mnbw. Whistle +1",})
+	sets.midcast["Army's Paeon"] 	= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",neck="Mnbw. Whistle +1",})
+	sets.midcast["Army's Paeon II"] = set_combine(sets.midcast.songs.dummy, {range="Daurdabla",neck="Mnbw. Whistle +1",})
+	sets.midcast["Army's Paeon III"]= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",neck="Mnbw. Whistle +1",})
+	sets.midcast["Army's Paeon IV"] = set_combine(sets.midcast.songs.dummy, {range="Daurdabla",neck="Mnbw. Whistle +1",})
 	sets.midcast["Goblin Gavotte"] 	= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",})
 	sets.midcast["Herb Pastoral"] 	= set_combine(sets.midcast.songs.dummy, {range="Daurdabla",})
 end

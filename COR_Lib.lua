@@ -17,9 +17,6 @@ spell_maps = {
     ['Barfire']='BarElement',['Barstone']='BarElement',['Barwater']='BarElement',['Baraero']='BarElement',
 	['Barblizzard']='BarElement',['Barthunder']='BarElement',['Barfira']='BarElement',['Barstonra']='BarElement',
 	['Barwatera']='BarElement',['Baraera']='BarElement',['Barblizzara']='BarElement',['Barthundra']='BarElement',
---BarStatus
-	['Barpoison']='BarStatus',['Barparalyze']='BarStatus',['Barblind']='BarStatus',['Barsilence']='BarStatus',
-	['Barpetrify']='BarStatus',['Barvirus']='BarStatus',['Baramnesia']='BarStatus',
 --Raise 	
     ['Raise']='Raise',['Raise II']='Raise',['Raise III']='Raise',['Arise']='Raise',
 --ReRaise 
@@ -102,40 +99,30 @@ spell_maps = {
 --RDM Gain Spells
 	['Gain-AGI']='Gain',['Gain-CHR']='Gain',['Gain-DEX']='Gain',['Gain-INT']='Gain',['Gain-MND']='Gain',['Gain-STR']='Gain',
 	['Gain-VIT']='Gain',
---Impact
-	['Impact']='Impact',
---BLUE MAGIC
-	['Sheep Song']='BlueACC',['Sandspin']='BlueACC',['Frightful Roar']='BlueACC',['Chaotic Eye']='BlueACC',['Battle Dance']='BlueACC',['Ice Break']='BlueACC',
-	['Sickle Slash']='BlueACC',['Terror Touch']='BlueACC',['Uppercut']='BlueACC',['Grand Slam']='BlueACC',
-	['Cursed Sphere']='BlueNuke',
-	['Cocoon']='BlueENH',
-	['Healing Breeze']='BlueCure',
-	['Flash']='Enmity', ['Foil']='Enmity'
+--PLD Spells
+	['Flash']='Flash', ['Crusade']='Crusade',['Reprisal']='Reprisal',
+	
 }
 
 enfeeb_maps = {
 --Potency Reliant spells
-    ['Dia']='Dia', ['Dia II']='Dia', ['Dia III']='Dia',
-    ['Bio']='Bio', ['Bio II']='Bio', ['Bio III']='Bio',
+    ['Dia']='potency', ['Dia II']='potency', ['Dia III']='potency',
+    ['Bio']='potency', ['Bio II']='potency', ['Bio III']='potency',
 --Mind Scaling Potency spells
-    ['Paralyze']='Paralyze', ['Paralyze II']='Paralyze',
-	['Slow']='Slow', ['Slow II']='Slow', 
-	['Addle']='Addle', ['Addle II']='Addle', 
+    ['Paralyze']='mndpot', ['Paralyze II']='mndpot',['Slow']='mndpot', ['Slow II']='mndpot', ['Adle']='mndpot', 
+	['Adle II']='mndpot', 
 --Skill&Mind Scaling Spells	
-	['Frazzle III']='FrazzleIII',
-	['Distract']='Distract', ['Distract II']='Distract', ['Distract III']='Distract', 
+	['Frazzle III']='skillmndpot',['Distract']='skillmndpot', ['Distract II']='skillmndpot', 
+	['Distract III']='skillmndpot', 
 --Accuracy Reliant Spells
-    ['Silence']='Silence',
-	['Inundation']='Inundation',
-	['Dispel']='Dispel', ['Dispelga']='Dispelga',
-    ['Frazzle']='FrazzleII',['Frazzle II']='FrazzleII', 
+    ['Sleep']='macc', ['Sleep II']='macc', ['Sleepga']='macc', ['Silence']='macc',['Inundation']='macc',['Dispel']='macc', 
+    ['Break']='macc',['Bind']='macc',['Frazzle']='macc',['Frazzle II']='macc', 
 --Intelligence Scaling Potency Spells	
-	['Blind']='Blind', ['Blind II']='Blind',
+	['Blind']='intpot', ['Blind II']='intpot',
+--Raw Potency Spells	
+	['Gravity']='potency', ['Gravity II']='potency',
 --Raw Skill Scaling Spells
-    ['Poison']='Poison', ['Poison II']='Poison', ['Poisonga']='Poison',
---Duration Spells
-	['Gravity']='Gravity', ['Gravity II']='Gravity',
-	['Bind']='Bind',['Sleep']='Sleep', ['Sleep II']='Sleep', ['Sleepga']='Sleep',['Sleepga II']='Sleep', ['Break']='Break',
+    ['Poison']='skillpot', ['Poison II']='skillpot', ['Poisonga']='skillpot',
 }
 
 
@@ -544,16 +531,6 @@ function buff_change(name,gain,buff_details)
     if use_UI == true then
         validateTextInformation()
     end
-	if name == "doom" then
-        if gain then
-            equip(sets.buff.Doom)
-            send_command('@input /p Doomed.')
-             disable('ring1','ring2','neck','waist')
-        else
-            enable('ring1','ring2','neck','waist')
-
-        end
-    end
 end
  
 function precast(spell)
@@ -583,10 +560,9 @@ function precast(spell)
 
     -- Moving on to other types of magic
     if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' then
-        if spell.name == 'Impact' then
-			equip(sets.precast.Impact)
+     
         -- Stoneskin Precast
-        elseif spell.name == 'Stoneskin' then
+        if spell.name == 'Stoneskin' then
          
             windower.ffxi.cancel_buff(37)--[[Cancels stoneskin, not delayed incase you get a Quick Cast]]
             equip(sets.precast.stoneskin)
@@ -638,25 +614,16 @@ function midcast(spell)
     -- Curing
     if spell.name:match('Cure') or spell.name:match('Cura') then
         if spell.element == world.weather_element or spell.element == world.day_element then
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.weather)
-			else 
-				equip(sets.midcast.cure.weather.self)
-			end
+            equip(sets.midcast.cure.weather)
         else
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.normal)
-			else 
-				equip(sets.midcast.cure.normal.self)
-			end
+            equip(sets.midcast.cure.normal)
         end
-	elseif spell.name == 'Impact' then
-		equip(sets.midcast.Impact)
+
     -- Enhancing
     elseif spell.skill == 'Enhancing Magic' then
 
         if spell.name:match('Protect') or spell.name:match('Shell') then
-            equip(sets.midcast.protect)
+            equip({rring="Sheltered Ring"})
         elseif spell.name:match('Refresh') then
             equip(sets.midcast.refresh)
         elseif spell.name:match('Regen') then
@@ -684,9 +651,7 @@ function midcast(spell)
     elseif spell.skill == 'Enfeebling Magic' then
         equip(sets.midcast.Enfeebling[enfeebMap])
         if Buff['Saboteur'] then
-			if enfeebMap=='Paralyze' or enfeebMap== 'Slow' or enfeebMap== 'Addle' or enfeebMap== 'FrazzleIII' or enfeebMap== 'Distract' or enfeebMap== 'Poison' or enfeebMap== 'Gravity' or enfeebMap== 'Blind'then
-				equip({hands="Leth. Gantherots +1"})
-			end
+            equip({hands=EMP.Hands})
         end 
 
     -- Nuking
@@ -703,7 +668,7 @@ function midcast(spell)
         if spell.element == world.day_element and spell.skill ~= 'Enhancing Magic' and spellMap ~= 'Helix' then
             equip(sets.midcast.Obi)
         end
-
+    
     -- Fail safe
     elseif spell.type ~= "WeaponSkill" then
         equip(sets.midcast.casting)
@@ -756,7 +721,7 @@ function idle()
     -- This function is called after every action, and handles which set to equip depending on what we're doing
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if player.status=='Engaged' then
-        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') or subWeapon.current:match('Forfend')  then
+        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') then
             equip(sets.me.melee[meleeModes.value..'sw'])
         else
             equip(sets.me.melee[meleeModes.value..'dw'])
@@ -783,7 +748,7 @@ function EnspellCheck()
     elseif Buff['En-Weather'] and Buff['En-Day'] then
         equip(sets.midcast.Obi)
     -- Enspell is there but doesnt match a double weather
-    elseif Buff['Enspell'] and mainWeapon.current:match("Crocea Mors") then
+    elseif Buff['Enspell'] then
         equip(sets.midcast.Orpheus)
     end 
 end
@@ -808,7 +773,7 @@ function self_command(command)
      
     if #commandArgs:split(' ') >= 2 then
         commandArgs = T(commandArgs:split(' '))
-  
+        
         if commandArgs[1] == 'toggle' then
             if commandArgs[2] == 'melee' then
                 -- //gs c toggle melee will toggle melee mode on and off.
@@ -868,8 +833,8 @@ function self_command(command)
                     windower.add_to_chat(8,"----- Matching SC Mode is now: "..tostring(matchsc.current)) 
                 end
             end
-        end   
-		
+        end
+        
         if commandArgs[1]:lower() == 'scholar' then
             handle_strategems(commandArgs)
 
@@ -925,39 +890,7 @@ function self_command(command)
                 send_command('@input /ma "'..nukes[nuke][elements.current]..'"')     
             end
         end
-	else 
-		if command == 'WS1' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet1[1] .. ' | Sub: ' .. WeaponSet1[2])
-			mainWeapon:set(WeaponSet1[1])
-			subWeapon:set(WeaponSet1[2])
-			idle()
-		elseif command == 'WS2' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet2[1] .. ' | Sub: ' .. WeaponSet2[2])
-			mainWeapon:set(WeaponSet2[1])
-			subWeapon:set(WeaponSet2[2])
-			idle()
-		elseif command == 'WS3' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet3[1] .. ' | Sub: ' .. WeaponSet3[2])
-			mainWeapon:set(WeaponSet3[1])
-			subWeapon:set(WeaponSet3[2])
-			idle()
-		elseif command == 'WS4' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet4[1] .. ' | Sub: ' .. WeaponSet4[2])
-			mainWeapon:set(WeaponSet4[1])
-			subWeapon:set(WeaponSet4[2])
-			idle()
-		elseif command == 'WS5' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet5[1] .. ' | Sub: ' .. WeaponSet5[2])
-			mainWeapon:set(WeaponSet5[1])
-			subWeapon:set(WeaponSet5[2])
-			idle()
-		elseif command == 'WS6' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet6[1] .. ' | Sub: ' .. WeaponSet6[2])
-			mainWeapon:set(WeaponSet6[1])
-			subWeapon:set(WeaponSet6[2])
-			idle()
-		end 
-	end
+    end
 end
 
 function updateMB( mBurst )   
@@ -965,13 +898,13 @@ function updateMB( mBurst )
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING OFF] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode OFF -----")
         end
     else
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING ON] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode ON -----")
         end
     end
 end
@@ -1002,7 +935,7 @@ end
 function lockMainHand( meleeing )   
     
     if meleeing then
-        enable('main','sub','ranged','ammo')
+        enable('main','sub','ranged')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1010,7 +943,7 @@ function lockMainHand( meleeing )
         end
         idle()
     else
-        disable('main','sub','ranged','ammo')
+        disable('main','sub','ranged')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1117,6 +1050,7 @@ local skillchains = {
     [301] = {id=301,english='Impaction',elements={'Lightning'}, color=Colors[7]}
 }
 if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+
     windower.register_event('action', function(act)
         for _, target in pairs(act.targets) do
             local battle_target = windower.ffxi.get_mob_by_target("t")
@@ -1195,38 +1129,32 @@ if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
         end
     end
 
-	function auto_cp()
-    -- --Now we check if we need to lock our back for CP
-        -- if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
-            -- jobpoints = windower.ffxi.get_player().job_points[player.main_job:lower()].jp_spent -- check if we are master
-        -- end
-        -- if jobpoints ~= 2100 and jobpoints ~= nil then -- Basically if not master
-            -- monsterToCheck = windower.ffxi.get_mob_by_target('t')
-            -- if windower.ffxi.get_mob_by_target('t') then -- Sanity Check 
-                -- if #monsterToCheck.name:split(' ') >= 2 then
-                    -- monsterName = T(monsterToCheck.name:split(' '))
-                    -- if monsterName[1] == "Apex" then
-                        -- if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
-                            -- equip({ back = CP_CAPE }) 
-                            -- disable("back") --Lock back
-                        -- else
-                            -- enable("back") --Else make sure the back is enabled
-                        -- end 
-					-- --else if monsterName[1] == "Regiment" or monsterName[1] == "Commander"  or monsterName[1] == "Squadron" or monsterName[1] == "Disjoined" or monsterName[1] == "Volte" or monsterName[1] == "Leader" then
-                       -- -- if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
-                       -- --     equip({ neck = DYNA_NECK }) 
-                     -- --       disable("neck") --Lock back
-                       -- -- else
-                       -- --     enable("neck") --Else make sure the back is enabled
-                     -- --   end 
-                    -- end
-                -- end
-            -- else
-                -- enable("back") --Else make sure the back is enabled
-            -- end
-        -- else
-            -- enable("back") --Else make sure the back is enabled
-        -- end
+    function auto_cp()
+
+    --Now we check if we need to lock our back for CP
+        if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+            jobpoints = windower.ffxi.get_player().job_points[player.main_job:lower()].jp_spent -- check if we are master
+        end
+        if jobpoints ~= 2100 and jobpoints ~= nil then -- Basically if not master
+            monsterToCheck = windower.ffxi.get_mob_by_target('t')
+            if windower.ffxi.get_mob_by_target('t') then -- Sanity Check 
+                if #monsterToCheck.name:split(' ') >= 2 then
+                    monsterName = T(monsterToCheck.name:split(' '))
+                    if monsterName[1] == "Apex" then
+                        if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
+                            equip({ back = CP_CAPE }) 
+                            disable("back") --Lock back
+                        else
+                            enable("back") --Else make sure the back is enabled
+                        end 
+                    end
+                end
+            else
+                enable("back") --Else make sure the back is enabled
+            end
+        else
+            enable("back") --Else make sure the back is enabled
+        end
     end
 end
 

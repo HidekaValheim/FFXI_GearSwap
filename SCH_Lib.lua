@@ -10,6 +10,7 @@ spell_maps = {
     ['Full Cure']='Cure',
     ['Cura']='Curaga',['Cura II']='Curaga',['Cura III']='Curaga',
     ['Curaga']='Curaga',['Curaga II']='Curaga',['Curaga III']='Curaga',['Curaga IV']='Curaga',['Curaga V']='Curaga',
+	['Cursna']='Cursna',
 --Raise
     ['Raise']='Raise',['Raise II']='Raise',['Raise III']='Raise',['Arise']='Raise',
     ['Reraise']='Reraise',['Reraise II']='Reraise',['Reraise III']='Reraise',['Reraise IV']='Reraise',
@@ -1047,6 +1048,10 @@ function apply_grimoire_bonuses(spell, action, spellMap)
         if Buff['Immanence'] then
             equip(sets.buff['Immanence'])
         end
+        if Buff['Klimaform'] and spell.element == world.weather_element then
+            equip(sets.buff['Klimaform'])
+        end
+	elseif spell.skill == "Healing Magic" and spell.target.type ~= 'SELF' and spell.target.type ~= 'PLAYER' then 
         if Buff['Klimaform'] and spell.element == world.weather_element then
             equip(sets.buff['Klimaform'])
         end

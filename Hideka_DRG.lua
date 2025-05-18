@@ -25,12 +25,12 @@
 include('organizer-lib')
 include('Modes.lua')
 send_command('input //send @all lua l superwarp') 
--- send_command('input //lua l porterpacker') 
+send_command('input //lua l porterpacker') 
 send_command('wait 31;input //gs equip sets.weapons') 
 
 organizer_items = {
     Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
-    NinjaTools={"Shihei"},
+    NinjaTools={"Shihei","Toolbag (Shihe)"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 	Other={"Angon"},
 }
@@ -38,14 +38,8 @@ organizer_items = {
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 function get_gear()
-	--[[Disable code in this sub if you dont have organizer or porter packer]]
-    -- send_command('wait 3;input //gs org')
-	-- if PortTowns:contains(world.area) then
-		-- send_command('wait 3;input //gs org') 
-		-- send_command('wait 6;input //po repack') 
-    -- else
-		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    -- end
+	send_command('wait 3;input //gs org')
+	add_to_chat(8,'REMEMBER TO REPACK GEAR')
 end
 
 function AUTO_CP_CAPE()
@@ -216,27 +210,27 @@ function init_gear_sets()
         -- head="Vishap Armet +3",
         hands="Pel. Vambraces +1",
         feet="Ptero. Greaves +3",
-        ear1="Pratik Earring",
+        --ear1="Pratik Earring",
         }
 
     sets.precast.JA['Steady Wing'] = {
         legs="Vishap Brais +3",
         feet="Ptero. Greaves +3",
-        neck="Chanoix's Gorget",
-        ear1="Lancer's Earring",
-        ear2="Anastasi Earring",
+        --neck="Chanoix's Gorget",
+        --ear1="Lancer's Earring",
+        --ear2="Anastasi Earring",
         back="Updraft Mantle",
         }
 
     sets.precast.JA['Jump'] = {
-		ammo="Ginsen",
+		ammo="Coiste Bodhar",
 		head="Flam. Zucchetto +2",
 		body="Hjarrandi Breast.",
 		hands="Vis. Fng. Gaunt. +2",
-		legs="Flamma Dirs +2",
+		legs="Ptero. Brais +1",
 		feet="Vishap Greaves +1",
 		neck="Anu Torque",
-		waist="Ioskeha Belt",
+		waist="Ioskeha Belt +1",
 		left_ear="Sherida Earring",
 		right_ear="Telos Earring",
 		left_ring="Petrov Ring",
@@ -246,7 +240,7 @@ function init_gear_sets()
 
     sets.precast.JA['High Jump'] = set_combine(sets.precast.JA['Jump'], {legs="Ptero. Brais +1"})
     sets.precast.JA['Spirit Jump'] = set_combine(sets.precast.JA['Jump'],{feet="Pelt. Schyn. +1", legs="Pelt. Cuissots +1"})
-    sets.precast.JA['Soul Jump'] = set_combine(sets.precast.JA['Jump'], {body="Vishap Mail +1", hands="Emi. Gauntlets +1", legs="Pelt. Cuissots +1"})
+    sets.precast.JA['Soul Jump'] = set_combine(sets.precast.JA['Jump'], {hands="Emicho Gauntlets", legs="Pelt. Cuissots +1"})
     sets.precast.JA['Super Jump'] = {}
     sets.precast.JA['Angon'] = {ammo="Angon", hands="Ptero. Fin. G. +3"}
 
@@ -259,7 +253,7 @@ function init_gear_sets()
 		legs={ name="Founder's Hose", augments={'MND+3','Mag. Acc.+3','Attack+7','Breath dmg. taken -1%',}},
 		feet="Flam. Gambieras +2",
 		neck="Orunmila's Torque",
-		waist="Oneiros Belt",
+		waist="Plat. Mog. Belt",
 		left_ear="Etiolation Earring",
 		right_ear="Loquac. Earring",
 		left_ring="Rahab Ring",
@@ -273,11 +267,11 @@ function init_gear_sets()
 
     sets.precast.WS = {
 		ammo="Knobkierrie",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		head="Nyame Helm",
 		body="Hjarrandi Breast.",
 		hands="Ptero. Fin. G. +3",
 		legs="Vishap Brais +3", 
-		feet="Sulev. Leggings +2",
+		feet="Nyame Sollerets",
 		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Sherida Earring",
@@ -298,7 +292,7 @@ function init_gear_sets()
 		left_ear="Friomisi Earring",
 		right_ear="Hecate's Earring",
 		left_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
-		right_ring="Epaminondas's  Ring",
+		right_ring="Epaminondas's Ring",
 		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
 	sets.precast.WS['Aeolian Edge'] = set_combine(sets.precast.WS['Cataclysm'], {})
@@ -335,7 +329,7 @@ function init_gear_sets()
 		body="Hjarrandi Breast.",
 		hands={ name="Ptero. Fin. G. +3", augments={'Enhances "Angon" effect',}},
 		legs="Vishap Brais +3",
-		feet="Sulev. Leggings +2",
+		feet="Nyame Sollerets",
 		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -366,7 +360,7 @@ function init_gear_sets()
 		body="Hjarrandi Breast.",
 		hands={ name="Ptero. Fin. G. +3", augments={'Enhances "Angon" effect',}},
 		legs="Vishap Brais +3",
-		feet="Sulev. Leggings +2",
+		feet="Nyame Sollerets",
 		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
 		waist="Fotia Belt",
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -381,7 +375,7 @@ function init_gear_sets()
 		body="Gleti's Cuirass",
 		hands={ name="Ptero. Fin. G. +3", augments={'Enhances "Angon" effect',}},
 		legs="Vishap Brais +3",
-		feet="Sulev. Leggings +2",
+		feet="Nyame Sollerets",
 		neck={ name="Dgn. Collar +2", augments={'Path: A',}},
 		waist="Fotia Belt",
 		left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -393,7 +387,7 @@ function init_gear_sets()
     
 	sets.precast.WS['Stardiver'] = {
 		ammo="Knobkierrie",
-		head={ name="Lustratio Cap +1", augments={'Attack+20','STR+8','"Dbl.Atk."+3',}},
+		head="Blistering Sallet +1",
 		body="Gleti's Cuirass",
 		hands="Sulev. Gauntlets +2",
 		legs="Sulev. Cuisses +2",
@@ -456,14 +450,14 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.idle = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Gleti's Mask",
 		body="Gleti's Cuirass",
 		hands="Gleti's Gauntlets",
 		legs="Gleti's Breeches",
 		feet="Gleti's Boots",
 		neck="Unmoving Collar +1",
-		waist="Asklepian Belt",
+		waist="Plat. Mog. Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring="Moonlight Ring",
@@ -472,14 +466,14 @@ function init_gear_sets()
         }
 
     sets.idle.DT = set_combine(sets.idle, {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Gleti's Mask",
 		body="Gleti's Cuirass",
 		hands="Gleti's Gauntlets",
 		legs="Gleti's Breeches",
 		feet="Gleti's Boots",
 		neck="Unmoving Collar +1",
-		waist="Asklepian Belt",
+		waist="Plat. Mog. Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring="Moonlight Ring",
@@ -506,20 +500,20 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.engaged = {
-		ammo = "Coiste Bodhar",
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head="Flam. Zucchetto +2",
 		body="Hjarrandi Breast.",
 		hands="Sulev. Gauntlets +2",
 		legs={ name="Valorous Hose", augments={'Attack+13','"Dbl.Atk."+5','STR+5',}},
 		feet="Flam. Gambieras +2",
 		neck="Anu Torque",
-		waist="Ioskeha Belt",
+		waist="Ioskeha Belt +1",
 		left_ear="Sherida Earring",
 		right_ear="Brutal Earring",
 		left_ring="Niqmaddu Ring",
-		right_ring="Chirich Ring +1",
+		right_ring="Lehko's Ring",
 		back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
-        }
+    }
 
     sets.engaged.LowAcc = set_combine(sets.engaged, {left_ring="Chirich Ring +1", neck="Dgn. Collar +2",right_ear="Telos Earring",})
     sets.engaged.MidAcc = set_combine(sets.engaged.LowAcc, {left_ring="Chirich Ring +1", neck="Dgn. Collar +2",right_ear="Telos Earring",})
@@ -541,7 +535,7 @@ function init_gear_sets()
 		legs="Nyame Flanchard",
 		feet="Flam. Gambieras +2",
 		neck="Dgn. Collar +2",
-		waist="Ioskeha Belt",
+		waist="Ioskeha Belt +1",
 		left_ear="Sherida Earring",
 		right_ear="Telos Earring",
 		left_ring={name="Moonlight Ring", bag="wardrobe2"},
@@ -552,7 +546,7 @@ function init_gear_sets()
     sets.engaged.DT = set_combine(sets.engaged, sets.engaged.Hybrid)
     sets.engaged.LowAcc.DT = set_combine(sets.engaged.Hybrid, {left_ring="Chirich Ring +1"})
     sets.engaged.MidAcc.DT = set_combine(sets.engaged.Hybrid, {left_ring="Chirich Ring +1", neck="Dgn. Collar +2",right_ear="Telos Earring",})
-    sets.engaged.HighAcc.DT = set_combine(sets.engaged.Hybrid, {legs="Sulevia's Cuisses +2", left_ring="Chirich Ring +1", neck="Dgn. Collar +2",right_ear="Telos Earring",} )
+    sets.engaged.HighAcc.DT = set_combine(sets.engaged.Hybrid, {left_ring="Chirich Ring +1", neck="Dgn. Collar +2",right_ear="Telos Earring",} )
     sets.engaged.STP.DT = set_combine(sets.engaged.STP, sets.engaged.Hybrid)
 
     ------------------------------------------------------------------------------------------------
@@ -562,7 +556,7 @@ function init_gear_sets()
     sets.buff.Doom = {
         neck="Nicander's Necklace", --20
         ring1={name="Purity Ring", bag="wardrobe7"}, --20
-        ring2={name="Eshmun's Ring", bag="wardrobe7"}, --20
+        ring2="Blenmot's Ring +1", --20
         waist="Gishdubar Sash", --10
         }
 

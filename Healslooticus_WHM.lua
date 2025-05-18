@@ -1,4 +1,4 @@
- include('organizer-lib') -- optional
+include('organizer-lib') -- optional
 res = require('resources')
 texts = require('texts')
 include('Modes.lua')
@@ -7,7 +7,7 @@ include('Modes.lua')
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
 -- Same idea for nuke modes. 
-idleModes = M('refresh', 'dt', 'town')
+idleModes = M('Refresh', 'Hybrid', 'DT')
 meleeModes = M('FullHaste','FULLACC', 'dt')
 nukeModes = M('normal', 'acc')
 
@@ -20,7 +20,7 @@ nukeModes = M('normal', 'acc')
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
-mainWeapon = M("Terra's Staff", "Maxentius", "Yagrush")
+mainWeapon = M("Mpaca's Staff", "Maxentius", "Yagrush")
 subWeapon = M("Mensch Strap", "Magesmasher +1", "Sors Shield")
 ------------------------------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ DYNA_NECK = "Cleric's Torque +2"
 -- Setting this to true will stop the text spam, and instead display modes in a /UI.
 -- Currently in construction.
 use_UI = true
-hud_x_pos = 1765    --important to update these if you have a smaller screen
+hud_x_pos = 1565    --important to update these if you have a smaller screen
 hud_y_pos = 300     --important to update these if you have a smaller screen
 hud_draggable = true
 hud_font_size = 10
@@ -65,32 +65,31 @@ hud_font = 'Impact'
 	windower.send_command('bind numpad* gs c toggle autosamba')
 	windower.send_command('lua l superwarp')
 	
-	windower.send_command('lua u NyzulHelper')
-	windower.send_command('lua u Omen')
-	windower.send_command('lua u Plugin_Manager')
-	windower.send_command('lua u PointWatch')
-	windower.send_command('lua u RollTracker')
-	windower.send_command('lua u THTracker')
-	windower.send_command('lua u xivbar')
-	windower.send_command('lua u equipviewer')
-	windower.send_command('lua u giltracker')
-	windower.send_command('lua u infobar')
-	windower.send_command('lua u invtracker')
-	windower.send_command('lua u EnemyBar')
-	windower.send_command('lua u clock')
-	windower.send_command('lua u debuffed')
-	windower.send_command('lua u capetrader')
-	windower.send_command('lua u checkparam')
-	windower.send_command('lua u azuresets')
-	windower.send_command('lua u battlemod')
-	windower.send_command('lua u autora')
-	windower.send_command('lua u organizer')
-	windower.send_command('lua u tparty')
-	windower.send_command('lua u Parse')
-	windower.send_command('unload FFXIDB')
-	windower.send_command('unload infobar')	
-	windower.send_command('unload timers')
-	windower.send_command('lua u partybuffs')	
+	-- windower.send_command('lua u NyzulHelper')
+	-- windower.send_command('lua u Omen')
+	-- windower.send_command('lua u Plugin_Manager')
+	-- windower.send_command('lua u PointWatch')
+	-- windower.send_command('lua u RollTracker')
+	-- windower.send_command('lua u THTracker')
+	-- windower.send_command('lua u xivbar')
+	-- windower.send_command('lua u giltracker')
+	-- windower.send_command('lua u infobar')
+	-- windower.send_command('lua u invtracker')
+	-- windower.send_command('lua u EnemyBar')
+	-- windower.send_command('lua u clock')
+	-- windower.send_command('lua u debuffed')
+	-- windower.send_command('lua u capetrader')
+	-- windower.send_command('lua u checkparam')
+	-- windower.send_command('lua u azuresets')
+	-- windower.send_command('lua u battlemod')
+	-- windower.send_command('lua u autora')
+	-- windower.send_command('lua u organizer')
+	-- windower.send_command('lua u tparty')
+	-- windower.send_command('lua u Parse')
+	-- windower.send_command('unload FFXIDB')
+	-- windower.send_command('unload infobar')	
+	-- windower.send_command('unload timers')
+	-- windower.send_command('lua u partybuffs')	
 
 --[[
     This gets passed in when the Keybinds is turned on.
@@ -160,50 +159,56 @@ function get_sets()
 	--DT IS ADDITIVE TO PDT/MDT/BDT TOTALS
 	--EG: 20DT+30PDT = 50%PDT, WHICH IS THE CAP. 
 
-	sets.me.idle.town = {
-		ammo="Staunch Tathlum",
-		head="Aya. Zucchetto +2",
-		body="Ayanmo Corazza +2",
-		hands="Bunzi's Gloves",
-		legs={ name="Chironic Hose", augments={'Pet: Accuracy+28 Pet: Rng. Acc.+28','Enmity-4','Quadruple Attack +3','Accuracy+1 Attack+1','Mag. Acc.+13 "Mag.Atk.Bns."+13',}},
-		feet={ name="Chironic Slippers", augments={'INT+9','CHR+5','Quadruple Attack +2','Accuracy+4 Attack+4',}},
-		neck="Sanctity Necklace",
-		waist="Windbuffet Belt",
-		left_ear="Brutal Earring",
-		right_ear="Eabani Earring",
-		left_ring="Defending Ring",
-		right_ring="Rajas Ring",
-		back={ name="Alaunus's Cape", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-6%',}},	
-	}	
- 	sets.me.idle.refresh = {
+	sets.me.idle.Refresh = {
+		main="Mpaca's Staff",
+		sub="Mensch Strap",
 		ammo="Staunch Tathlum",
 		head="Inyanga Tiara +2",
-		body="Theo. Bliaut +3",
+		body="Shamash Robe",
+		hands="Inyan. Dastanas +2",
+		legs="Assid. Pants +1",
+		feet="Inyan. Crackows +2",
+		neck="Sibyl Scarf",
+		waist="Carrier's Sash",
+		left_ear={ name="Moonshade Earring", augments={'HP+25','Latent effect: "Refresh"+1',}},
+		right_ear="Hearty Earring",
+		left_ring={name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring={name="Stikini Ring +1", bag="wardrobe4"},
+		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
+	}	
+ 	sets.me.idle.Hybrid = {
+		main="Mpaca's Staff",
+		sub="Mensch Strap",
+		ammo="Staunch Tathlum",
+		head="Inyanga Tiara +2",
+		body="Shamash Robe",
 		hands="Inyan. Dastanas +2",
 		legs="Assid. Pants +1",
 		feet="Inyan. Crackows +2",
 		neck="Loricate Torque +1",
-		waist="Porous Rope",
-		left_ear="Hearty Earring",
-		right_ear="Eabani Earring",
-		left_ring="Inyanga Ring",
+		waist="Carrier's Sash",
+		left_ear={ name="Moonshade Earring", augments={'HP+25','Latent effect: "Refresh"+1',}},
+		right_ear="Hearty Earring",
+		left_ring="Gelatinous Ring +1",
 		right_ring="Defending Ring",
 		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
 	}
-	sets.me.idle.dt = {
+	sets.me.idle.DT = {
+		main="Mpaca's Staff",
+		sub="Mensch Strap",
 		ammo="Staunch Tathlum",
-		head="Nyame Helm",		
-		body="Nyame Mail",
+		head="Nyame Helm",
+		body="Shamash Robe",
 		hands="Nyame Gauntlets",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",	
-		neck="Loricate Torque +1",
-		waist="Porous Rope",
-		left_ear="Hearty Earring",
-		right_ear="Eabani Earring",
-		left_ring="Inyanga Ring",
+		legs="Assid. Pants +1",
+		feet="Nyame Sollerets",
+		neck="Sibyl Scarf",
+		waist="Carrier's Sash",
+		left_ear={ name="Moonshade Earring", augments={'HP+25','Latent effect: "Refresh"+1',}},
+		right_ear="Hearty Earring",
+		left_ring="Gelatinous Ring +1",
 		right_ring="Defending Ring",
-		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
+		back="Moonlight Cape",
 	}
     sets.me.resting = { 
 
@@ -225,12 +230,12 @@ function get_sets()
 		hands="Bunzi's Gloves",
 		legs="Aya. Cosciales +2",
 		feet={ name="Chironic Slippers", augments={'INT+9','CHR+5','Quadruple Attack +2','Accuracy+4 Attack+4',}},
-		neck="Sanctity Necklace",
+		neck="Clotharius Torque",
 		waist="Shetal Stone",
 		left_ear="Brutal Earring",
 		right_ear="Suppanomimi",
 		left_ring="Petrov Ring",
-		right_ring="Rajas Ring",
+		right_ring="Fickblix's Ring",
 		back={ name="Alaunus's Cape", augments={'HP+60','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-6%',}},
 	}
     sets.me.melee.FULLACCdw =set_combine(sets.me.melee.FullHastedw,{})
@@ -261,7 +266,7 @@ function get_sets()
 		left_ear="Brutal Earring",
 		right_ear="Nourish. Earring +1",
 		left_ring="Apate Ring",
-		right_ring="Rajas Ring",
+		right_ring="Rufescent Ring",
 		back={ name="Alaunus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%',}},	
 	}
 	sets.me["Skull Breaker"] = set_combine(sets.me["Black Halo"], {})
@@ -306,7 +311,7 @@ function get_sets()
 		back={ name="Alaunus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%',}},
 	}	
 	sets.me["Flash Nova"] = {
-		ammo="Hydrocera",
+		ammo="Ghastly Tathlum",
 		head="Bunzi's Hat",
 		body="Bunzi's Robe",
 		hands="Bunzi's Gloves",
@@ -317,8 +322,8 @@ function get_sets()
 		left_ear="Sortiarius Earring",
 		right_ear="Friomisi Earring",
 		left_ring="Rufescent Ring",
-		right_ring="Stikini Ring",
-		back={ name="Alaunus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%',}},	
+		right_ring="Stikini Ring +1",
+		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+2','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.me["Shining Strike"] = set_combine(sets.me["Flash Nova"], {})
 	sets.me["Seraph Strike"] = set_combine(sets.me["Flash Nova"], {})
@@ -341,11 +346,11 @@ function get_sets()
     sets.midcast.MB			= {} --Leave This Empty  
     sets.midcast.enhancing	= {} --Leave This Empty
 	sets.midcast.Enfeebling = {} --Leave This Empty
-	sets.midcast.cure 		= {} --Leave This Empty
+	sets.midcast.Cure 		= {} --Leave This Empty
 	sets.midcast.Curaga		= {}
 
     sets.precast.casting = {
-		main="Terra's Staff",
+		main="Mpaca's Staff",
 		sub="Clerisy Strap",
 		ammo="Staunch Tathlum",
 		head="Bunzi's Hat",
@@ -355,43 +360,37 @@ function get_sets()
 		feet="Regal Pumps +1",
 		neck={ name="Clr. Torque +2", augments={'Path: A',}},
 		waist="Embla Sash",
-		left_ear="Loquac. Earring",
-		right_ear="Mendi. Earring",
-		left_ring="Prolix Ring",
-		right_ring="Evanescence Ring",
+		left_ear="Thureous Earring",
+		right_ear="Eabani Earring",
+		left_ring="Gelatinous Ring +1",
+		right_ring="Kishar Ring",
 		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
     }											
     sets.precast["Stun"] = set_combine(sets.precast.casting,{})
     sets.precast["Dispelga"] = set_combine(sets.precast.casting,{main = "Daybreak",})
     sets.precast.enhancing = set_combine(sets.precast.casting,{})
     sets.precast.stoneskin = set_combine(sets.precast.enhancing,{})
-    sets.precast.cure =  set_combine(sets.precast.casting ,{
-		main="Ababinili +1",
-		left_ear="Mendi. Earring",
-		right_ear="Nourish. Earring +1",	
-	})
+    sets.precast.Cure =  set_combine(sets.precast.casting ,{})
 	sets.precast.StatusRemoval = set_combine(sets.precast.casting ,{})
 	sets.precast.Raise = set_combine(sets.precast.casting,{
-		sub="Clemency Grip",
 		ammo="Impatiens",
 		right_ring="Lebeche Ring",
 		waist="Witful Belt",
 		back="Perimede Cape",		
 	})
 	sets.precast.Reraise = set_combine(sets.precast.casting,{		
-		sub="Clemency Grip",
 		ammo="Impatiens",
 		right_ring="Lebeche Ring",
 		waist="Witful Belt",
 		back="Perimede Cape",
 	})
 	sets.precast.Teleport = set_combine(sets.precast.casting,{
-		sub="Clemency Grip",
 		ammo="Impatiens",
 		right_ring="Lebeche Ring",
 		waist="Witful Belt",
 		back="Perimede Cape",
-	})	
+	})
+	
 --//////////////////
 --MIDCASTING
     sets.midcast.Dispelga = set_combine(sets.midcast.Enfeebling.macc ,{main = "Daybreak", sub="Ammurapi Shield"})
@@ -410,16 +409,16 @@ function get_sets()
 		waist="Luminary Sash",
 		left_ear="Hearty Earring",
 		right_ear="Eabani Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
+		left_ring={name="Stikini Ring +1", bag="wardrobe3"},
+		right_ring={name="Stikini Ring +1", bag="wardrobe4"},
 		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
     sets.midcast['Dispel'] 	= set_combine( sets.midcast.casting,{})	
     sets.midcast.nuking.normal = {
-			main="Maxentius",
-		sub="Sors Shield",
-		ammo="Hydrocera",
-		head="Bunzi's Hat",
+		main="Mpaca's Staff",
+		sub="Enki Strap",
+		ammo="Ghastly Tathlum",
+		head="C. Palug Crown",
 		body="Bunzi's Robe",
 		hands="Bunzi's Gloves",
 		legs="Bunzi's Pants",
@@ -428,8 +427,8 @@ function get_sets()
 		waist="Refoccilation Stone",
 		left_ear="Sortiarius Earring",
 		right_ear="Friomisi Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
+		left_ring="Stikini Ring +1",
+		right_ring="Stikini Ring +1",
 		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
     sets.midcast.MB.normal 	= set_combine(sets.midcast.nuking.normal, {})
@@ -444,21 +443,21 @@ function get_sets()
     sets.midcast.Drain 		= set_combine( sets.midcast.casting,{})	
     sets.midcast.Aspir 		= set_combine( sets.midcast.casting,{})	
     sets.midcast.Enfeebling.macc = {
-		main="Maxentius",
-		sub="Sors Shield",
-		ammo="Hydrocera",
-		head="Inyanga Tiara +2",
+		main="Mpaca's Staff",
+		sub="Enki Strap",
+		ammo="Ghastly Tathlum",
+		head="Theophany Cap +2",
 		body="Theo. Bliaut +3",
 		hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		legs="Chironic Hose",
-		feet={ name="Piety Duckbills +3", augments={'Enhances "Afflatus Solace" effect',}},
-		neck="Sanctity Necklace",
+		legs={ name="Chironic Hose", augments={'Mag. Acc.+27','Haste+1','MND+14','"Mag.Atk.Bns."+2',}},
+		feet="Theo. Duckbills +2",
+		neck="Erra Pendant",
 		waist="Luminary Sash",
-		left_ear="Aredan Earring",
+		left_ear="Gwati Earring",
 		right_ear="Eabani Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
-		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},	
+		left_ring="Stikini Ring +1",
+		right_ring="Kishar Ring",
+		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
     sets.midcast.Enfeebling.potency = set_combine(sets.midcast.Enfeebling.macc,{})
     sets.midcast.Enfeebling.mndpot = set_combine(sets.midcast.Enfeebling.macc,{})
@@ -467,92 +466,96 @@ function get_sets()
     sets.midcast.Enfeebling.skillpot = set_combine(sets.midcast.Enfeebling.macc,{})
 	sets.midcast["Stun"] = set_combine( sets.midcast.casting,{})	
     sets.midcast.enhancing.potency = {
-		main="Terra's Staff",
-		sub="Clerisy Strap",
+		main="Sucellus",
+		sub="Ammurapi Shield",
 		ammo="Staunch Tathlum",
 		head="Befouled Crown",
-		body="Inyanga Jubbah +2",
+		body={ name="Telchine Chas.", augments={'"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
 		hands="Inyan. Dastanas +2",
 		legs={ name="Piety Pantaln. +3", augments={'Enhances "Afflatus Misery" effect',}},
-		feet="Theo. Duckbills +2",
-		neck={ name="Clr. Torque +2", augments={'Path: A',}},
+		feet="Ebers Duckbills +2",
+		neck="Melic Torque",
 		waist="Olympus Sash",
 		left_ear="Loquac. Earring",
 		right_ear="Eabani Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
-		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		left_ring="Stikini Ring +1",
+		right_ring="Stikini Ring +1",
+		back="Perimede Cape",
 	}   
 	sets.midcast.enhancing.duration = set_combine(sets.midcast.enhancing.potency, {
-		feet="Theo. Duckbills +2",
-		waist="Embla Sash",
+		head  = "Telchine Cap",
+		body  = "Telchine Chas.",
+		hands = "Telchine Gloves",
+		legs  = "Telchine Braconi",
+		feet  = "Theo. Duckbills +2",
+		waist = "Embla Sash",
 	})
     sets.midcast.phalanx = set_combine(sets.midcast.enhancing.potency,{})
     sets.midcast.stoneskin = set_combine(sets.midcast.enhancing.potency, {})
     sets.midcast.refresh = set_combine(sets.midcast.enhancing.duration, {waist = "Gishdubar Sash"})
     sets.midcast.aquaveil =set_combine(sets.midcast.enhancing.duration, {head = "Chironic Hat"})
-    sets.midcast.protect = set_combine(sets.midcast.enhancing.duration, {right_ring="Sheltered Ring"})
-    sets.midcast.shell = set_combine(sets.midcast.enhancing.duration, {right_ring="Sheltered Ring"})
+    sets.midcast.Protect = set_combine(sets.midcast.enhancing.duration, {right_ring="Sheltered Ring"})
+    sets.midcast.Shell = set_combine(sets.midcast.enhancing.duration, {right_ring="Sheltered Ring"})
 	sets.midcast.BarElement = {
-		main="Maxentius",
-		sub="Sors Shield",
+		main="Sucellus",
+		sub="Ammurapi Shield",
 		ammo="Staunch Tathlum",
 		head="Ebers Cap +1",
-		body="Ebers Bliaut +1",
-		hands="Ebers Mitts +1",
+		body="Ebers Bliaut +2",
+		hands="Ebers Mitts +2",
 		legs={ name="Piety Pantaln. +3", augments={'Enhances "Afflatus Misery" effect',}},
-		feet="Theo. Duckbills +2",
-		neck="Loricate Torque +1",
+		feet="Ebers Duckbills +2",
+		neck="Melic Torque",
 		waist="Olympus Sash",
 		left_ear="Loquac. Earring",
 		right_ear="Eabani Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
-		back="Perimede Cape",	
+		left_ring="Stikini Ring +1",
+		right_ring="Stikini Ring +1",
+		back="Perimede Cape",
 	}
-    sets.midcast.cure.normal = {
+    sets.midcast.Cure.normal = {
 		main="Chatoyant Staff",
 		sub="Mensch Strap",
-		ammo="Staunch Tathlum",
+		ammo="Esper Stone +1",
 		head={ name="Kaykaus Mitra +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-		body="Ebers Bliaut +1",
+		body="Ebers Bliaut +2",
 		hands="Theophany Mitts +2",
-		legs="Ebers Pant. +1",
-		feet={ name="Vanya Clogs", augments={'"Cure" potency +5%','"Cure" spellcasting time -15%','"Conserve MP"+6',}},
+		legs="Ebers Pant. +2",
+		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
 		neck={ name="Clr. Torque +2", augments={'Path: A',}},
-		waist="Korin Obi",
+		waist="Acerbic Sash +1",
 		left_ear="Nourish. Earring +1",
 		right_ear="Mendi. Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
-		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		left_ring="Gelatinous Ring +1",
+		right_ring="Defending Ring",
+		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
     }
     sets.midcast.Curaga.normal = {
 		main="Chatoyant Staff",
 		sub="Mensch Strap",
-		ammo="Staunch Tathlum",
+		ammo="Esper Stone +1",
 		head={ name="Kaykaus Mitra +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
 		body="Theo. Bliaut +3",
 		hands="Theophany Mitts +2",
-		legs="Ebers Pant. +1",
-		feet={ name="Vanya Clogs", augments={'"Cure" potency +5%','"Cure" spellcasting time -15%','"Conserve MP"+6',}},
+		legs="Ebers Pant. +2",
+		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
 		neck={ name="Clr. Torque +2", augments={'Path: A',}},
-		waist="Korin Obi",
+		waist="Acerbic Sash +1",
 		left_ear="Nourish. Earring +1",
 		right_ear="Mendi. Earring",
-		left_ring="Stikini Ring",
-		right_ring="Stikini Ring",
-		back={ name="Alaunus's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		left_ring="Gelatinous Ring +1",
+		right_ring="Defending Ring",
+		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
     }
-    sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{ waist="Korin Obi"})
+    sets.midcast.Cure.weather = set_combine(sets.midcast.Cure.normal,{ waist="Korin Obi"})
     sets.midcast.Curaga.weather = set_combine(sets.midcast.Curaga.normal,{ waist="Korin Obi"})     
 	sets.midcast.regen ={
-		main="Chatoyant Staff",
-		sub="Mensch Strap",
+		main="Sucellus",
+		sub="Ammurapi Shield",
 		ammo="Impatiens",
 		head="Inyanga Tiara +2",
 		body="Piety Bliaut +3",
-		hands="Ebers Mitts +1",
+		hands="Ebers Mitts +2",
 		waist="Embla Sash",
 		legs="Th. Pantaloons +2",
 		feet="Theo. Duckbills +2",
@@ -598,6 +601,7 @@ function get_sets()
 	}
 	sets.midcast.Erase ={
 		main="Yagrush",
+		sub= "Ammurapi Shield",
 		ammo="Staunch Tathlum",
 		head="Ebers Cap +1",
 		body="Inyanga Jubbah +2",
@@ -615,10 +619,11 @@ function get_sets()
 
 	sets.midcast.StatusRemoval={
 		main="Yagrush",
+		sub= "Ammurapi Shield",
 		ammo="Staunch Tathlum",
 		head="Ebers Cap +1",
 		body="Inyanga Jubbah +2",
-		hands="Ebers Mitts +1",
+		hands="Ebers Mitts +2",
 		legs="Aya. Cosciales +2",
 		feet="Regal Pumps +1",
 		neck={ name="Clr. Torque +2", augments={'Path: A',}},
@@ -631,18 +636,19 @@ function get_sets()
 	}
 	sets.midcast.Cursna ={
 		main="Yagrush",
+		sub="Sors Shield",
 		ammo="Staunch Tathlum",
 		head={ name="Vanya Hood", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
-		body="Ebers Bliaut +1",
-		hands="Inyan. Dastanas +2",
+		body="Ebers Bliaut +2",
+		hands={ name="Fanatic Gloves", augments={'MP+40','Healing magic skill +5',}},
 		legs="Th. Pantaloons +2",
 		feet={ name="Vanya Clogs", augments={'Healing magic skill +20','"Cure" spellcasting time -7%','Magic dmg. taken -3',}},
-		neck="Malison Medallion",
+		neck="Debilis Medallion",
 		waist="Embla Sash",
 		left_ear="Beatific Earring",
 		right_ear="Eabani Earring",
 		left_ring="Menelaus's Ring",
-		right_ring="Ephedra Ring",
-		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},	
+		right_ring="Haoma's Ring",
+		back={ name="Alaunus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+5','Enmity-10','Phys. dmg. taken-10%',}},
 	}
 end

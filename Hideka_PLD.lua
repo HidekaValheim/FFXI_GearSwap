@@ -8,19 +8,16 @@ send_command('input //lua l porterpacker')
 organizer_items = {
 organizer_items = {
     Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
-    NinjaTools={"Shihei"},
+    NinjaTools={"Shihei","Toolbag (Shihe)"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
 }
 }
 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
-if PortTowns:contains(world.area) then
-	-- send_command('wait 3;input //gs org') 
--- else
-	-- send_command('wait 3;input //gs org') 
-end
-
+send_command('wait 3;input //gs org')
+add_to_chat(8,'REMEMBER TO REPACK GEAR')
+	
 -- Define your modes: 
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
@@ -274,7 +271,7 @@ function get_sets()
 --[IDLE]-[PDT]
 ---------------
 	sets.me.idle.dt = set_combine(sets.me.idle.refresh,{
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Sakpata's Helm",
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
@@ -282,7 +279,7 @@ function get_sets()
 		-- feet="Sakpata's Leggings",
 		feet="Souveran Schuhs +1",
 		neck="Unmoving Collar +1",
-		waist="Asklepian Belt",
+		waist="Plat. Mog. Belt",
 		left_ear="Eabani Earring",
 		right_ear="Tuisto Earring",
 		left_ring	= {name="Moonlight Ring", bag="wardrobe2"},
@@ -299,7 +296,7 @@ function get_sets()
 	sets.me.idle.MPR = {
 		main={ name="Excalibur", augments={'Path: A',}},
 		sub="Ochain",
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Chev. Armet +1",
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
@@ -315,7 +312,7 @@ function get_sets()
 	}		
 
 	sets.me.idle.resist = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -373,18 +370,18 @@ function get_sets()
 --[MELEE]-[SWORD&BOARD]-[DT]
 ---------------
     sets.me.melee.dtsw = {   
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Sakpata's Helm",
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
 		legs="Sakpata's Cuisses",
 		feet="Sakpata's Leggings",
-		neck="Unmoving Collar +1",
-		waist="Flume Belt",
+		neck="Warder's Charm +1",
+		waist="Plat. Mog. Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
 		left_ring={name="Moonlight Ring",bag="wardrobe2"},
-		right_ring={name="Moonlight Ring",bag="wardrobe7"},
+		right_ring="Shadow Ring",
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Enmity+10','Chance of successful block +5',}},
     }
 	
@@ -426,14 +423,14 @@ function get_sets()
 		back={ name="Rudianos's Mantle", augments={'HP+60','Accuracy+20 Attack+20','HP+20','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},	
 	}
 	sets.me.melee.resistsw = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Sakpata's Helm",
 		body="Sakpata's Plate",
 		hands="Sakpata's Gauntlets",
 		legs={ name="Souv. Diechlings +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		feet={ name="Founder's Greaves", augments={'VIT+10','Accuracy+15','"Mag.Atk.Bns."+15','Mag. Evasion+15',}},
 		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Asklepian Belt",
+		waist="Plat. Mog. Belt",
 		left_ear="Hearty Earring",
 		right_ear="Eabani Earring",
 		left_ring="Moonlight Ring",
@@ -520,7 +517,7 @@ function get_sets()
 		waist="Orpheus's Sash",
 		left_ear="Friomisi Earring",
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring="Regal Ring",
+		left_ring="Archon Ring",
 		right_ring="Epaminondas's Ring",
 		back={ name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%',}},
     }
@@ -774,7 +771,7 @@ function get_sets()
 --EG. GETS REPLACED BY ANY SPELLS IN THE NUKING CATEGORY WITH THE NUKING NORMAL SET. 
 ---------------
     sets.midcast.casting = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
@@ -889,7 +886,7 @@ function get_sets()
     sets.midcast.enhancing.duration =  set_combine(sets.midcast.casting,{
 		main="Colada",
 		sub="Priwen",
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Carmine Mask +1", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
 		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
@@ -906,7 +903,7 @@ function get_sets()
 	sets.midcast['Protect V']={
 		main="Excalibur",
 		sub={ name="Priwen", augments={'HP+50','Mag. Evasion+50','Damage Taken -3%',}},
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
@@ -977,7 +974,7 @@ function get_sets()
 --BECAUSE CURE POT IS A % INCREASE, IT PERFORMS BETTER IF WE INCREASE ITS BASE VALUE THROUGH HEALING SKILL. 
 ---------------
     sets.midcast.cure.normal = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		hands="Macabre Gaunt. +1",
@@ -1013,7 +1010,7 @@ function get_sets()
 --[MIDCASTING]-[NON-FLASH]
 ---------------
     sets.midcast.Enmity = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		body="Rev. Surcoat +3",
 		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
@@ -1031,7 +1028,7 @@ function get_sets()
 --[MIDCASTING]-[CRUSADE]
 ---------------
     sets.midcast.Crusade= {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
 		body="Rev. Surcoat +3",
 		hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},

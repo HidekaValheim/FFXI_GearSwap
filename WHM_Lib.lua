@@ -25,11 +25,11 @@ spell_maps = {
     ['Reraise']='Reraise',['Reraise II']='Reraise',['Reraise III']='Reraise',['Reraise IV']='Reraise',
 --Protect
     ['Protect']='Protect',['Protect II']='Protect',['Protect III']='Protect',['Protect IV']='Protect',['Protect V']='Protect',
-	['Protectra']='Protectra',['Protectra II']='Protectra',['Protectra III']='Protectra',['Protectra IV']='Protectra',
-	['Protectra V']='Protectra',
+	['Protectra']='Protect',['Protectra II']='Protect',['Protectra III']='Protect',['Protectra IV']='Protect',
+	['Protectra V']='Protect',
 --Shell
     ['Shell']='Shell',['Shell II']='Shell',['Shell III']='Shell',['Shell IV']='Shell',['Shell V']='Shell',
-    ['Shellra']='Shellra',['Shellra II']='Shellra',['Shellra III']='Shellra',['Shellra IV']='Shellra',['Shellra V']='Shellra',
+    ['Shellra']='Shell',['Shellra II']='Shell',['Shellra III']='Shell',['Shellra IV']='Shell',['Shellra V']='Shell',
 --Regen	
     ['Regen']='Regen',['Regen II']='Regen',['Regen III']='Regen',['Regen IV']='Regen',['Regen V']='Regen',
 --Refresh
@@ -599,7 +599,7 @@ function precast(spell)
         -- Cure Precast
         elseif spell.name:match('Cure') or spell.name:match('Cura') then
          
-            equip(sets.precast.cure)         
+            equip(sets.precast.Cure)         
         -- Enhancing Magic
         elseif spell.skill == 'Enhancing Magic' then
             equip(sets.precast.enhancing)            
@@ -643,9 +643,9 @@ function midcast(spell)
     -- Curing
     if spell.name:match('Cure') then
         if spell.element == world.weather_element or spell.element == world.day_element then
-            equip(sets.midcast.cure.weather)
+            equip(sets.midcast.Cure.weather)
         else
-            equip(sets.midcast.cure.normal)
+            equip(sets.midcast.Cure.normal)
         end
 	elseif spell.name:match('Cura') or spell.name:match('Curaga') then
         if spell.element == world.weather_element or spell.element == world.day_element then
@@ -963,7 +963,7 @@ function updateRunspeedGear( value )
         else
             windower.add_to_chat(8,"----- Locking Off Carmine Cuisses +1 +1 -----")   
         end
-        enable('feet')
+        enable('right_ring')
         idle()
     else
         if use_UI == true then
@@ -971,8 +971,8 @@ function updateRunspeedGear( value )
         else
             windower.add_to_chat(8,"----- Locking On Carmine Cuisses +1 +1 -----")
         end
-        equip({feet="Herald's Gaiters"})
-        disable('feet')
+        equip({right_ring="Shneddick Ring"})
+        disable('right_ring')
         idle()
     end
 end

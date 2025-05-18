@@ -1,4 +1,3 @@
---Disclaimer: this is a heavily modified version of a random lua found out on the internet years ago.  
 -------------------------------------------------------------------------------------------------------------------
 -- Initialization function that defines sets and variables to be used.
 -------------------------------------------------------------------------------------------------------------------
@@ -6,13 +5,18 @@ send_command('input //send @all lua l superwarp')
 send_command('input //lua l porterpacker') 
 include('organizer-lib')
 include('Modes.lua')
+--For Some reason enabling these lines crashes windower
+--include('packets.lua')
+--packets = require('packets')
+
 
 organizer_items = {
-    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Reraiser","Hi-Reraiser"},
     NinjaTools={"Shihei","Inoshishinofuda","Shikanofuda","Chonofuda", "Toolbag (Shihe)", "Toolbag (Ino)", "Toolbag (Shika)", "Toolbag (Cho)"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
+	Bullets={"Happo Shuriken", "Hap. Sh. Pouch"},
 }
-
+ 
 PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 function get_sets()
@@ -23,13 +27,8 @@ function get_sets()
 end
 
 function get_gear()
-	--[[Disable code in this sub if you dont have organizer or porter packer]]
-	-- if PortTowns:contains(world.area) then
-		-- send_command('wait 3;input //gs org') 
-		-- send_command('wait 6;input //po repack') 
-    -- else
-		-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
-    -- end
+	send_command('wait 3;input //gs org')
+	add_to_chat(8,'REMEMBER TO REPACK GEAR') 
 end
 
 -- Setup vars that are user-independent.
@@ -49,7 +48,7 @@ function job_setup()
 
 	select_ammo()
 
-	gear.RegularAmmo = 'Date Shuriken'
+	gear.RegularAmmo = 'Seki Shuriken'
 	gear.SangeAmmo = 'Happo Shuriken'
 	gear.MovementFeet = {name="Danzo Sune-ate"}
 	gear.DayFeet = "Danzo Sune-ate"
@@ -76,16 +75,16 @@ end
 function user_setup()
 	windower.register_event('time change', time_change)	
 	-- Options: Override default values
-	state.OffenseMode:options ('Normal', 'LowAcc', 'MidAcc', 'HighAcc')
+	state.OffenseMode:options ('Normal', 'ACC')
 	state.RangedMode:options('Normal', 'Acc')
 	state.WeaponskillMode:options('Normal', 'MAXBUFF')
-	state.HybridMode:options('Normal', 'Hybrid', 'MEVA','PEVA')
-	state.CastingMode:options('Normal', 'Resistant', 'Burst')
-	state.IdleMode:options('Normal','Recover','DT')
+	state.HybridMode:options('Normal', 'Hybrid', 'TANK', 'CRIT','Subtle')
+	state.CastingMode:options('Normal','Burst')
+	state.IdleMode:options('Normal','Recover','DT','Buff')
 	mainweapon={}
 	subWeapon={}
 	state.mainWeapon = M('Heishi Shorinken','Gokotai','Tauret','Naegling','Hachimonji','Karambit')
-	state.subWeapon = M('Kunimitsu','Tsuru',"Gleti's Knife",'Bloodrain Strap','')	
+	state.subWeapon = M('Yagyu Darkblade','Kunimitsu','Tsuru','Uzura +2',"Gleti's Knife",'Bloodrain Strap','')	
 	
 	-- Defensive Sets
 	state.PhysicalDefenseMode:options('PDT')
@@ -110,7 +109,7 @@ function user_setup()
 	send_command('bind numpad+ gs c cycle MarchMode')
 
 	send_command('unbind ^r')
-	
+
 	
 	
 	select_movement_feet()
@@ -126,6 +125,7 @@ function user_setup()
 	
 	stance = "No Stance"
 	stance_status()
+	send_command('wait 10;input /lockstyleset 8')	
 end
 
 function file_unload()
@@ -164,10 +164,10 @@ function init_gear_sets()
 	Andartia.DA 	= {name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
 	Andartia.STP 	= {name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10',}}
 	Andartia.AGIWS	= {name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%',}}
-	Andartia.DEXWS 	= {name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+	Andartia.DEXWS 	= {name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
 	Andartia.STRWS 	= {name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
 	Andartia.MAB 	= {name="Andartia's Mantle", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
-	Andartia.FC 	= {name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}}
+	Andartia.FC 	= {name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}}
 
 	--------------------------------------
 	-- Job Abilties
@@ -176,20 +176,22 @@ function init_gear_sets()
 	sets.precast.JA['Futae'] = {hands="Hattori Tekko +1"}
 	sets.precast.JA['Sange'] = {ammo="Happo Shuriken",body="Mochi. Chainmail +3"}
 	
-	sets.precast.JA['Provoke'] = {
+	sets.precast.JA['Provoke'] = --{waist="Chaac Belt", ammo="Per. Lucky egg", head = "Wh. Rarab Cap +1", feet="Volte Boots"}
+	
+	{
 		ammo="Sapience Orb",
 		head="Nyame Helm",
-		body="Emet Harness",
+		body="Emet Harness +1",
 		hands="Kurys Gloves",
 		legs="Zoar Subligar +1",
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
 		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
-		waist="Carrier's Sash",
+		waist="Trance Belt",
 		left_ear="Cryptic Earring",
 		right_ear="Friomisi Earring",
-		left_ring="Provocare Ring",
-		right_ring="Begrudging Ring",
-		back="Reiki Cloak",
+		left_ring="Supershear Ring", --+5
+		right_ring="Eihwaz Ring", --+5
+		back="Reiki Cloak"
 	}
 	sets.midcast.Flash = set_combine(sets.precast.JA['Provoke'], {})
 
@@ -202,12 +204,12 @@ function init_gear_sets()
     -- Set for acc on steps, since Yonin can drop acc
 	sets.precast.Step = {}	
 	sets.precast.Flourish1 = set_combine(sets.precast.Step, {waist="Chaac Belt"})
-	sets.midcast["Apururu (UC)"] = {body="Apururu Unity shirt"}
+	sets.midcast["Apururu (UC)"] = {}
 
 	--------------------------------------
 	-- Utility Sets for rules below
 	--------------------------------------
-	sets.TreasureHunter = {waist="Chaac Belt"}
+	sets.TreasureHunter = {waist="Chaac Belt", ammo="Per. Lucky egg", head = "Wh. Rarab Cap +1", feet="Volte Boots"}
 	sets.WSDayBonus     = {}
 	sets.BrutalLugra    = {ear1="Lugra Earring +1",		ear2="Brutal Earring"}
 	sets.BrutalTrux     = {ear1="Trux Earring",			ear2="Brutal Earring"}
@@ -225,7 +227,7 @@ function init_gear_sets()
 	-- Ranged
 	--------------------------------------
 	-- Snapshot for ranged
-	sets.precast.RA = {ammo="Happo Shuriken"}
+	sets.precast.RA = {ammo="Happo Shuriken",waist="Chaac Belt", ammo="Per. Lucky egg", head = "Wh. Rarab Cap +1", feet="Volte Boots"}
 	
 	sets.midcast.RA = {
 		ammo="Happo Shuriken",
@@ -236,7 +238,7 @@ function init_gear_sets()
 		feet="Malignance Boots",
 		neck="Sanctity Necklace",
 		waist="Reiki Yotai",
-		left_ear="Enervating Earring",
+		left_ear="Crep. Earring",
 		right_ear="Telos Earring",
 		left_ring="Hajduk Ring",
 		right_ring="Paqichikaji Ring",
@@ -250,43 +252,43 @@ function init_gear_sets()
 	----------------------------------
 	-- Precasts
 	sets.precast.FC = {
-		ammo="Sapience Orb",
-		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
-		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
-		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}},
-		neck="Orunmila's Torque",
-		waist="Carrier's Sash",
-		left_ear="Etiolation Earring",
-		right_ear="Loquac. Earring",
-		left_ring="Rahab Ring",
-		right_ring="Weather. Ring",
-		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		ammo="Sapience Orb", 																							--+2
+		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}}, 			--+12
+		body={ name="Adhemar Jacket +1", augments={'HP+105','"Fast Cast"+10','Magic dmg. taken -4',}},					--+10
+		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},	--+7/8
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},						--+5/6
+		feet={ name="Herculean Boots", augments={'Mag. Acc.+23','"Fast Cast"+6','MND+1',}},								--+6
+		neck="Orunmila's Torque",																						--+5
+		waist="Svelt. Gouriz +1",																						--+0
+		left_ear="Enchntr. Earring +1",																					--+2			
+		right_ear="Loquac. Earring",																					--+2
+		left_ring="Rahab Ring",																							--+2
+		right_ring="Kishar Ring",																						--+4
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}}, -- +10
 	}
 	
 	sets.precast.FC.ElementalNinjutsuSan = set_combine(sets.precast.FC, {})
 	
 	--[Alternative Utsusemi fast casting Sets]
 
-	sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {Body="Mochi. Chainmail +3", neck="Magoraga Beads"})
+	sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {body="Mochi. Chainmail +3", neck="Magoraga Beads", left_ring="Weatherspoon Ring",})
 	
 	-- Midcasts
 	-- FastRecast (A set to end in when no other specific set is built to reduce recast time)
 	sets.midcast.FastRecast = {
 		ammo="Sapience Orb",
 		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
-		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
+		body={ name="Adhemar Jacket +1", augments={'HP+105','"Fast Cast"+10','Magic dmg. taken -4',}},
 		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
 		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
-		feet="Nyame Sollerets",
+		feet={ name="Herculean Boots", augments={'Mag. Acc.+23','"Fast Cast"+6','MND+1',}},
 		neck="Orunmila's Torque",
-		waist="Oneiros Belt",
-		left_ear="Etiolation Earring",
+		waist="Svelt. Gouriz +1",
+		left_ear="Enchntr. Earring +1",	
 		right_ear="Loquac. Earring",
-		left_ring="Meridian Ring",
-		right_ring="Defending Ring",
-		back=Andartia.FC	
+		left_ring="Weatherspoon Ring",
+		right_ring="Kishar Ring",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
 
 	-- Magic Accuracy Focus 
@@ -300,32 +302,32 @@ function init_gear_sets()
 		neck="Incanter's Torque",
 		waist="Eschan Stone",
 		left_ear="Gwati Earring", --get digni earring you lazy fuck
-		right_ear="Tuisto Earring",
+		right_ear="Hattori Earring +1",
 		left_ring	= {name="Stikini Ring +1", bag="wardrobe2"},
 		right_ring	= {name="Stikini Ring +1", bag="wardrobe7"},
 		back= Andartia.MAB 
 	}
 	
 	-- Any ninjutsu cast on self - Recast Time Focus - Effects items that dont scale with Ninjutsu Skill, but not utsusemi
-	sets.midcast.SelfNinjutsu = set_combine(sets.midcast.Ninjutsu, {
-		ammo="Sapience Orb",
-		head={ name="Herculean Helm", augments={'Mag. Acc.+11','"Fast Cast"+5','MND+8','"Mag.Atk.Bns."+14',}},
-		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
-		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
-		feet="Nyame Sollerets",
-		neck="Orunmila's Torque",
-		waist="Oneiros Belt",
-		left_ear="Etiolation Earring",
-		right_ear="Loquac. Earring",
-		left_ring="Meridian Ring",
-		right_ring="Defending Ring",
-		back=Andartia.FC
-	})
+	sets.midcast.SelfNinjutsu = {
+		ammo="Yamarang",
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
+		feet="Malignance Boots",
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Svelt. Gouriz +1",
+		left_ear="Infused Earring",
+		right_ear="Eabani Earring",
+		left_ring="Hizamaru Ring",
+		right_ring="Gelatinous Ring +1",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+	}
 	
-	sets.midcast.Utsusemi = set_combine(sets.midcast.SelfNinjutsu, {feet="Hattori Kyahan +1",back = Andartia.FC})
+	sets.midcast.Utsusemi = set_combine(sets.midcast.FastRecast, {feet="Hattori Kyahan +3"})
 	--Migawari Scales with Skill. Migawari + Pieces Do nothing if you arent wearing them when you are hit
-	sets.midcast.Migawari = set_combine(sets.midcast.SelfNinjutsu, {back = Andartia.FC}, {
+	sets.midcast.Migawari = set_combine(sets.midcast.SelfNinjutsu, {
 		head="Hachiya Hatsu. +3",
 		feet="Mochi. Kyahan +3",
 		neck="Incanter's Torque",
@@ -335,14 +337,14 @@ function init_gear_sets()
 	})
 
 	-- Nuking Ninjutsu (skill & magic attack) - Scales Ton line spells
-		sets.midcast.ElementalNinjutsu = {
+	sets.midcast.ElementalNinjutsu = {
 		ammo="Ghastly Tathlum +1",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
-		neck="Baetyl Pendant",
+		neck="Sibyl Scarf",
 		waist="Orpheus's Sash",
 		left_ear="Friomisi Earring",
 		right_ear="Hecate's Earring",
@@ -353,21 +355,18 @@ function init_gear_sets()
 
 	--Ni spells benefit from Higher INT and Magic damage
 	sets.midcast.ElementalNinjutsu.Burst 		= set_combine(sets.midcast.ElementalNinjutsu, 			{    
-		body={ name="Samnuha Coat", augments={'Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+5','"Dual Wield"+5',}},
+		--body={ name="Samnuha Coat", augments={'Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+5','"Dual Wield"+5',}},
+		--neck="Warder's Charm +1",
 		left_ring="Mujin Band",
-		right_ring="Locus Ring",
 		})
-	sets.midcast.ElementalNinjutsu.Resistant 	= set_combine(sets.midcast.Ninjutsu, 					{})
-	
 	--San Spells Benefit from Higher MAB
-	sets.midcast.ElementalNinjutsuSan 			= set_combine(sets.midcast.ElementalNinjutsu, 			{})
+	sets.midcast.ElementalNinjutsuSan 			= set_combine(sets.midcast.ElementalNinjutsu, 			{right_ring="Metamorph Ring +1",})
 	sets.midcast.ElementalNinjutsuSan.Burst 	= set_combine(sets.midcast.ElementalNinjutsuSan, 		{
-		body={ name="Samnuha Coat", augments={'Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+5','"Dual Wield"+5',}},
+		--body={ name="Samnuha Coat", augments={'Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+5','"Dual Wield"+5',}},
 		left_ring="Mujin Band",
-		right_ring="Locus Ring",	
+		right_ring="Metamorph Ring +1",	
 		})
-	sets.midcast.ElementalNinjutsuSan.Resistant = set_combine(sets.midcast.ElementalNinjutsu.Resistant, {})
-
+		
 	-- Effusions
 	sets.precast.Effusion = {}
 	sets.precast.Effusion.Lunge = sets.midcast.ElementalNinjutsu
@@ -378,57 +377,71 @@ function init_gear_sets()
 	----------------------------------
 	sets.idle = {}
 	sets.idle.Normal = {	
-		ammo="Staunch Tathlum",
+		ammo="Yamarang",
 		head="Malignance Chapeau",
-		body="Malignance Tabard",
+		body="Mpaca's Doublet",
 		hands="Malignance Gloves",
-		legs="Malignance Tights",
+		legs="Mpaca's Hose",
 		feet="Malignance Boots",
 		neck={ name="Bathy Choker +1", augments={'Path: A',}},
-		waist="Carrier's Sash",
+		waist="Svelt. Gouriz +1",
 		left_ear="Infused Earring",
 		right_ear="Eabani Earring",
-		left_ring="Chirich Ring +1",
-		right_ring="Defending Ring",
-		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		left_ring="Hizamaru Ring",
+		right_ring="Gelatinous Ring +1",
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
     sets.idle.Recover = {
-		ammo="Staunch Tathlum",
-		head="Malignance Chapeau",
+		ammo="Staunch Tathlum +1",
+		head="Rao Kabuto +1",
 		body="Hiza. Haramaki +2",
-		hands="Malignance Gloves",
+		hands="Rao Kote +1",
 		legs="Malignance Tights",
-		feet="Malignance Boots",
+		feet="Rao Sune-Ate +1",
 		neck={ name="Bathy Choker +1", augments={'Path: A',}},
 		waist="Flume Belt",
 		left_ear="Infused Earring",
 		right_ear="Eabani Earring",
 		left_ring="Chirich Ring +1",
 		right_ring="Chirich Ring +1",
-		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
 	}
     sets.idle.DT = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
-		feet=gear.MovementFeet,
-		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
+		feet="Nyame Sollerets",
+		neck="Warder's Charm +1",
 		waist="Carrier's Sash",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Warden's Ring",
-		right_ring="Defending Ring",
+		left_ring="Defending Ring",
+		right_ring="Shadow Ring",
 		back="Moonbeam Cape",	
 	}
-	
+    sets.idle.Buff = {
+		ammo="Yamarang",
+		head={ name="Taeon Chapeau", augments={'Attack+10','"Triple Atk."+2','Phalanx +3',}},
+		body={ name="Taeon Tabard", augments={'Accuracy+5','"Fast Cast"+3','Phalanx +3',}},
+		hands={ name="Taeon Gloves", augments={'Phalanx +2',}},
+		legs={ name="Taeon Tights", augments={'Phalanx +3',}},
+		feet={ name="Taeon Boots", augments={'Phalanx +2',}},
+		neck={ name="Bathy Choker +1", augments={'Path: A',}},
+		waist="Gishdubar Sash",
+		left_ear="Infused Earring",
+		right_ear="Eabani Earring",
+		left_ring="Sheltered Ring",
+		right_ring={ name="Gelatinous Ring +1", augments={'Path: A',}},
+		back={ name="Andartia's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Evasion+9','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+	}	
 	----------------------------------
 	-- full Defense sets for react and other things
 	----------------------------------
 	-- 51% PDT + Nullification(Mantle)
 	sets.defense.PDT = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Malignance Chapeau",
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
@@ -438,14 +451,14 @@ function init_gear_sets()
 		waist="Flume Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Warden's Ring",
-		right_ring="Defending Ring",
+		left_ring="Defending Ring",
+		right_ring="Warden's Ring",
 		back=Andartia.DA
 	}
 
 	-- 25% MDT + Absorb + Nullification + MEva
 	sets.defense.PEVA = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Mpaca's Cap",
 		body="Mpaca's Doublet",
 		hands="Mpaca's Gloves",
@@ -455,13 +468,13 @@ function init_gear_sets()
 		waist="Flume Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Warden's Ring",
-		right_ring="Defending Ring",
+		left_ring="Defending Ring",
+		right_ring="Warden's Ring",
 		back=Andartia.DA	
 	}
 		
 	sets.MEva = {
-		ammo="Staunch Tathlum",
+		ammo="Staunch Tathlum +1",
 		head="Nyame Helm",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
@@ -471,8 +484,8 @@ function init_gear_sets()
 		waist="Carrier's Sash",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Warden's Ring",
-		right_ring="Defending Ring",
+		left_ring="Defending Ring",
+		right_ring="Warden's Ring",
 		back="Moonbeam Cape",
 	}
 	
@@ -485,34 +498,29 @@ function init_gear_sets()
 	--------------------------------------------------------------------
 	-- Generic Armor Sets used for Micromanaging Haste DW ACC and DT tiers
 	--------------------------------------------------------------------
-	sets.malig={}
-		sets.malig.head	= {head = "Malignance Chapeau"}
-		sets.malig.body	= {body = "Malignance Tabard"}
-		sets.malig.hands= {hands= "Malignance Gloves"}
-		sets.malig.legs	= {legs = "Malignance Tights"}
-		sets.malig.feet	= {legs = "Malignance Tights"}
-		sets.malig.full	= set_combine(sets.malig.head, sets.malig.body, sets.malig.hands, sets.malig.legs, sets.malig.feet)
-	sets.ken={}
-		sets.ken.head	= {head = "Mpaca's Cap"}
-		sets.ken.body	= {body = "Mpaca's Doublet"}
-		sets.ken.hands	= {hands= "Mpaca's Gloves"}
-		sets.ken.legs	= {legs = "Mpaca's Hose"}
-		sets.ken.feet	= {feet = "Mpaca's Boots"}
-		sets.ken.full	= set_combine(sets.ken.head,sets.ken.body,sets.ken.hands,sets.ken.legs,sets.ken.feet)
-	sets.mpaca={}
-		sets.mpaca.head	= {head = "Mpaca's Cap"}
-		sets.mpaca.body	= {body = "Mpaca's Doublet"}
-		sets.mpaca.hands= {hands= "Mpaca's Gloves"}
-		sets.mpaca.legs	= {legs = "Mpaca's Hose"}
-		sets.mpaca.feet	= {feet = "Mpaca's Boots"}
-		sets.mpaca.full	= set_combine(sets.mpaca.head,sets.mpaca.body,sets.mpaca.hands,sets.mpaca.legs,sets.mpaca.feet)
-	sets.hybrid={}
-	sets.hybrid.full={
-		head = "Malignance Chapeau",
-		body = "Mpaca's Doublet",
-		hands= "Malignance Gloves",
-		legs = "Malignance Tights",
-		legs = "Malignance Tights",
+	-- All DW DA STP Capes should have 10 PDT. 21 MDT/DT is needed to cap, 40 PDT is needed to cap with cape. use a +5 DT Cape with D Ring instead of gelatinous, and malignance body if worried about no Shell V
+	sets.TANK={
+		head = "Malignance Chapeau", 	--6  DT	|16	PDT - 6	 MDT
+		body = "Mpaca's Doublet", 		--10 PDT|26 PDT - 6  MDT
+		hands= "Malignance Gloves",		--5  DT	|31 PDT - 11 MDT
+		legs = "Malignance Tights",		--7  DT	|38 PDT	- 18 MDT
+		feet = "Malignance Boots",		--4	 DT	|42 PDT	- 22 MDT
+		right_ring="Gelatinous Ring +1"	--7	 PDT|49 PDT - 21 MDT
+	}
+	sets.Hybrid={
+		head = "Malignance Chapeau", 	--6  DT	|16	PDT - 6	 MDT
+		body = "Mpaca's Doublet", 		--10 PDT|26 PDT - 6  MDT
+		hands= "Mpaca's Gloves",		--8  PDT|34 PDT - 6 MDT
+		legs = "Malignance Tights",		--7  DT	|38 PDT	- 13 MDT
+		feet = "Malignance Boots",		--4	 DT	|42 PDT	- 17 MDT
+	}
+	sets.CRIT={
+		head={ name="Blistering Sallet +1", augments={'Path: A',}},
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
+		hands="Ken. Tekko +1",
+		legs={ name="Mpaca's Hose", augments={'Path: A',}},
+		feet="Ken. Sune-Ate +1",
+		left_ring="Lehko's Ring",	
 	}
 	----------------------------------
 	--Generic Accuracy Sets
@@ -524,27 +532,15 @@ function init_gear_sets()
 		High:	1300 (1400) - Helms, VD Ambuscade (Hard month)
 	Buff tiers assume No external buffs. Lower the tier if recieving madrigals or hunters.]]
 	
-	sets.acc ={}
-	--[ACC+70] - Need 1200 total once combined into parent set
-		sets.acc.low = set_combine(sets.ken.legs,{
-			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"}
-		})
-	--[ACC+140] - need 1300 Total once Combined into parent set
-		sets.acc.mid = set_combine(sets.ken.head,sets.ken.legs,{
-			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
-			waist		= "Grunfeld Rope", 
-			right_ear	= {name="Mache Earring +1",bag="wardrobe7"}
-		})
-	--[ACC+200] - need 1400 total once combined into parent set
-		sets.acc.high=set_combine(sets.ken.head,sets.ken.legs,sets.ken.feet, {
-			left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
-			right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
-			waist		= "Grunfeld Rope",
-			left_ear	= "Telos Earring",
-			right_ear	= {name="Mache Earring +1",bag="wardrobe7"}
-		})
+	-- NIN is not hurting for ACC Gear right now. Chirich swaps put most sets in the 1200 range natively. 
+	sets.ACC ={
+		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},	
+	}
+	sets.Subtle = {
+	
+	}
+
 	----------------------------------
 	--DW SETS
 	----------------------------------		
@@ -552,53 +548,44 @@ function init_gear_sets()
 		just be sure to balance the T12,T22,T32,T39 sets to match as close as possible to the required DW]]
 	sets.dw={}
 		sets.dw.head = {head 	 = "Ryuo Somen +1"}		--+9
-		sets.dw.body = {body 	 = "Adhemar Jacket +1"} --+6
+		sets.dw.body = {body 	 = "Mochi. Chainmail +3"} --+9
 		sets.dw.legs = {legs 	 = "Mochi. Hakama +3"}	--+10
 		sets.dw.feet = {feet 	 = "Hiza. Sune-Ate +2"}	--+8
 		sets.dw.ear1 = {left_ear = "Suppanomimi"}		--+5
 		sets.dw.ear2 = {right_ear= "Eabani Earring"}	--+4
-		sets.dw.waist= {waist 	 = "Reiki Yotai"}		--+7		
-		sets.dw.t12	 = set_combine(sets.dw.ear1, sets.dw.waist) --Need 12 total DW
-		sets.dw.t16  = set_combine(sets.dw.ear1, sets.dw.ear2, sets.dw.waist)--Alt used for MEVA/PDT Sets, Cant Natively Hit Capped DW in those full Hybrid sets
-		sets.dw.t22  = set_combine(sets.dw.head, sets.dw.body, sets.dw.waist)--Need 22 Total DW
-		sets.dw.t24	 = set_combine(sets.dw.ear1, sets.dw.ear2, sets.dw.waist,sets.dw.feet)--Alt used for MEVA/PDT Sets, Cant Natively Hit Capped DW in those full Hybrid sets
-		sets.dw.t32	 = set_combine(sets.dw.head, sets.dw.ear1, sets.dw.ear2, sets.dw.body, sets.dw.waist)--32 DW To cap
-		sets.dw.t39  = set_combine(sets.dw.head, sets.dw.ear1, sets.dw.ear2, sets.dw.body, sets.dw.waist, sets.dw.feet)--39 DW To cap
+		sets.dw.waist= {waist 	 = "Reiki Yotai"}		--+7	
+		sets.dw.back = {back	 = { name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},} -- +10DW
+		sets.dw.t12	 = set_combine(sets.dw.waist,sets.dw.ear1,{}) --Need 12 total DW
+		sets.dw.t22  = set_combine(sets.dw.waist,sets.dw.ear1,sets.dw.back, {})--Need 22 Total DW
+		sets.dw.t32	 = set_combine(sets.dw.waist,sets.dw.ear1,sets.dw.back, sets.dw.body, {})--32 DW To cap
+		sets.dw.t35	 = set_combine(sets.dw.waist,sets.dw.ear1,sets.dw.back, sets.dw.body, {})--Special 0 haste Hybrid Join, gets 35 DW, 50 dt
+		sets.dw.t39A = set_combine(sets.dw.waist,sets.dw.ear1,sets.dw.ear2, sets.dw.back, sets.dw.body, {})--Special 0 haste Hybrid Join, gets 35 DW, 50 dt
+		sets.dw.t39  = set_combine(sets.dw.waist,sets.dw.ear1,sets.dw.ear2, sets.dw.back, sets.dw.head, sets.dw.body, {})--39 DW To cap
 	----------------------------------
 	-- No Haste - Requires 39 total DW to cap. use sets.dw.t39 as primary set join
 	----------------------------------	
 	sets.engaged = set_combine(sets.dw.t39, {
-		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		left_ring="Gere Ring",
-		right_ring="Epona's Ring",
-		back=Andartia.DA
+		neck		= "Ninja Nodowa +2", 
+		right_ear	= "Telos Earring",
+		left_ring	= "Gere Ring",
+		right_ring	= "Epona's Ring",
+		hands		= { name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
+		legs		= "Samnuha Tights",
+		feet		= "Malignance Boots",
 	})
 	----------------------------------
 	-- No Haste SetVariants
 	----------------------------------
 	--Accuracy Variants
-	sets.engaged.LowAcc 		= set_combine(sets.engaged, sets.acc.low,	{})
-	sets.engaged.MidAcc 		= set_combine(sets.engaged,	sets.acc.mid,	{})
-	sets.engaged.HighAcc 		= set_combine(sets.engaged,	sets.acc.high,	{})
-
-	sets.engaged.PEVA 			= set_combine(sets.engaged, sets.mpaca.full,	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PEVA	= set_combine(sets.engaged, sets.acc.low,	sets.mpaca.full,	{right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.mpaca.full,	{right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.mpaca.full,	{right_ring="Defending Ring"})
-	
-	sets.engaged.MEVA 			= set_combine(sets.engaged, sets.malig.full,	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.MEVA	= set_combine(sets.engaged, sets.acc.low,	sets.malig.full,	{right_ring="Defending Ring"})
-	sets.engaged.MidAcc.MEVA 	= set_combine(sets.engaged, sets.acc.mid,	sets.malig.full,	{right_ring="Defending Ring"})
-	sets.engaged.HighAcc.MEVA 	= set_combine(sets.engaged, sets.acc.high,	sets.malig.full,	{right_ring="Defending Ring"})
-	
-	sets.engaged.Hybrid 		= set_combine(sets.engaged,	sets.hybrid.full,{})
-	sets.engaged.LowAcc.Hybrid	= set_combine(sets.engaged,	sets.acc.low,	sets.hybrid.full,{})
-	sets.engaged.MidAcc.Hybrid	= set_combine(sets.engaged, sets.acc.mid,	sets.hybrid.full,{})
-	sets.engaged.HighAcc.Hybrid	= set_combine(sets.engaged, sets.acc.high,	sets.hybrid.full,{})
-
-
+	sets.engaged.ACC 		= set_combine(sets.engaged, sets.ACC, sets.dw.t39, {})
+	sets.engaged.Hybrid 	= set_combine(sets.engaged,	sets.hybrid, sets.dw.t35, {left_ring="Defending Ring"})
+	sets.engaged.ACC.Hybrid	= set_combine(sets.engaged,	sets.ACC, sets.hybrid, sets.dw.t35, {left_ring="Defending Ring"})
+	sets.engaged.TANK 		= set_combine(sets.engaged,	sets.TANK, sets.dw.t39A, {left_ring="Defending Ring"})
+	sets.engaged.ACC.TANK	= set_combine(sets.engaged,	sets.ACC, sets.TANK, sets.dw.t39A, {left_ring="Defending Ring"})
+	sets.engaged.CRIT 		= set_combine(sets.engaged,	sets.CRIT, sets.dw.t39A, {})
+	sets.engaged.ACC.CRIT	= set_combine(sets.engaged,	sets.ACC, sets.CRIT, sets.dw.t39A, {})
+	sets.engaged.Subtle		= set_combine(sets.engaged,	sets.Subtle, sets.dw.t39A, {})
+	sets.engaged.ACC.Subtle	= set_combine(sets.engaged,	sets.ACC, sets.Subtle, sets.dw.t39A, {})	
 	----------------------------------
 	-- Kannagi
 	----------------------------------
@@ -619,23 +606,23 @@ function init_gear_sets()
 		waist="Reiki Yotai",
 		left_ear="Telos Earring",
 		right_ear="Dedition Earring",
-		left_ring	= {name="Chirich Ring +1", bag="wardrobe2"},
+		left_ring	= "Lehko's Ring",
 		right_ring	= {name="Chirich Ring +1", bag="wardrobe7"},
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}},
 	}
 	sets.engaged.H2H = {
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Mpaca's Doublet",
-		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
-		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
-		feet="Mpaca's Boots",
+		head={ name="Mpaca's Cap", augments={'Path: A',}},
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
+		hands={ name="Mpaca's Gloves", augments={'Path: A',}},
+		legs={ name="Mpaca's Hose", augments={'Path: A',}},
+		feet={ name="Mpaca's Boots", augments={'Path: A',}},
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		waist= "Windbuffet Belt +1",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={name="Mache Earring +1",bag="wardrobe2"},
 		right_ear={name="Mache Earring +1",bag="wardrobe7"},
 		left_ring="Gere Ring",
 		right_ring="Epona's Ring",
-		back=Andartia.DA
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
 
 
@@ -650,11 +637,11 @@ function init_gear_sets()
 	-- DW Total in Gear: 0 DW / 1 DW Needed to Cap Delay Reduction
 	
 	sets.engaged.MaxHaste = {
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
+		head="Malignance Chapeau",
 		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
+		hands="Malignance Gloves",
+		legs="Samnuha Tights",
+		feet="Malignance Boots",
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Telos Earring",
@@ -665,101 +652,60 @@ function init_gear_sets()
 	}
 	
 
-	sets.engaged.LowAcc.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.acc.low,	{})
-	sets.engaged.MidAcc.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	{})
-	sets.engaged.HighAcc.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	{})
-
-	sets.engaged.PEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.mpaca.full, {right_ring="Defending Ring"})	
-	sets.engaged.LowAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.mpaca.full, {right_ring="Defending Ring"})	 
-	
-	sets.engaged.MEVA.MaxHaste 			= set_combine(sets.engaged.MaxHaste, sets.malig.full, {right_ring="Defending Ring"})	
-	sets.engaged.LowAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.MEVA.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.malig.full, {right_ring="Defending Ring"})	
-	 
-	sets.engaged.Hybrid.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.hybrid.full,	{})
-	sets.engaged.LowAcc.Hybrid.MaxHaste = set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.hybrid.full, {})
-	sets.engaged.MidAcc.Hybrid.MaxHaste = set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.hybrid.full, {})
-	sets.engaged.HighAcc.Hybrid.MaxHaste= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.hybrid.full, {})
- 
+	sets.engaged.ACC.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.ACC	, {})
+	sets.engaged.Hybrid.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.hybrid, {})
+	sets.engaged.ACC.Hybrid.MaxHaste= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.hybrid, {})
+	sets.engaged.TANK.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.TANK, {})
+	sets.engaged.ACC.TANK.MaxHaste	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.TANK, {})
+ 	sets.engaged.CRIT.MaxHaste 		= set_combine(sets.engaged.MaxHaste, sets.CRIT, {})
+	sets.engaged.ACC.CRIT.MaxHaste	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.CRIT, {})
+ 	sets.engaged.Subtle.MaxHaste 	= set_combine(sets.engaged.MaxHaste, sets.Subtle, {})
+	sets.engaged.ACC.Subtle.MaxHaste= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.Subtle, {})	
 	----------------------------------
     -- 35% Haste (~10-12%DW Needed)
 	----------------------------------
 	-- DW Total in Gear: 12 DW / 12 DW Needed to Cap Delay Reduction
-	sets.engaged.Haste_35 				= set_combine(sets.engaged.MaxHaste, sets.dw.t12, {})
+	sets.engaged.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12, {})
+	sets.engaged.ACC.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.dw.t12, {})
+	sets.engaged.Hybrid.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.dw.t12, sets.hybrid, {})
+	sets.engaged.ACC.Hybrid.Haste_35= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.hybrid,sets.dw.t12, {})
+	sets.engaged.TANK.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.dw.t12, sets.TANK	 , {})
+	sets.engaged.ACC.TANK.Haste_35	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.TANK	 ,sets.dw.t12, {})
+	sets.engaged.CRIT.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.dw.t12, sets.CRIT	 , {})
+	sets.engaged.ACC.CRIT.Haste_35	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.CRIT	 ,sets.dw.t12, {})
+	sets.engaged.Subtle.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.dw.t12, sets.Subtle	 , {})
+	sets.engaged.ACC.Subtle.Haste_35	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.Subtle	 ,sets.dw.t12, {})
 	
-	sets.engaged.LowAcc.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	{})
-	sets.engaged.MidAcc.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	{})
-	sets.engaged.HighAcc.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t12, 	{})
-
-	sets.engaged.PEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	
-	sets.engaged.MEVA.Haste_35 			= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.malig.full, 	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.MEVA.Haste_35 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.malig.full, {right_ring="Defending Ring"})
-	
-	sets.engaged.Hybrid.Haste_35 		= set_combine(sets.engaged.MaxHaste, sets.dw.t12,	sets.hybrid.full,{})
-	sets.engaged.LowAcc.Hybrid.Haste_35 = set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t12, 	sets.hybrid.full, {})
-	sets.engaged.MidAcc.Hybrid.Haste_35 = set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t12, 	sets.hybrid.full, {})
-	sets.engaged.HighAcc.Hybrid.Haste_35= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t12, 	sets.hybrid.full, {})
-
 	----------------------------------
     -- 30% Haste (~21-22%DW Needed)
 	----------------------------------
 	-- DW Total in Gear: 21 DW / 21 DW Needed to Cap Delay Reduction
 	-- DW DT Sets CANT cap DW in this haste tier Without sacrificing DT. If you want to override a piece of DT Gear, simply include it. (Use DW Head, Ear2, and Waist if dropping malignance for DT)
 	-- Use DW Cape 
-	sets.engaged.Haste_30				= set_combine(sets.engaged.MaxHaste, sets.dw.t22, 	{})
-	
-	sets.engaged.LowAcc.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22,	{})
-	sets.engaged.MidAcc.Haste_30		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22,	{})
-	sets.engaged.HighAcc.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22,	{})
-
-	sets.engaged.PEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.mpaca.full, {right_ring="Defending Ring"})	
-	
-	sets.engaged.MEVA.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22,	sets.malig.full, 	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.MEVA.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.malig.full, {right_ring="Defending Ring"})	
-	
-	sets.engaged.Hybrid.Haste_30 			= set_combine(sets.engaged.MaxHaste, sets.dw.t22, 	sets.hybrid.full,{})
-	sets.engaged.LowAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t22, 	sets.hybrid.full, {})
-	sets.engaged.MidAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t22, 	sets.hybrid.full, {})
-	sets.engaged.HighAcc.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.acc.high, sets.dw.t22, 	sets.hybrid.full, {})
+	sets.engaged.Haste_30			= set_combine(sets.engaged.MaxHaste, sets.dw.t22, {})
+	sets.engaged.ACC.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.dw.t22, {})
+	sets.engaged.Hybrid.Haste_30 	= set_combine(sets.engaged.MaxHaste, sets.hybrid, sets.dw.t22, {})
+	sets.engaged.ACC.Hybrid.Haste_30= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.hybrid, sets.dw.t22, {})
+	sets.engaged.TANK.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.TANK	, sets.dw.t22, {})
+	sets.engaged.ACC.TANK.Haste_30	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.TANK, sets.dw.t22, {})
+	sets.engaged.CRIT.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.CRIT	, sets.dw.t22, {})
+	sets.engaged.ACC.CRIT.Haste_30	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.CRIT, sets.dw.t22, {})
+	sets.engaged.Subtle.Haste_30 		= set_combine(sets.engaged.MaxHaste, sets.Subtle	, sets.dw.t22, {})
+	sets.engaged.ACC.Subtle.Haste_30	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.Subtle, sets.dw.t22, {})	
 	----------------------------------
 	-- 15% Haste (~32%DW Needed)
 	----------------------------------
 	-- DW Total in Gear: 32 DW / 32 DW Needed to Cap Delay Reduction
-	sets.engaged.Haste_15 				= set_combine(sets.engaged.MaxHaste, sets.dw.t32, 	{})
-
-	sets.engaged.LowAcc.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.acc.low, 	sets.dw.t32, 	{})
-	sets.engaged.MidAcc.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.acc.mid, 	sets.dw.t32, 	{})
-	sets.engaged.HighAcc.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32,	{})
-
-	sets.engaged.PEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.mpaca.full, 	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.PEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.mpaca.full, {right_ring="Defending Ring"})	
-	
-	sets.engaged.MEVA.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.malig.full, 	{right_ring="Defending Ring"})
-	sets.engaged.LowAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.MidAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})
-	sets.engaged.HighAcc.MEVA.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.malig.full, {right_ring="Defending Ring"})	
-	
-	sets.engaged.Hybrid.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32,	sets.hybrid.full,{})
-	sets.engaged.LowAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.low,	sets.dw.t32, 	sets.hybrid.full, {})
-	sets.engaged.MidAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.mid,	sets.dw.t32, 	sets.hybrid.full, {})
-	sets.engaged.HighAcc.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.acc.high,	sets.dw.t32, 	sets.hybrid.full, {})
-
+	sets.engaged.Haste_15 			= set_combine(sets.engaged.MaxHaste, sets.dw.t32, {})
+	sets.engaged.ACC.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.dw.t32, {})
+	sets.engaged.Hybrid.Haste_15 	= set_combine(sets.engaged.MaxHaste, sets.hybrid, sets.dw.t32, {})
+	sets.engaged.ACC.Hybrid.Haste_15= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.hybrid, sets.dw.t32,  {})
+	sets.engaged.TANK.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.TANK	, sets.dw.t32, {})
+	sets.engaged.ACC.TANK.Haste_15	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.TANK	 , sets.dw.t32,  {})
+	sets.engaged.CRIT.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.CRIT	, sets.dw.t32, {})
+	sets.engaged.ACC.CRIT.Haste_15	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.CRIT	 , sets.dw.t32,  {})
+	sets.engaged.Subtle.Haste_15 		= set_combine(sets.engaged.MaxHaste, sets.Subtle	, sets.dw.t32, {})
+	sets.engaged.ACC.Subtle.Haste_15	= set_combine(sets.engaged.MaxHaste, sets.ACC	, sets.Subtle	 , sets.dw.t32,  {})	
 	----------------------------------
 	-- Weaponskills (General)
 	----------------------------------
@@ -769,7 +715,7 @@ function init_gear_sets()
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Nyame Sollerets",
+		feet="Hattori Kyahan +3",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear="Lugra Earring +1",
@@ -784,43 +730,42 @@ function init_gear_sets()
 	-- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
 	sets.precast.WS['Blade: Hi'] 		= set_combine(sets.precast.WS, {
 		ammo="Yetshila +1",
-		head="Blistering Sallet +1",
-		neck="Ninja Nodowa +2",
-		ear1="Moonshade Earring",
-		ear2="Lugra Earring +1",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		ring1="Begrudging Ring",
-		ring2="Regal Ring",
-		waist="Sailfi Belt +1",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
-		back={ name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%','Damage taken-5%',}}
+		head="Hachiya Hatsu. +3",
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet="Hattori Kyahan +3",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Ishvara Earring",
+		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		left_ring="Lehko's Ring",
+		right_ring="Regal Ring",
+		back={ name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%','Damage taken-5%',}},
 	})
 	sets.precast.WS['Blade: Hi'].MAXBUFF 	= {
 		ammo="Yetshila +1",
 		head="Hachiya Hatsu. +3",
-		neck="Ninja Nodowa +2",
-		ear1="Odr Earring",
-		ear2="Ishvara Earring",
 		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		ring1="Epaminondas's Ring",
-		ring2="Regal Ring",
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet="Hattori Kyahan +3",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear="Ishvara Earring",
+		right_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		left_ring="Lehko's Ring",
+		right_ring="Regal Ring",
 		back={ name="Andartia's Mantle", augments={'AGI+20','Accuracy+20 Attack+20','AGI+10','Weapon skill damage +10%','Damage taken-5%',}},
-		waist="Sailfi Belt +1",
-		legs="Mpaca's Hose",
-		feet="Nyame Sollerets"
-	}
-	
+	}	
 	sets.precast.WS['Blade: Ten'] 		={
 		ammo="Seething Bomblet +1",
 		head="Mpaca's Cap",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
-		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Nyame Sollerets",
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		legs="Nyame Flanchard",
+		feet="Hattori Kyahan +3",
+		neck="Rep. Plat. Medal",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -829,117 +774,94 @@ function init_gear_sets()
 		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
 	sets.precast.WS['Blade: Ten'].MAXBUFF = set_combine(sets.precast.WS['Blade: Ten'], {
-		hands="Malignance Gloves",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		left_ring="Epaminondas's Ring",
 	})
-	
 	sets.precast.WS['Blade: Jin'] 		= {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Mpaca's Doublet",
-		hands="Mummu Wrists +2",
+		ammo="Yetshila +1",
+		head={ name="Blistering Sallet +1", augments={'Path: A',}},
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
+		hands={ name="Mpaca's Gloves", augments={'Path: A',}},
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Mpaca's Boots",
+		feet={ name="Mpaca's Boots", augments={'Path: A',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear={name="Mache Earring +1",bag="wardrobe7"},
-		left_ring="Regal Ring",
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Lehko's Ring",
 		right_ring="Ilabrat Ring",
-		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.precast.WS['Blade: Jin'].MAXBUFF = set_combine(sets.precast.WS['Blade: Jin'],{})
-	
 	sets.precast.WS['Blade: Kamu'] 		= {
-		ammo="Seething Bomblet +1",
-		head="Mpaca's Cap",
-		body={ name="Tatena. Harama. +1", augments={'Path: A',}},
-		hands="Nyame Gauntlets",
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Tatena. Sune. +1", augments={'Path: A',}},
+	-- NEEDS SRODA RING, Hattori Earring +1
+		ammo="Crepuscular Pebble",
+		head={ name="Mpaca's Cap", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Nyame Sollerets", augments={'Path: B',}},
 		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
 		right_ear="Brutal Earring",
 		left_ring="Gere Ring",
-		right_ring="Epona's Ring",
-		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},	
+		right_ring="Regal Ring",
+		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
-	sets.precast.WS['Blade: Kamu'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Kamu'], {
-		head="Hachiya Hatsu. +3",
-		hands="Malignance Gloves",
-	})
-	
+	sets.precast.WS['Blade: Kamu'].MAXBUFF 	= set_combine(sets.precast.WS['Blade: Kamu'], {})	
 	sets.precast.WS['Blade: Metsu'] 	= set_combine(sets.precast.WS['Blade: Ten'], {})
 	sets.precast.WS['Blade: Metsu'].MAXBUFF = set_combine(sets.precast.WS['Blade: Metsu'], {})
-
 	sets.precast.WS['Blade: Shun'] = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-	    head="Mpaca's Cap",
-		body="Adhemar Jacket +1",
-		hands="Mochizuki Tekko +3",
-		legs="Mpaca's Hose",
-		feet="Mochi. Kyahan +3",
+		head={ name="Mpaca's Cap", augments={'Path: A',}},
+		body="Malignance Tabard",
+		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
+		legs={ name="Mpaca's Hose", augments={'Path: A',}},
+		feet="Hattori Kyahan +3",
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-		left_ring="Regal Ring",
-		right_ring="Gere Ring",
+		left_ring="Gere Ring",
+		right_ring="Regal Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
-	sets.precast.WS['Blade: Shun'].MAXBUFF = set_combine(sets.precast.WS['Blade: Shun'], {
-		hands="Malignance Gloves",
-		legs="Jokushu Haidate",
-		feet="Nyame Sollerets",
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
-		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+	sets.precast.WS['Blade: Shun'].MAXBUFF ={
+		ammo="Crepuscular Pebble",
+		head="Ken. Jinpachi +1",
 		body="Malignance Tabard",
-	})
-	
+		hands="Malignance Gloves",
+		legs={ name="Mpaca's Hose", augments={'Path: A',}},
+		feet="Hattori Kyahan +3",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		waist="Fotia Belt",
+		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Gere Ring",
+		right_ring="Regal Ring",
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+	}
 	sets.precast.WS['Blade: Ku'] = {
-		ammo="Seething Bomblet +1",
-		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body="Adhemar Jacket +1",
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head={ name="Mpaca's Cap", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands={ name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}},
-		legs={ name="Tatena. Haidate +1", augments={'Path: A',}},
-		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		feet={ name="Mpaca's Boots", augments={'Path: A',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
 		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
-		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+		right_ear="Brutal Earring",
 		left_ring="Regal Ring",
 		right_ring="Gere Ring",
 		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
 	}
 	sets.precast.WS['Blade: Ku'].MAXBUFF = set_combine(sets.precast.WS['Blade: Ku'], {
-		head={ name="Blistering Sallet +1", augments={'Path: A',}},
-		body="Malignance Tabard",
 		hands="Malignance Gloves",
 		legs="Mpaca's Hose",
-		feet={ name="Ryuo Sune-Ate +1", augments={'STR+12','DEX+12','Accuracy+20',}},
-		right_ear="Brutal Earring",
-	
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 	})	
-
-	sets.precast.WS['Blade: Yu'] = {
-		main="Tauret",
-		sub="Kunimitsu",
-		ammo="Ghastly Tathlum +1",
-		head="Mochi. Hatsuburi +3",
-		neck="Fotia Gorget",
-		ear1="Moonshade Earring",
-		ear2="Lugra Earring +1",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets",
-		ring1="Epaminondas's Ring",
-		ring2="Metamor. Ring +1",
-		waist="Orpheus's Sash",
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
-		back=Andartia.MAB--DEXWS(alt needs testing)
-	}
-
     sets.precast.WS['Blade: Chi'] = set_combine(sets.precast.WS, {
 		ammo="Seething Bomblet +1",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
@@ -960,28 +882,60 @@ function init_gear_sets()
 	sets.precast.WS['Blade: Ei'] = {
 		ammo="Seething Bomblet +1",
 		head="Pixie Hairpin +1",
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
-		hands={ name="Herculean Gloves", augments={'Mag. Acc.+13 "Mag.Atk.Bns."+13','Magic burst dmg.+7%','"Mag.Atk.Bns."+15',}},
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
 		feet="Nyame Sollerets",
-		neck="Baetyl Pendant",
+		neck="Sibyl Scarf",
 		waist="Orpheus's Sash",
 		left_ear="Friomisi Earring",
 		right_ear="Hecate's Earring",
-		left_ring="Shiva Ring +1",
-		right_ring="Dingir Ring",
+		left_ring="Epaminondas's Ring",
+		right_ring="Archon Ring",
 		back={ name="Andartia's Mantle", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','Magic Damage +10','"Mag.Atk.Bns."+10',}},	
 	}
-	sets.precast.WS['Aeolian Edge'] = sets.precast.WS['Blade: Yu']
-	sets.precast.WS['Evisceration'] = set_combine(sets.precast.WS['Blade: Hi'], {})
+	sets.precast.WS['Blade: Yu'] = {
+		ammo="Ghastly Tathlum +1",
+		head="Mochi. Hatsuburi +3",
+		neck="Sibyl Scarf",
+		ear1="Moonshade Earring",
+		ear2="Lugra Earring +1",
+		body="Nyame Mail",
+		hands="Nyame Gauntlets",
+		ring1="Epaminondas's Ring",
+		ring2="Shiva Ring +1",
+		waist="Orpheus's Sash",
+		legs="Nyame Flanchard",
+		feet="Nyame Sollerets",
+		back=Andartia.MAB--DEXWS(alt needs testing)
+	}
+	sets.precast.WS['Aeolian Edge'] = set_combine(sets.precast.WS['Blade: Yu'],{})
+	sets.precast.WS['Evisceration'] = {
+		ammo="Yetshila +1",
+		head={ name="Blistering Sallet +1", augments={'Path: A',}},
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
+		hands={ name="Mpaca's Gloves", augments={'Path: A',}},
+		legs={ name="Mpaca's Hose", augments={'Path: A',}},
+		feet={ name="Mpaca's Boots", augments={'Path: A',}},
+		neck="Fotia Gorget",
+		waist="Fotia Belt",
+		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+		left_ring="Lehko's Ring",
+		right_ring="Gere Ring",
+		back={ name="Andartia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Attack+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+	}
+	sets.precast.WS['Evisceration'].MAXBUFF = {
+		neck="Ninja Nodowa +2",
+	}
 	-- USE MACC FOR AGEHA TO STICK DEBUFF. NOT USED FOR DAMAGE EVER.
 	sets.precast.WS['Tachi: Ageha'] = set_combine(sets.precast.WS,{
-		Ammo="Yetshila +1",
-		head="Malignance Chapeau",
+		ammo="Yamarang",
+		head="Mpaca's Cap",
 		body="Malignance Tabard",
 		hands="Malignance Gloves",
 		legs="Malignance Tights",
-		feet="Malignance Boots",
+		feet="Hattori Kyahan +3",
 		neck="Sanctity Necklace",
 		waist="Eschan Stone",
 		left_ear="Telos Earring",
@@ -990,48 +944,56 @@ function init_gear_sets()
 		right_ring="Stikini Ring +1",
 		back=Andartia.DEXWS
 	})
+	
 	sets.precast.WS['Tachi: Gekko'] = set_combine(sets.precast.WS['Blade: Ten'], {})
 	sets.precast.WS['Tachi: Kasha'] = set_combine(sets.precast.WS['Blade: Ten'], {})
 	sets.precast.WS['Tachi: Jinpu'] = set_combine(sets.precast.WS['Blade: Chi'],{})
+	sets.precast.WS['Tachi: Koki'] = set_combine(sets.precast.WS['Blade: Chi'],{})
+	sets.precast.WS['Tachi: Kagero'] = set_combine(sets.precast.WS['Blade: Chi'],{})
+	sets.precast.WS['Tachi: Goten'] = set_combine(sets.precast.WS['Blade: Chi'],{})
+	sets.precast.WS['Tachi: Jinpu'].MAXBUFF = set_combine(sets.precast.WS['Blade: Chi'].MAXBUFF,{})
+	sets.precast.WS['Tachi: Koki'].MAXBUFF = set_combine(sets.precast.WS['Blade: Chi'].MAXBUFF,{})
+	sets.precast.WS['Tachi: Kagero'].MAXBUFF = set_combine(sets.precast.WS['Blade: Chi'].MAXBUFF,{})
+	sets.precast.WS['Tachi: Goten'].MAXBUFF = set_combine(sets.precast.WS['Blade: Chi'].MAXBUFF,{})	
 	
  	sets.precast.WS['Asuran Fists'] = {
-		ammo="Yamarang",
+		ammo="Crepuscular Pebble",
 		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
-		body="Nyame Mail",
-		hands="Malignance Gloves",
+		body={ name="Mochi. Chainmail +3", augments={'Enhances "Sange" effect',}},
+		hands={ name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}},
 		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
 		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
-		neck="Fotia Gorget",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
 		waist="Fotia Belt",
-		left_ear="Lugra Earring +1",
-		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Ilabrat Ring",
 		right_ring="Gere Ring",
-		back=Andartia.DA
+		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
  	sets.precast.WS['Raging Fists'] = {
-		ammo = "Coiste Bodhar",
-		head={ name="Mochi. Hatsuburi +3", augments={'Enhances "Yonin" and "Innin" effect',}},
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
-		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
-		legs="Jokushu Haidate",
-		feet={ name="Mochi. Kyahan +3", augments={'Enh. Ninj. Mag. Acc/Cast Time Red.',}},
-		neck="Fotia Gorget",
-		waist="Fotia Belt",
-		left_ear="Lugra Earring +1",
-		right_ear={name="Mache Earring +1",bag="wardrobe7"},
+		ammo="Crepuscular Pebble",
+		head={ name="Mpaca's Cap", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},
+		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
+		feet="Hattori Kyahan +3",
+		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		left_ear={ name="Lugra Earring +1", augments={'Path: A',}},
+		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Ilabrat Ring",
 		right_ring="Gere Ring",
-		back=Andartia.DEXWS
+		back={ name="Andartia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
 	}
  	sets.precast.WS['Savage Blade'] = {
 		ammo = "Seething Bomblet +1",
 		head="Mpaca's Cap",
 		body="Nyame Mail",
 		hands="Nyame Gauntlets",
-		legs={ name="Mochi. Hakama +3", augments={'Enhances "Mijin Gakure" effect',}},
-		feet="Nyame Sollerets",
-		neck={ name="Ninja Nodowa +2", augments={'Path: A',}},
+		legs="Nyame Flanchard",
+		feet="Hattori Kyahan +3",
+		neck="Rep. Plat. Medal",
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Lugra Earring +1",
 		right_ear="Moonshade Earring",
@@ -1040,8 +1002,8 @@ function init_gear_sets()
 		back=Andartia.DEXWS
 	}	
  	sets.precast.WS['Savage Blade'].MAXBUFF = set_combine(sets.precast.WS['Savage Blade'],{
+		neck="Ninja Nodowa +2",
 		head="Hachiya Hatsu. +3",
-		hands="Malignance Gloves",
 		right_ring="Epaminondas's Ring",
 	})
  	sets.precast.WS['Sanguine Blade'] = set_combine(sets.precast.WS['Blade: Ei'], {})
@@ -1071,9 +1033,9 @@ function job_precast(spell, action, spellMap, eventArgs)
 		end
 	end
 -- Cancel Sneak before reapplying spectral jig
-	if spell.name == 'Spectral Jig' and buffactive.sneak then
-		send_command('cancel 71')
-	end
+	-- if spell.name == 'Spectral Jig' and buffactive.sneak then
+		-- send_command('cancel 71')
+	-- end
 --Cancel Utsusemi Shadows during casting lower tier utsusemi spells. prevents re-casting utsusemi with more than 4 shadows remaining to prevent overbuffing
     if spell.name == 'Utsusemi: Ichi' then
 		if buffactive['Copy Image'] or buffactive['Copy Image (2)'] or buffactive['Copy Image (3)'] or buffactive['Copy Image (4+)']  then
@@ -1129,11 +1091,7 @@ end
 
 -- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
 function job_midcast(spell, action, spellMap, eventArgs)
-	if spell.english == "Monomi: Ichi" then
-		if buffactive['Sneak'] then
-			send_command('@wait 1;cancel 71')
-		end
-	end
+
 end
 
 -- Run after the general midcast() is done.
@@ -1183,7 +1141,7 @@ end
 
 -- Modify the default idle set after it was constructed.
 function customize_idle_set(idleSet)
-	if state.HybridMode.value == 'PDT' then
+	if state.HybridMode.value == 'DT' then
 		if state.Buff.Migawari then
 			idleSet = set_combine(idleSet, sets.buff.Migawari)
 		else 
@@ -1573,14 +1531,14 @@ function job_self_command(cmdParams, eventArgs)
 		update_combat_form()
 	elseif cmdParams[1] == 'KatanaMode' then
 		state.mainWeapon:set('Heishi Shorinken')
-		state.subWeapon:set('Kunimitsu')
+		state.subWeapon:set('Yagyu Darkblade')
 		state.CombatWeapon:reset()
 		select_weapons()
 		setupTextWindow()
 		update_combat_form()
 	elseif cmdParams[1] == 'SwordMode' then
 		state.mainWeapon:set('Naegling')
-		state.subWeapon:set("Gleti's Knife")
+		state.subWeapon:set("Uzura +2")
 		state.CombatWeapon:reset()
 		select_weapons()
 		setupTextWindow()

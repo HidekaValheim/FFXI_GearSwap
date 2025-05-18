@@ -17,9 +17,6 @@ spell_maps = {
     ['Barfire']='BarElement',['Barstone']='BarElement',['Barwater']='BarElement',['Baraero']='BarElement',
 	['Barblizzard']='BarElement',['Barthunder']='BarElement',['Barfira']='BarElement',['Barstonra']='BarElement',
 	['Barwatera']='BarElement',['Baraera']='BarElement',['Barblizzara']='BarElement',['Barthundra']='BarElement',
---BarStatus
-	['Barpoison']='BarStatus',['Barparalyze']='BarStatus',['Barblind']='BarStatus',['Barsilence']='BarStatus',
-	['Barpetrify']='BarStatus',['Barvirus']='BarStatus',['Baramnesia']='BarStatus',
 --Raise 	
     ['Raise']='Raise',['Raise II']='Raise',['Raise III']='Raise',['Arise']='Raise',
 --ReRaise 
@@ -40,28 +37,62 @@ spell_maps = {
 	['Teleport-Yhoat']='Teleport',['Teleport-Vahzl']='Teleport',['Recall-Pashh']='Teleport',['Recall-Meriph']='Teleport',
 	['Recall-Jugner']='Teleport',
 --Bard Songs
-    ['Valor Minuet']='Minuet',['Valor Minuet II']='Minuet',['Valor Minuet III']='Minuet',['Valor Minuet IV']='Minuet',
-	['Valor Minuet V']='Minuet',["Knight's Minne"]='Minne',["Knight's Minne II"]='Minne',["Knight's Minne III"]='Minne',
-	["Knight's Minne IV"]='Minne',["Knight's Minne V"]='Minne',['Advancing March']='March',['Victory March']='March',
-	['Sword Madrigal']='Madrigal',['Blade Madrigal']='Madrigal',["Hunter's Prelude"]='Prelude',["Archer's Prelude"]='Prelude',
-	['Sheepfoe Mambo']='Mambo',['Dragonfoe Mambo']='Mambo',['Raptor Mazurka']='Mazurka',['Chocobo Mazurka']='Mazurka',
+--[MINUET]
+	['Valor Minuet']='Minuet',['Valor Minuet II']='Minuet',['Valor Minuet III']='Minuet',['Valor Minuet IV']='Minuet',['Valor Minuet V']='Minuet',
+--[MINNIE]
+	["Knight's Minne"]='Minne',["Knight's Minne II"]='Minne',["Knight's Minne III"]='Minne',["Knight's Minne IV"]='Minne',["Knight's Minne V"]='Minne',
+--[MARCH]
+	['Advancing March']='March',['Victory March']='March',
+--[HONOR MARCH]
+	['Honor March']='HonorMarch',
+--[MADRIGAL]
+	['Sword Madrigal']='Madrigal',['Blade Madrigal']='Madrigal',
+--[PRELUDE]	
+	["Hunter's Prelude"]='Prelude',["Archer's Prelude"]='Prelude',
+--[MAMBO]
+	['Sheepfoe Mambo']='Mambo',['Dragonfoe Mambo']='Mambo',
+--[MAZURKA]	
+	['Raptor Mazurka']='Mazurka',['Chocobo Mazurka']='Mazurka',
+--[ETUDE]
 	['Sinewy Etude']='Etude',['Dextrous Etude']='Etude',['Vivacious Etude']='Etude',['Quick Etude']='Etude',
 	['Learned Etude']='Etude',['Spirited Etude']='Etude',['Enchanting Etude']='Etude',['Herculean Etude']='Etude',
 	['Uncanny Etude']='Etude',['Vital Etude']='Etude',['Swift Etude']='Etude',['Sage Etude']='Etude',['Logical Etude']='Etude',
-	['Bewitching Etude']='Etude',["Mage's Ballad"]='Ballad',["Mage's Ballad II"]='Ballad',["Mage's Ballad III"]='Ballad',
+	['Bewitching Etude']='Etude',
+--[BALLAD]	
+	["Mage's Ballad"]='Ballad',["Mage's Ballad II"]='Ballad',["Mage's Ballad III"]='Ballad',
+--[PAEON]
 	["Army's Paeon"]='Paeon',["Army's Paeon II"]='Paeon',["Army's Paeon III"]='Paeon',["Army's Paeon IV"]='Paeon',
-	["Army's Paeon V"]='Paeon',["Army's Paeon VI"]='Paeon',['Fire Carol']='Carol',['Ice Carol']='Carol',['Wind Carol']='Carol',
+	["Army's Paeon V"]='Paeon',["Army's Paeon VI"]='Paeon',
+--[GODDAMNIT CAROL]
+	['Fire Carol']='Carol',['Ice Carol']='Carol',['Wind Carol']='Carol',
 	['Earth Carol']='Carol',['Lightning Carol']='Carol',['Water Carol']='Carol',['Light Carol']='Carol',['Dark Carol']='Carol',
     ['Fire Carol II']='Carol',['Ice Carol II']='Carol',['Wind Carol II']='Carol',['Earth Carol II']='Carol',
 	['Lightning Carol II']='Carol',['Water Carol II']='Carol',['Light Carol II']='Carol',['Dark Carol II']='Carol',
+--[LULLABY]	
     ['Foe Lullaby']='Lullaby',['Foe Lullaby II']='Lullaby',['Horde Lullaby']='Lullaby',['Horde Lullaby II']='Lullaby',
+--[THRENODY]
     ['Fire Threnody']='Threnody',['Ice Threnody']='Threnody',['Wind Threnody']='Threnody',['Earth Threnody']='Threnody',
 	['Lightning Threnody']='Threnody',['Water Threnody']='Threnody',['Light Threnody']='Threnody',['Dark Threnody']='Threnody',
     ['Fire Threnody II']='Threnody',['Ice Threnody II']='Threnody',['Wind Threnody II']='Threnody',
 	['Earth Threnody II']='Threnody',['Lightning Threnody II']='Threnody',['Water Threnody II']='Threnody',
-	['Light Threnody II']='Threnody',['Dark Threnody II']='Threnody',['Battlefield Elegy']='Elegy',['Carnage Elegy']='Elegy',
+	['Light Threnody II']='Threnody',['Dark Threnody II']='Threnody',
+--[ELEGY]	
+	['Battlefield Elegy']='Elegy',['Carnage Elegy']='Elegy',
+--[REQUIEM]
 	['Foe Requiem']='Requiem',['Foe Requiem II']='Requiem',['Foe Requiem III']='Requiem',['Foe Requiem IV']='Requiem',
 	['Foe Requiem V']='Requiem',['Foe Requiem VI']='Requiem',['Foe Requiem VII']='Requiem',
+--[FINALE]
+	['Magic Finale']='Finale',
+--[Scherzo]
+	["Sentinel's Scherzo"]='Scherzo',
+--[Virelai]
+	["Maiden's Virelai"]='Virelai',
+--[Hymnus]
+	["Goddess's Hymnus"]='Hymnus',
+--[Dirge]
+	["Adventurer's Dirge"]='Dirge',
+--[Sirvente]
+	["Foe Sirvente"]='Sirvente',
 --Ninjutsu
     ['Utsusemi: Ichi']='Utsusemi',['Utsusemi: Ni']='Utsusemi',['Utsusemi: San']='Utsusemi',
     ['Katon: Ichi'] = 'ElementalNinjutsu',['Suiton: Ichi'] = 'ElementalNinjutsu',['Raiton: Ichi'] = 'ElementalNinjutsu',
@@ -102,40 +133,27 @@ spell_maps = {
 --RDM Gain Spells
 	['Gain-AGI']='Gain',['Gain-CHR']='Gain',['Gain-DEX']='Gain',['Gain-INT']='Gain',['Gain-MND']='Gain',['Gain-STR']='Gain',
 	['Gain-VIT']='Gain',
---Impact
-	['Impact']='Impact',
---BLUE MAGIC
-	['Sheep Song']='BlueACC',['Sandspin']='BlueACC',['Frightful Roar']='BlueACC',['Chaotic Eye']='BlueACC',['Battle Dance']='BlueACC',['Ice Break']='BlueACC',
-	['Sickle Slash']='BlueACC',['Terror Touch']='BlueACC',['Uppercut']='BlueACC',['Grand Slam']='BlueACC',
-	['Cursed Sphere']='BlueNuke',
-	['Cocoon']='BlueENH',
-	['Healing Breeze']='BlueCure',
-	['Flash']='Enmity', ['Foil']='Enmity'
 }
 
 enfeeb_maps = {
 --Potency Reliant spells
-    ['Dia']='Dia', ['Dia II']='Dia', ['Dia III']='Dia',
-    ['Bio']='Bio', ['Bio II']='Bio', ['Bio III']='Bio',
+    ['Dia']='potency', ['Dia II']='potency', ['Dia III']='potency',
+    ['Bio']='potency', ['Bio II']='potency', ['Bio III']='potency',
 --Mind Scaling Potency spells
-    ['Paralyze']='Paralyze', ['Paralyze II']='Paralyze',
-	['Slow']='Slow', ['Slow II']='Slow', 
-	['Addle']='Addle', ['Addle II']='Addle', 
+    ['Paralyze']='mndpot', ['Paralyze II']='mndpot',['Slow']='mndpot', ['Slow II']='mndpot', ['Adle']='mndpot', 
+	['Adle II']='mndpot', 
 --Skill&Mind Scaling Spells	
-	['Frazzle III']='FrazzleIII',
-	['Distract']='Distract', ['Distract II']='Distract', ['Distract III']='Distract', 
+	['Frazzle III']='skillmndpot',['Distract']='skillmndpot', ['Distract II']='skillmndpot', 
+	['Distract III']='skillmndpot', 
 --Accuracy Reliant Spells
-    ['Silence']='Silence',
-	['Inundation']='Inundation',
-	['Dispel']='Dispel', ['Dispelga']='Dispelga',
-    ['Frazzle']='FrazzleII',['Frazzle II']='FrazzleII', 
+    ['Sleep']='macc', ['Sleep II']='macc', ['Sleepga']='macc', ['Silence']='macc',['Inundation']='macc',['Dispel']='macc', 
+    ['Break']='macc',['Bind']='macc',['Frazzle']='macc',['Frazzle II']='macc',['Dispelga']='macc',
 --Intelligence Scaling Potency Spells	
-	['Blind']='Blind', ['Blind II']='Blind',
+	['Blind']='intpot', ['Blind II']='intpot',
+--Raw Potency Spells	
+	['Gravity']='potency', ['Gravity II']='potency',
 --Raw Skill Scaling Spells
-    ['Poison']='Poison', ['Poison II']='Poison', ['Poisonga']='Poison',
---Duration Spells
-	['Gravity']='Gravity', ['Gravity II']='Gravity',
-	['Bind']='Bind',['Sleep']='Sleep', ['Sleep II']='Sleep', ['Sleepga']='Sleep',['Sleepga II']='Sleep', ['Break']='Break',
+    ['Poison']='skillpot', ['Poison II']='skillpot', ['Poisonga']='skillpot',
 }
 
 
@@ -197,15 +215,17 @@ time_start = 0
 hub_mode_std = [[\cs(255, 115, 0)Modes: \cr              
 \cs(255, 255, 64)${key_bind_idle} \cs(200, 200, 200)Idle:\cr \cs(125,125,255)${player_current_idle|Refresh}
 \cs(255, 255, 64)${key_bind_melee} \cs(200, 200, 200)Melee:\cr \cs(125,125,255)${player_current_melee|Refresh}
+\cs(255, 255, 64)${key_bind_HYBRIDmode} \cs(200, 200, 200)Hybrid Mode:\cr \cs(125,125,255)${player_current_HYBRIDmode|Normal}
 \cs(255, 255, 64)${key_bind_mainweapon} \cs(200, 200, 200)Main Weapon:\cr \cs(125,125,255)${player_current_mainweapon|Crocea Mors}
 \cs(255, 255, 64)${key_bind_subweapon} \cs(200, 200, 200)Sub Weapon:\cr \cs(125,125,255)${player_current_subweapon|Ammurapi Shield}
 \cs(255, 255, 64)${key_bind_casting} \cs(200, 200, 200)Nuking:\cr \cs(125,125,255)${player_current_casting|Normal}
+\cs(255, 255, 64)${key_bind_THMode} \cs(200, 200, 200)TH Mode:\cr \cs(125,125,255)${player_current_THMode|Normal}
 ]]
 
 hub_options_std = [[ \cs(255, 115, 0)Options: \cr         
 \cs(255, 255, 64)${key_bind_matchsc}\cs(200, 200, 200)Match SC Element:\cr ${player_match_sc}
 \cs(255, 255, 64)${key_bind_lock_weapon} \cs(200, 200, 200)Lock Weapon:\cr ${toggle_lock_weapon}
-\cs(255, 255, 64)${key_bind_movespeed_lock}\cs(200, 200, 200)Carm Cuisse:\cr ${toggle_movespeed_lock}
+\cs(255, 255, 64)${key_bind_movespeed_lock}\cs(200, 200, 200)Fili Feet:\cr ${toggle_movespeed_lock}
 ]]
 
 hub_job_std = [[ \cs(255, 115, 0)${player_job}: \cr             
@@ -221,11 +241,8 @@ hub_battle_std = [[ \cs(255, 115, 0)Battle: \cr
 
 -- LITE Mode
 hub_mode_lte = [[ \cs(255, 115, 0) == Modes: \cr              \cs(255, 255, 64)${key_bind_idle} \cs(200, 200, 200)Idle:\cr \cs(125,125,255)${player_current_idle|Refresh}              \cs(255, 255, 64)${key_bind_melee} \cs(200, 200, 200)Melee:\cr \cs(125,125,255)${player_current_melee|Refresh}              \cs(255, 255, 64)${key_bind_mainweapon} \cs(200, 200, 200)Main Weapon:\cr \cs(125,125,255)${player_current_mainweapon|Crocea Mors}              \cs(255, 255, 64)${key_bind_subweapon} \cs(200, 200, 200)Sub Weapon:\cr \cs(125,125,255)${player_current_subweapon|Ammurapi Shield}            \cs(255, 255, 64)${key_bind_casting} \cs(200, 200, 200)Nuking:\cr \cs(125,125,255)${player_current_casting|Normal} ]]
-
 hub_options_lte = [[ \cs(255, 115, 0)== Options: \cr              \cs(255, 255, 64)${key_bind_matchsc}\cs(200, 200, 200)Match SC Element:\cr ${player_match_sc}            \cs(255, 255, 64)${key_bind_lock_weapon} \cs(200, 200, 200)Lock Weapon:\cr ${toggle_lock_weapon}            \cs(255, 255, 64)${key_bind_movespeed_lock}\cs(200, 200, 200)Carm Cuisse:\cr ${toggle_movespeed_lock} ]]
-
 hub_job_lte = [[ \cs(255, 115, 0) == ${player_job}: \cr             \cs(255, 255, 64)${key_bind_element_cycle} \cs(200, 200, 200)Nuking:\cr ${element_color|\\cs(0, 204, 204)}${toggle_element_cycle|Ice} \cr             \cs(255, 255, 64)${key_bind_enspell_cycle} \cs(200, 200, 200)Enspell:\cr ${enspell_color|\\cs(0, 204, 204)}${toggle_enspell_cycle|Ice} \cr ]]
-
 hub_battle_lte = [[ \cs(255, 115, 0) == Battle: \cr             \cs(200, 200, 200)Last SC:\cr ${last_sc_element_color}${last_sc|No SC yet} \cr             \cs(200, 200, 200)Burst Window:\cr ${last_sc_element_color}${burst_window|0} \cr             \cs(200, 200, 200)Magic Burst:\cr ${player_current_mb}  \cr ]]
 
 
@@ -242,7 +259,9 @@ hub_battle = hub_battle_std
 keybinds_off = {}
 keybinds_off['key_bind_idle'] = '       '
 keybinds_off['key_bind_melee'] = '       '
+keybinds_off['key_bind_HYBRIDmode'] = '       '
 keybinds_off['key_bind_casting'] = '       '
+keybinds_off['key_bind_THMode'] = '       '
 keybinds_off['key_bind_mburst'] = '       '
 keybinds_on['key_bind_mburst'] = '       '
 keybinds_off['key_bind_mainweapon'] = '       '
@@ -261,9 +280,11 @@ function validateTextInformation()
     --Mode Information
     main_text_hub.player_current_idle = idleModes.current
     main_text_hub.player_current_melee = meleeModes.current
+	main_text_hub.player_current_HYBRIDmode = HYBRIDmode.current
     main_text_hub.player_current_mainweapon = mainWeapon.current
     main_text_hub.player_current_subweapon = subWeapon.current
     main_text_hub.player_current_casting = nukeModes.current
+	main_text_hub.player_current_THMode = THMode.current
     main_text_hub.toggle_element_cycle = elements.current
     main_text_hub.toggle_enspell_cycle = enspellElements.current
     main_text_hub.player_job = player.job
@@ -273,7 +294,18 @@ function validateTextInformation()
         main_text_hub.burst_window = tostring(MB_Window)
         main_text_hub.last_sc_element_color = Colors[last_skillchain.elements[1]]
     end
-
+	
+    if HYBRIDmode.value == "ON" then
+        main_text_hub.player_current_HYBRIDmode = const_on
+    else
+        main_text_hub.player_current_HYBRIDmode = const_off
+    end
+    if THMode.value  == "ON" then
+        main_text_hub.player_current_THMode = const_on
+    else
+        main_text_hub.player_current_THMode = const_off
+    end
+		
     if mBurst.value then
         main_text_hub.player_current_mb = const_on
     else
@@ -544,18 +576,20 @@ function buff_change(name,gain,buff_details)
     if use_UI == true then
         validateTextInformation()
     end
-	if name == "doom" then
-        if gain then
-            equip(sets.buff.Doom)
-            send_command('@input /p Doomed.')
-             disable('ring1','ring2','neck','waist')
-        else
-            enable('ring1','ring2','neck','waist')
-
-        end
-    end
 end
- 
+
+function pretarget(spell)
+    if spell.type == 'BardSong' and spell.target.type and spell.target.type == 'PLAYER' and not buffactive.pianissimo and not spell.target.charmed and not pianissimo_cycle then
+        cancel_spell()
+        pianissimo_cycle = true
+        send_command('input /ja "Pianissimo" <me>;wait 1.5;input /ma "'..spell.name..'" '..spell.target.name..';')
+        return
+    end
+    if spell.name ~= 'Pianissimo' then
+        pianissimo_cycle = false
+    end
+end 
+
 function precast(spell)
     
     update_active_ja()
@@ -568,7 +602,12 @@ function precast(spell)
         add_to_chat(8, '****** ['..spell.name..' CANCELED - Using Echo Drops] ******')
         return        
     end       
-
+    if spell.action_type == 'BardSong' and buffactive['Silence'] then 
+        cancel_spell()
+        send_command('input /item "Echo Drops" <me>')     
+        add_to_chat(8, '****** ['..spell.name..' CANCELED - Using Echo Drops] ******')
+        return        
+    end       
     if spell.action_type  == 'Magic' and spell_recasts[spell.recast_id] > 0 then
         cancel_spell()
         downgradenuke(spell)
@@ -582,25 +621,21 @@ function precast(spell)
     end
 
     -- Moving on to other types of magic
-    if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' then
-        if spell.name == 'Impact' then
-			equip(sets.precast.Impact)
+    if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' or spell.type == 'BardSong' then 
         -- Stoneskin Precast
-        elseif spell.name == 'Stoneskin' then
-         
+        if spell.name == 'Stoneskin' then
             windower.ffxi.cancel_buff(37)--[[Cancels stoneskin, not delayed incase you get a Quick Cast]]
             equip(sets.precast.stoneskin)
              
         -- Cure Precast
         elseif spell.name:match('Cure') or spell.name:match('Cura') then
          
-            equip(sets.precast.cure)         
+            equip(sets.precast.cure) 
+        elseif spell.skill == 'Singing' then
+            equip(sets.precast.songs)    			
         -- Enhancing Magic
         elseif spell.skill == 'Enhancing Magic' then
             equip(sets.precast.enhancing)            
-            if spell.name == 'Sneak' then
-                windower.ffxi.cancel_buff(71)--[[Cancels Sneak]]
-            end
         elseif spell.name == 'Utsusemi: Ichi' then
             if buffactive['Copy Image'] or buffactive['Copy Image (2)'] then
                 send_command('cancel 66; cancel 444; cancel Copy Image; cancel Copy Image (2)')
@@ -638,25 +673,16 @@ function midcast(spell)
     -- Curing
     if spell.name:match('Cure') or spell.name:match('Cura') then
         if spell.element == world.weather_element or spell.element == world.day_element then
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.weather)
-			else 
-				equip(sets.midcast.cure.weather.self)
-			end
+            equip(sets.midcast.cure.weather)
         else
-			if  spell.target.type ~= 'SELF' and spell.target.type == 'PLAYER' then
-				equip(sets.midcast.cure.normal)
-			else 
-				equip(sets.midcast.cure.normal.self)
-			end
+            equip(sets.midcast.cure.normal)
         end
-	elseif spell.name == 'Impact' then
-		equip(sets.midcast.Impact)
+
     -- Enhancing
     elseif spell.skill == 'Enhancing Magic' then
 
         if spell.name:match('Protect') or spell.name:match('Shell') then
-            equip(sets.midcast.protect)
+            equip({rring="Sheltered Ring"})
         elseif spell.name:match('Refresh') then
             equip(sets.midcast.refresh)
         elseif spell.name:match('Regen') then
@@ -679,14 +705,71 @@ function midcast(spell)
                 equip(sets.midcast.enhancing.composure)
             end
         end
-
+			-- SONGS
+	elseif spell.type == 'BardSong' then	
+		if spell.name:match('Minuet') then
+			equip(sets.midcast.Minuet)
+			elseif spell.name:match('Minne') then
+				equip(sets.midcast.Minne)
+			elseif spell.name:match('March') then
+				equip(sets.midcast.March)
+			elseif spell.name:match('HonorMarch') then
+				equip(sets.midcast.HonorMarch)
+			elseif spell.name:match('Madrigal') then
+				equip(sets.midcast.Madrigal)
+			elseif spell.name:match('Prelude') then
+				equip(sets.midcast.Prelude)
+			elseif spell.name:match('Mambo') then
+				equip(sets.midcast.Mambo)
+			elseif spell.name:match('Mazurka') then
+				equip(sets.midcast.Mazurka)
+			elseif spell.name:match('Etude') then
+				equip(sets.midcast.Etude)
+			elseif spell.name:match('Ballad') then
+				equip(sets.midcast.Ballad)
+			elseif spell.name:match('Paeon') then
+				equip(sets.midcast.Paeon)
+			elseif spell.name:match('Carol') then
+				equip(sets.midcast.Carol)				
+			elseif spell.name:match('Lullaby') then
+				if THMode.value == "ON" then
+					equip(sets.midcast.THLullaby)
+					windower.add_to_chat(8,'----- CASTING TREASURE HUNTER LULLABY-----')
+				elseif THMode.value == "OFF" then
+					equip(sets.midcast.NormlLullaby)
+				end		
+			elseif spell.name:match('LullabyAOE') then
+				if THMode.value == "ON" then
+					equip(sets.midcast.THLullabyAOE)
+					windower.add_to_chat(8,'----- CASTING TREASURE HUNTER LULLABY-----')
+				elseif THMode.value == "OFF" then
+					equip(sets.midcast.NormlLullabyAOE)
+				end				
+			elseif spell.name:match('Threnody') then
+				equip(sets.midcast.Threnody)
+			elseif spell.name:match('Elegy') then
+				equip(sets.midcast.Elegy)
+			elseif spell.name:match('Requiem') then
+				equip(sets.midcast.Requiem)
+			elseif spell.name:match('Finale') then
+				equip(sets.midcast.Finale)
+			elseif spell.name:match('Scherzo') then
+				equip(sets.midcast.Scherzo)
+			elseif spell.name:match('Virelai') then
+				equip(sets.midcast.Virelai)
+			elseif spell.name:match('Hymnus') then
+				equip(sets.midcast.Hymnus)
+			elseif spell.name:match('Dirge') then
+				equip(sets.midcast.Dirge)
+			elseif spell.name:match('Sirvente') then
+				equip(sets.midcast.Sirvente)
+			else equip(sets.midcast.songs.normal)			
+		end
     -- Enfeebling
     elseif spell.skill == 'Enfeebling Magic' then
         equip(sets.midcast.Enfeebling[enfeebMap])
         if Buff['Saboteur'] then
-			if enfeebMap=='Paralyze' or enfeebMap== 'Slow' or enfeebMap== 'Addle' or enfeebMap== 'FrazzleIII' or enfeebMap== 'Distract' or enfeebMap== 'Poison' or enfeebMap== 'Gravity' or enfeebMap== 'Blind'then
-				equip({hands="Leth. Gantherots +1"})
-			end
+            equip({hands=EMP.Hands})
         end 
 
     -- Nuking
@@ -703,7 +786,7 @@ function midcast(spell)
         if spell.element == world.day_element and spell.skill ~= 'Enhancing Magic' and spellMap ~= 'Helix' then
             equip(sets.midcast.Obi)
         end
-
+    
     -- Fail safe
     elseif spell.type ~= "WeaponSkill" then
         equip(sets.midcast.casting)
@@ -756,10 +839,18 @@ function idle()
     -- This function is called after every action, and handles which set to equip depending on what we're doing
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if player.status=='Engaged' then
-        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') or subWeapon.current:match('Forfend')  then
-            equip(sets.me.melee[meleeModes.value..'sw'])
+        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') then
+			if HYBRIDmode.value == "ON" then
+			   equip(sets.me.melee[meleeModes.value..'swdt'])
+			else
+				equip(sets.me.melee[meleeModes.value..'sw'])
+			end
         else
-            equip(sets.me.melee[meleeModes.value..'dw'])
+			if HYBRIDmode.value == "ON" then
+			   equip(sets.me.melee[meleeModes.value..'dwdt'])
+			else
+				equip(sets.me.melee[meleeModes.value..'dw'])
+			end
         end
         if mainWeapon.value == "Crocea Mors" or "Vitiation Sword" then
             EnspellCheck()
@@ -783,7 +874,7 @@ function EnspellCheck()
     elseif Buff['En-Weather'] and Buff['En-Day'] then
         equip(sets.midcast.Obi)
     -- Enspell is there but doesnt match a double weather
-    elseif Buff['Enspell'] and mainWeapon.current:match("Crocea Mors") then
+    elseif Buff['Enspell'] then
         equip(sets.midcast.Orpheus)
     end 
 end
@@ -802,13 +893,14 @@ function status_change(new,old)
     end
 end
 
+--[changeloc]
 function self_command(command)
     hud_command(command)
     local commandArgs = command
      
     if #commandArgs:split(' ') >= 2 then
         commandArgs = T(commandArgs:split(' '))
-  
+        
         if commandArgs[1] == 'toggle' then
             if commandArgs[2] == 'melee' then
                 -- //gs c toggle melee will toggle melee mode on and off.
@@ -816,7 +908,21 @@ function self_command(command)
                 -- As well as equip your melee set if you're engaged
                 meleeing:toggle()
                 lockMainHand(meleeing.value)
-
+			elseif commandArgs[2] == 'THMode' then
+				THMode:cycle()
+                if use_UI == true then
+                    validateTextInformation()
+                else
+                    windower.add_to_chat(4,"----- TH MODE set now: "..tostring(THMode.value))
+                end				
+			elseif commandArgs[2] == 'HYBRIDmode' then
+				HYBRIDmode:cycle()
+				idle()
+                if use_UI == true then
+                    validateTextInformation()
+                else
+                    windower.add_to_chat(4,"----- HYBRID MODE set now: "..tostring(HYBRIDmode.value))
+                end				
             elseif commandArgs[2] == 'runspeed' then
                 runspeed:toggle()
                 updateRunspeedGear(runspeed.value) 
@@ -868,8 +974,8 @@ function self_command(command)
                     windower.add_to_chat(8,"----- Matching SC Mode is now: "..tostring(matchsc.current)) 
                 end
             end
-        end   
-		
+        end
+        
         if commandArgs[1]:lower() == 'scholar' then
             handle_strategems(commandArgs)
 
@@ -925,39 +1031,7 @@ function self_command(command)
                 send_command('@input /ma "'..nukes[nuke][elements.current]..'"')     
             end
         end
-	else 
-		if command == 'WS1' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet1[1] .. ' | Sub: ' .. WeaponSet1[2])
-			mainWeapon:set(WeaponSet1[1])
-			subWeapon:set(WeaponSet1[2])
-			idle()
-		elseif command == 'WS2' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet2[1] .. ' | Sub: ' .. WeaponSet2[2])
-			mainWeapon:set(WeaponSet2[1])
-			subWeapon:set(WeaponSet2[2])
-			idle()
-		elseif command == 'WS3' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet3[1] .. ' | Sub: ' .. WeaponSet3[2])
-			mainWeapon:set(WeaponSet3[1])
-			subWeapon:set(WeaponSet3[2])
-			idle()
-		elseif command == 'WS4' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet4[1] .. ' | Sub: ' .. WeaponSet4[2])
-			mainWeapon:set(WeaponSet4[1])
-			subWeapon:set(WeaponSet4[2])
-			idle()
-		elseif command == 'WS5' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet5[1] .. ' | Sub: ' .. WeaponSet5[2])
-			mainWeapon:set(WeaponSet5[1])
-			subWeapon:set(WeaponSet5[2])
-			idle()
-		elseif command == 'WS6' then
-			windower.add_to_chat(8,'Swapping Weapons to Main:' .. WeaponSet6[1] .. ' | Sub: ' .. WeaponSet6[2])
-			mainWeapon:set(WeaponSet6[1])
-			subWeapon:set(WeaponSet6[2])
-			idle()
-		end 
-	end
+    end
 end
 
 function updateMB( mBurst )   
@@ -965,13 +1039,13 @@ function updateMB( mBurst )
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING OFF] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode OFF -----")
         end
     else
         if use_UI == true then
             validateTextInformation()
         else
-            windower.add_to_chat(8, '****** [MAGIC BURSTING ON] ******')
+            windower.add_to_chat(8,"----- Nuking MB Mode ON -----")
         end
     end
 end
@@ -985,7 +1059,7 @@ function updateRunspeedGear( value )
         else
             windower.add_to_chat(8,"----- Locking Off Carmine Cuisses +1 +1 -----")   
         end
-        enable('legs')
+        enable('feet')
         idle()
     else
         if use_UI == true then
@@ -993,8 +1067,8 @@ function updateRunspeedGear( value )
         else
             windower.add_to_chat(8,"----- Locking On Carmine Cuisses +1 +1 -----")
         end
-        equip({legs="Carmine Cuisses +1"})
-        disable('legs')
+        equip({feet="Fili Cothurnes +1"})
+        disable('feet')
         idle()
     end
 end
@@ -1002,7 +1076,7 @@ end
 function lockMainHand( meleeing )   
     
     if meleeing then
-        enable('main','sub','ranged','ammo')
+        enable('main','sub')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1010,7 +1084,7 @@ function lockMainHand( meleeing )
         end
         idle()
     else
-        disable('main','sub','ranged','ammo')
+        disable('main','sub')
         if use_UI == true then
             validateTextInformation()
         else
@@ -1117,6 +1191,7 @@ local skillchains = {
     [301] = {id=301,english='Impaction',elements={'Lightning'}, color=Colors[7]}
 }
 if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+
     windower.register_event('action', function(act)
         for _, target in pairs(act.targets) do
             local battle_target = windower.ffxi.get_mob_by_target("t")
@@ -1195,38 +1270,39 @@ if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
         end
     end
 
-	function auto_cp()
-    -- --Now we check if we need to lock our back for CP
-        -- if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
-            -- jobpoints = windower.ffxi.get_player().job_points[player.main_job:lower()].jp_spent -- check if we are master
-        -- end
-        -- if jobpoints ~= 2100 and jobpoints ~= nil then -- Basically if not master
-            -- monsterToCheck = windower.ffxi.get_mob_by_target('t')
-            -- if windower.ffxi.get_mob_by_target('t') then -- Sanity Check 
-                -- if #monsterToCheck.name:split(' ') >= 2 then
-                    -- monsterName = T(monsterToCheck.name:split(' '))
-                    -- if monsterName[1] == "Apex" then
-                        -- if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
-                            -- equip({ back = CP_CAPE }) 
-                            -- disable("back") --Lock back
-                        -- else
-                            -- enable("back") --Else make sure the back is enabled
-                        -- end 
-					-- --else if monsterName[1] == "Regiment" or monsterName[1] == "Commander"  or monsterName[1] == "Squadron" or monsterName[1] == "Disjoined" or monsterName[1] == "Volte" or monsterName[1] == "Leader" then
-                       -- -- if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
-                       -- --     equip({ neck = DYNA_NECK }) 
-                     -- --       disable("neck") --Lock back
-                       -- -- else
-                       -- --     enable("neck") --Else make sure the back is enabled
-                     -- --   end 
-                    -- end
-                -- end
-            -- else
-                -- enable("back") --Else make sure the back is enabled
-            -- end
-        -- else
-            -- enable("back") --Else make sure the back is enabled
-        -- end
+    function auto_cp()
+
+    --Now we check if we need to lock our back for CP
+        if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
+            jobpoints = windower.ffxi.get_player().job_points[player.main_job:lower()].jp_spent -- check if we are master
+        end
+        if jobpoints ~= 2100 and jobpoints ~= nil then -- Basically if not master
+            monsterToCheck = windower.ffxi.get_mob_by_target('t')
+            if windower.ffxi.get_mob_by_target('t') then -- Sanity Check 
+                if #monsterToCheck.name:split(' ') >= 2 then
+                    monsterName = T(monsterToCheck.name:split(' '))
+                    if monsterName[1] == "Apex" then
+                        if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
+                            equip({ back = CP_CAPE }) 
+                            disable("back") --Lock back
+                        else
+                            enable("back") --Else make sure the back is enabled
+                        end 
+					--else if monsterName[1] == "Regiment" or monsterName[1] == "Commander"  or monsterName[1] == "Squadron" or monsterName[1] == "Disjoined" or monsterName[1] == "Volte" or monsterName[1] == "Leader" then
+                       -- if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
+                       --     equip({ neck = DYNA_NECK }) 
+                     --       disable("neck") --Lock back
+                       -- else
+                       --     enable("neck") --Else make sure the back is enabled
+                     --   end 
+                    end
+                end
+            else
+                enable("back") --Else make sure the back is enabled
+            end
+        else
+            enable("back") --Else make sure the back is enabled
+        end
     end
 end
 

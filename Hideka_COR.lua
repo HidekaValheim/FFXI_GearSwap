@@ -7,10 +7,10 @@ send_command('input //lua l porterpacker')
 send_command('wait 31;input //gs equip sets.weapons') 
 
 organizer_items = {
-    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Hi-Reraiser"},
-    NinjaTools={"Shihei"},
+    Consumables={"Panacea","Echo Drops","Holy Water", "Remedy","Antacid","Silent Oil","Prisim Powder","Reraiser","Hi-Reraiser"},
+    NinjaTools={"Shihei","Toolbag (Shihe)"},
 	Food={"Grape Daifuku","Rolanberry Daifuku", "Red Curry Bun","Om. Sandwich","Miso Ramen"},
-	Bullets={"Eminent Bullet", "Eminent Bullet Pouch"},
+	Bullets={"Chrono Bullet"},
 	Other={"Trump Card", "Trump Card Case"}
 }
 
@@ -47,13 +47,9 @@ PortTowns= S{"Mhaura","Selbina","Rabao","Norg"}
 
 
 --[[Disable code in this sub if you dont have organizer or porter packer]]
+
 send_command('wait 3;input //gs org')
--- if PortTowns:contains(world.area) then
-	-- send_command('wait 3;input //gs org') 
-	-- send_command('wait 6;input //po repack') 
--- else
-	-- add_to_chat(8,'User Not in Town - Utilize GS ORG and PO Repack Functions in Rabao, Norg, Mhaura, or Selbina')
--- end
+add_to_chat(8,'REMEMBER TO REPACK GEAR') 
 
 function get_sets()
 
@@ -69,13 +65,13 @@ function get_sets()
 	}
 	sets.Weapons['DAGGER'] = {
 		main="Tauret",
-		sub="Blurred Knife +1",
+		sub="Demersal Degen +1",
 		range="Anarchy +2",		
 	}
 	sets.Weapons['RNGPHYS'] = {
 		main="Kustawi +1",
 		sub="Nusku Shield",
-		range="Molybdosis",
+		range="Fomalhaut",
 		--range={ name="Fomalhaut", augments={'Path: A',}},
 	}
 
@@ -89,21 +85,21 @@ function get_sets()
 	}
 
 	-- Ammo Selection
-	Ammo.Bullet.RA 		= "Eminent Bullet"		-- TP Ammo
-	Ammo.Bullet.WS 		= "Eminent Bullet"		-- Physical Weaponskills
-	Ammo.Bullet.MAB 	= "Eminent Bullet"		-- Magical Weaponskills
-	Ammo.Bullet.MACC	= "Eminent Bullet"		-- Magic Accuracy
+	Ammo.Bullet.RA 		= "Chrono Bullet"		-- TP Ammo
+	Ammo.Bullet.WS 		= "Chrono Bullet"		-- Physical Weaponskills
+	Ammo.Bullet.MAB 	= "Chrono Bullet"		-- Magical Weaponskills
+	Ammo.Bullet.MACC	= "Chrono Bullet"		-- Magic Accuracy
 	Ammo.Bullet.QD 		= "Animikii Bullet"		-- Quick Draw
-	Ammo.Bullet.MAG_WS 	= "Eminent Bullet"	-- Magic Weapon Skills
+	Ammo.Bullet.MAG_WS 	= "Chrono Bullet"	-- Magic Weapon Skills
 
 	-- Standard Idle set with -DT,Refresh,Regen with NO movement gear
 	sets.Idle = {
 		ammo = Ammo.Bullet.RA,
-		head="Nyame Helm",
-		body="Nyame Mail",
-		hands="Nyame Gauntlets", 
-		legs="Nyame Flanchard",
-		feet="Nyame Sollerets",
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves", 
+		legs="Malignance Tights",
+		feet="Malignance boots",
 		neck={ name="Unmoving Collar +1", augments={'Path: A',}},
 		waist="Flume Belt",
 		left_ear="Tuisto Earring",
@@ -130,7 +126,7 @@ function get_sets()
 	sets.OffenseMode.TP = {
 		ammo = Ammo.Bullet.RA,
 		head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
-		body={ name="Adhemar Jacket +1", augments={'STR+12','DEX+12','Attack+20',}},
+		body="Adhemar Jacket +1",
 		hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
 		legs={ name="Samnuha Tights", augments={'STR+10','DEX+10','"Dbl.Atk."+3','"Triple Atk."+3',}},
 		feet={ name="Herculean Boots", augments={'Accuracy+14','"Triple Atk."+4','Attack+15',}},
@@ -140,7 +136,7 @@ function get_sets()
 		right_ear="Telos Earring",
 		left_ring="Petrov Ring",
 		right_ring="Epona's Ring",
-		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
+		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
 	}
 
 	--This set is used when OffenseMode is DT and Enaged
@@ -171,7 +167,7 @@ function get_sets()
 		right_ear="Telos Earring",
 		left_ring="Chirich Ring +1",
 		right_ring="Chirich Ring +1",
-		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},	
+		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
 	}
 
 	sets.Precast = {}
@@ -185,18 +181,18 @@ function get_sets()
 	--No flurry - 60 Snapshot needed
 	sets.Precast.RA = {
 		ammo=Ammo.Bullet.RA,
-		head="Chass. Tricorne +1",
-		body="Ikenga's Vest",
-		hands={ name="Lanun Gants +3", augments={'Enhances "Fold" effect',}},
+		head="Chass. Tricorne +2",
+		body="Oshosi Vest +1",
+		hands="Carmine Fin. Ga. +1",
 		legs={ name="Adhemar Kecks +1", augments={'AGI+12','"Rapid Shot"+13','Enmity-6',}},
 		feet="Meg. Jam. +2",
 		neck={ name="Comm. Charm +2", augments={'Path: A',}},
 		waist="Yemaya Belt",
 		left_ear="Tuisto Earring",
 		right_ear="Odnowa Earring +1",
-		left_ring="Meridian Ring",
+		left_ring="Crepuscular Ring",
 		right_ring="Defending Ring",
-		back="Moonbeam Cape",
+		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
     } -- Totals 66/24
 
 	-- Flurry - 45 Snapshot Needed
@@ -206,8 +202,7 @@ function get_sets()
 
 	-- Flurry II - 30 Snapshot Needed
 	sets.Precast.RA.Flurry_II = set_combine( sets.Precast.RA.Flurry, { 
-		head="Chass. Tricorne +1", 
-		feet={ name="Herculean Boots", augments={'Mag. Acc.+5','"Rapid Shot"+6','Weapon skill damage +7%','Accuracy+7 Attack+7','Mag. Acc.+14 "Mag.Atk.Bns."+14',}},
+
     }) -- Totals 32/78
 
 	sets.Precast.RA.ACC = {}
@@ -215,16 +210,16 @@ function get_sets()
 	-- Fast Cast for Magic
 	sets.Precast.FastCast = {
 		head={ name="Carmine Mask +1", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
-		body="Passion Jacket",
-		hands={ name="Leyline Gloves", augments={'Accuracy+14','Mag. Acc.+13','"Mag.Atk.Bns."+13','"Fast Cast"+2',}},
-		legs={ name="Rawhide Trousers", augments={'MP+50','"Fast Cast"+5','"Refresh"+1',}},
-		feet="Malignance Boots",
-		neck="Magoraga Beads",
-		waist="Tempus Fugit",
+		body={ name="Adhemar Jacket +1", augments={'HP+105','"Fast Cast"+10','Magic dmg. taken -4',}},
+		hands={ name="Herculean Gloves", augments={'"Mag.Atk.Bns."+17','"Fast Cast"+5','INT+5','Mag. Acc.+1',}},
+		legs={ name="Herculean Trousers", augments={'"Fast Cast"+5','INT+1','"Mag.Atk.Bns."+8',}},
+		feet={ name="Herculean Boots", augments={'Mag. Acc.+23','"Fast Cast"+6','MND+1',}},
+		neck="Orunmila's Torque",
+		waist="Plat. Mog. Belt",
 		left_ear="Etiolation Earring",
 		right_ear="Loquac. Earring",
-		left_ring="Weather. Ring",
-		right_ring="Rahab Ring",
+		left_ring="Rahab Ring",
+		right_ring="Weather. Ring",
 		back="Moonbeam Cape",
 	}
 
@@ -234,25 +229,26 @@ function get_sets()
     sets.Midcast.RA = {
 		ammo=Ammo.Bullet.RA,
 		head="Ikenga's Hat",
-		body="Malignance Tabard",
+		body="Ikenga's Vest",
 		hands="Malignance Gloves",
 		legs="Ikenga's Trousers",
 		feet="Malignance Boots",
-		neck="Marked Gorget",
+		neck="Iskur Gorget",
 		waist="Yemaya Belt",
 		left_ear="Telos Earring",
-		right_ear="Enervating Earring",
-		left_ring="Dingir Ring",
+		right_ear="Crep. Earring",
+		left_ring="Crepuscular Ring",
 		right_ring="Ilabrat Ring",
 		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
     }
 
 	-- Ranged Attack Gear (Triple Shot Midshot)
 	sets.Midcast.RA.TripleShot = set_combine(sets.Midcast.RA, {
-        body="Chasseur's Frac +1",
+		head="Oshosi Mask +1",
+        body="Chasseur's Frac +2",
         hands="Lanun Gants +3", -- Tripple shot becomes Quad shot
-        legs="Oshosi Trousers", 
-		feet="Oshosi Leggings",
+        legs="Osh. Trousers +1", 
+		feet="Osh. Leggings +1",
     }) --27
 
 	-- Quick Draw Gear Sets
@@ -260,10 +256,10 @@ function get_sets()
 
 	sets.QuickDraw.ACC = {
 		ammo = Ammo.Bullet.QD,
-		head="Nyame Helm",
-		body={ name="Herculean Vest", augments={'Accuracy+7','Mag. Acc.+16 "Mag.Atk.Bns."+16','Weapon skill damage +8%','Accuracy+19 Attack+19',}},
-		hands={ name="Herculean Gloves", augments={'Mag. Acc.+13 "Mag.Atk.Bns."+13','Magic burst dmg.+7%','"Mag.Atk.Bns."+15',}},
-		legs={ name="Herculean Trousers", augments={'Mag. Acc.+14 "Mag.Atk.Bns."+14','Magic burst dmg.+4%','STR+1','Mag. Acc.+7','"Mag.Atk.Bns."+7',}},
+		head="Malignance Chapeau",
+		body="Malignance Tabard",
+		hands="Malignance Gloves",
+		legs="Malignance Tights",
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck="Baetyl Pendant",
 		waist="Eschan Stone",
@@ -275,7 +271,7 @@ function get_sets()
 	}
 	sets.QuickDraw.DMG = {
 		ammo=Ammo.Bullet.MAB,
-	    feet="Chass. Bottes +1",
+	    --feet="Chass. Bottes +1",
 	}
 	sets.QuickDraw.STP = {
 		ammo=Ammo.Bullet.QD,
@@ -302,7 +298,7 @@ function get_sets()
 	sets.Midcast.QuickDraw["Thunder Shot"] = sets.QuickDraw.STP
 	sets.Midcast.QuickDraw["Water Shot"] = sets.QuickDraw.STP
 	sets.Midcast.QuickDraw["Light Shot"] = sets.QuickDraw.ACC
-	sets.Midcast.QuickDraw["Dark Shot"] = sets.QuickDraw.ACC
+	sets.Midcast.QuickDraw["Dark Shot"] = set_combine(sets.QuickDraw.ACC,{right_ring="Archon Ring"})
 
 	-- Job Abilities
 	sets.JA = {}
@@ -326,7 +322,7 @@ function get_sets()
 		main="Lanun Knife",
 		range="Compensator",
 		head="Lanun Tricorne +1",
-        hands="Chasseur's Gants +1",
+        hands="Chasseur's Gants +2",
         neck="Regal Necklace",
 		left_ring="Luzaf's Ring",
 		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
@@ -354,14 +350,14 @@ function get_sets()
 	sets.PhantomRoll['Scholar\'s Roll'] = sets.PhantomRoll
 	sets.PhantomRoll['Bolter\'s Roll'] = sets.PhantomRoll
 	sets.PhantomRoll["Caster's Roll"] = set_combine(sets.PhantomRoll, {}) -- {legs="Chas. Culottes +1"}
-	sets.PhantomRoll["Tactician's Roll"] = set_combine(sets.PhantomRoll, {body="Chasseur's Frac +1"})
-	sets.PhantomRoll["Allies' Roll"] = set_combine(sets.PhantomRoll, {hands="Chasseur's Gants +1"})
+	sets.PhantomRoll["Tactician's Roll"] = set_combine(sets.PhantomRoll, {body="Chasseur's Frac +2"})
+	sets.PhantomRoll["Allies' Roll"] = set_combine(sets.PhantomRoll, {hands="Chasseur's Gants +2"})
 	sets.PhantomRoll['Miser\'s Roll'] = sets.PhantomRoll
 	sets.PhantomRoll['Companion\'s Roll'] = sets.PhantomRoll
 	sets.PhantomRoll['Avenger\'s Roll'] = sets.PhantomRoll
 	sets.PhantomRoll['Naturalist\'s Roll'] = sets.PhantomRoll
-    sets.PhantomRoll["Courser's Roll"] = set_combine(sets.PhantomRoll, {feet="Chass. Bottes +1"})
-    sets.PhantomRoll["Blitzer's Roll"] = set_combine(sets.PhantomRoll, {head="Chass. Tricorne +1"})
+    sets.PhantomRoll["Courser's Roll"] = set_combine(sets.PhantomRoll, {})
+    sets.PhantomRoll["Blitzer's Roll"] = set_combine(sets.PhantomRoll, {head="Chass. Tricorne +2"})
 
 	sets.WS = {
 		ammo=Ammo.Bullet.WS,
@@ -396,7 +392,7 @@ function get_sets()
 	}
 
 	sets.WS["Wildfire"] = set_combine(sets.WS.MAB,{})
-	sets.WS["Leaden Salute"] = set_combine(sets.WS.MAB, {ammo=Ammo.Bullet.MAG_WS, head="Pixie Hairpin +1"})
+	sets.WS["Leaden Salute"] = set_combine(sets.WS.MAB, {ammo=Ammo.Bullet.MAG_WS, head="Pixie Hairpin +1", right_ring="Archon Ring"})
 	sets.WS['Aeolian Edge'] = set_combine(sets.WS.MAB, {ammo=Ammo.Bullet.MAG_WS, right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},	waist="Eschan Stone"})
 
 	sets.WS.MACC = set_combine(sets.WS.MAB, {
@@ -407,7 +403,7 @@ function get_sets()
 		ammo=Ammo.Bullet.WS,
 		head="Nyame Helm",
 		body="Laksa. Frac +3",
-		hands="Meg. Gloves +2",
+		hands="Nyame Gauntlets",
 		legs="Nyame Flanchard",
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck={ name="Comm. Charm +2", augments={'Path: A',}},
@@ -423,10 +419,10 @@ function get_sets()
 
 	sets.WS["Last Stand"] = {
 		ammo=Ammo.Bullet.WS,
-		head="Ikenga's Hat",
-		body="Laksa. Frac +3",
-		hands="Meg. Gloves +2",
-		legs="Ikenga's Trousers",
+		head={ name="Nyame Helm", augments={'Path: B',}},
+		body="Ikenga's Vest",
+		hands="Chasseur's Gants +2",
+		legs={ name="Nyame Flanchard", augments={'Path: B',}},
 		feet={ name="Lanun Bottes +3", augments={'Enhances "Wild Card" effect',}},
 		neck="Fotia Gorget",
 		waist="Fotia Belt",
@@ -434,7 +430,7 @@ function get_sets()
 		right_ear="Ishvara Earring",
 		left_ring="Epaminondas's Ring",
 		right_ring="Regal Ring",
-		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+8','Weapon skill damage +10%',}},
+		back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','AGI+10','Weapon skill damage +10%',}},
 	}
 
 	-- Accuracy set used in OffenseMode.ACC
@@ -453,7 +449,7 @@ function get_sets()
 		right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
 		left_ring="Ilabrat Ring",
 		right_ring="Regal Ring",
-		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-2%',}},
+		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+8','Weapon skill damage +10%',}},
 	}
 	sets.WS["Detonator"] = {		
 		ammo=Ammo.Bullet.WS,
@@ -468,7 +464,7 @@ function get_sets()
 		right_ear="Ishvara Earring",
 		left_ring="Regal Ring",
 		right_ring="Epaminondas's Ring",
-		back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+8','Weapon skill damage +10%',}},
+		back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','AGI+10','Weapon skill damage +10%',}},
 	}
 	sets.WS["Sniper Shot"] = {
 		ammo=Ammo.Bullet.RA,
@@ -483,7 +479,7 @@ function get_sets()
 		right_ear="Enervating Earring",
 		left_ring="Hajduk Ring",
 		right_ring="Paqichikaji Ring",
-		back={ name="Camulus's Mantle", augments={'HP+60','Rng.Acc.+20 Rng.Atk.+20','"Store TP"+10',}},
+		back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','AGI+10','Weapon skill damage +10%',}},
 	}
 	sets.WS["Slug Shot"] = sets.WS
 	sets.WS["Numbing Shot"] = sets.WS
